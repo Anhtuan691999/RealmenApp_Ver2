@@ -6,13 +6,13 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:realmen_customer_application/presentation/auth/bloc/auth_bloc.dart';
-import 'package:realmen_customer_application/presentation/auth/widgets/login_page.dart';
-import 'package:realmen_customer_application/presentation/auth/widgets/register/ui/register_page.dart';
+import 'package:realmen_customer_application/presentation/auth/pages/login_page.dart';
+import 'package:realmen_customer_application/presentation/auth/pages/register/ui/register_page.dart';
 import 'package:realmen_customer_application/presentation/pages/landing_page/landing_page.dart';
 import 'package:realmen_customer_application/utils/dialog/loading_dialog.dart';
 import 'package:realmen_customer_application/utils/snackbar/snackbar.dart';
 
-import '../widgets/create_otp_page.dart';
+import '../pages/create_otp_page.dart';
 
 class AuthenticationPage extends StatefulWidget {
   const AuthenticationPage({super.key});

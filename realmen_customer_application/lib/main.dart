@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:realmen_customer_application/data/shared_preferences/shared_preferences.dart';
 import 'package:realmen_customer_application/presentation/pages/splash_page.dart';
 import 'package:realmen_customer_application/presentation/auth/ui/auth_page.dart';
-import 'package:realmen_customer_application/presentation/auth/widgets/create_otp_page.dart';
+import 'package:realmen_customer_application/presentation/auth/pages/create_otp_page.dart';
 import 'package:realmen_customer_application/router/router.dart';
 import 'package:sizer/sizer.dart';
 
