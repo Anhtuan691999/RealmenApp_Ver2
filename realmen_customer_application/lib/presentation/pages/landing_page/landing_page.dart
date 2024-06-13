@@ -49,7 +49,7 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {
     // Lấy token từ arguments
     final arguments = Get.arguments as Map<String, dynamic>?;
-    token = arguments?['token'];
+    token = arguments?['token'].isNull ? "" : arguments?['token'];
 
     super.initState();
   }

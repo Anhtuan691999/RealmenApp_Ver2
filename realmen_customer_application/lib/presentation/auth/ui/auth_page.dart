@@ -72,6 +72,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
             Get.offAllNamed(LandingPage.LandingPageRouter,
                 arguments: {'token': successState.token});
             break;
+          case ShowLandingPageState:
+            Get.offAllNamed(LandingPage.LandingPageRouter);
+            break;
         }
       },
       builder: (context, state) {

@@ -51,3 +51,5 @@ class AuthenticationSuccessState extends AuthenticationActionState {
 class AuthPageInvalidPhoneActionState extends AuthenticationActionState {}
 
 class AuthPageInvalidOtpActionState extends AuthenticationActionState {}
+
+class ShowLandingPageState extends AuthenticationActionState {}

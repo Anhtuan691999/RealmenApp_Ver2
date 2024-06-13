@@ -1,6 +1,6 @@
 # realmen_staff_application
 
-A new Flutter project.
+realmen_staff_application
 
 ## Getting Started
 
