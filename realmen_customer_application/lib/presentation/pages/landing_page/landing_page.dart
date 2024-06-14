@@ -17,13 +17,13 @@ import 'package:realmen_customer_application/presentation/pages/service_price_li
 class LandingPage extends StatefulWidget {
   final int? index;
   const LandingPage({
-    Key? key,
+    super.key,
     this.index,
-  }) : super(key: key);
+  });
 
   @override
   State<LandingPage> createState() => _LandingPageState();
-  static const LandingPageRouter = '/landing-page';
+  static const LandingPageRoute = '/realmen';
 }
 
 class _LandingPageState extends State<LandingPage> {
@@ -49,8 +49,9 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {
     // Lấy token từ arguments
     final arguments = Get.arguments as Map<String, dynamic>?;
-    token = arguments?['token'].isNull ? "" : arguments?['token'];
-
+    token = arguments.isNull ? "" : arguments?['token'];
+    // landingPageBloc.add(LandingPageInitial(bottomIndex: 0) as LandingPageEvent);
+    print('Current Route: ${Get.currentRoute}');
     super.initState();
   }
 
@@ -80,6 +81,7 @@ class _LandingPageState extends State<LandingPage> {
       const ProfilePage(),
     ];
     return BlocConsumer<LandingPageBloc, LandingPageInitial>(
+        bloc: landingPageBloc,
         listener: (context, state) {},
         builder: (context, state) {
           return SafeArea(

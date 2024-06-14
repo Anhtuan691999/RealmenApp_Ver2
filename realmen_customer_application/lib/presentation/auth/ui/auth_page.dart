@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -31,6 +32,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   @override
   void initState() {
     authPageBloc.add(AuthenticationInitialEvent());
+    print('Current Route: ${Get.currentRoute}');
+
     super.initState();
   }
 
@@ -69,12 +72,17 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
           case AuthenticationSuccessState:
             final successState = state as AuthenticationSuccessState;
             print("token:" + successState.token);
-            Get.offAllNamed(LandingPage.LandingPageRouter,
+            Get.offAllNamed(LandingPage.LandingPageRoute,
                 arguments: {'token': successState.token});
             break;
           case ShowLandingPageState:
-            Get.offAllNamed(LandingPage.LandingPageRouter);
-            break;
+            Get.offAllNamed(LandingPage.LandingPageRoute);
+          // Navigator.pushAndRemoveUntil<void>(
+          //   context,
+          //   MaterialPageRoute<void>(
+          //       builder: (BuildContext context) => LandingPage()),
+          //   ModalRoute.withName('/'),
+          // );
         }
       },
       builder: (context, state) {

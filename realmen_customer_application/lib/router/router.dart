@@ -1,10 +1,17 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:realmen_customer_application/presentation/auth/bloc/auth_bloc.dart';
+import 'package:realmen_customer_application/presentation/pages/landing_page/bloc/landing_page_bloc.dart';
 import 'package:realmen_customer_application/presentation/pages/landing_page/landing_page.dart';
 import 'package:realmen_customer_application/presentation/pages/splash_page.dart';
 import 'package:realmen_customer_application/presentation/auth/ui/auth_page.dart';
 
 class RouteGenerator {
-  static List<GetPage> routes() {
+  final LandingPageBloc landingPageBloc = LandingPageBloc();
+  final AuthenticationBloc authenticationBloc = AuthenticationBloc();
+
+  List<GetPage> routes() {
     return [
       GetPage(
         name: SplashPage.SplashPageRoute,
@@ -15,8 +22,9 @@ class RouteGenerator {
         page: () => const AuthenticationPage(),
       ),
       GetPage(
-        name: LandingPage.LandingPageRouter,
-        page: () => const LandingPage(),
+        name: LandingPage.LandingPageRoute,
+        page: () => BlocProvider<LandingPageBloc>.value(
+            value: landingPageBloc, child: LandingPage()),
       ),
     ];
   }

@@ -3,11 +3,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:custom_rounded_rectangle_border/custom_rounded_rectangle_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../widgets/branch_shop_near_you.dart';
 import '../widgets/card_holder_widget.dart';
+import '../widgets/recoment_services.dart';
+import '../widgets/top_barber.dart';
 
 class HomePage extends StatefulWidget {
   final Function callback;
@@ -22,7 +26,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String time = "sang";
+  String time = "sáng";
   String name = "default";
   @override
   Widget build(BuildContext context) {
@@ -102,10 +106,12 @@ class _HomePageState extends State<HomePage> {
                             ),
                             child: Row(
                               children: <Widget>[
-                                SizedBox(
+                                Container(
+                                  color: Colors.white,
                                   width: 60,
                                   height: 60,
                                   child: CircleAvatar(
+                                    backgroundColor: Colors.white,
                                     child: ClipOval(
                                       child: CachedNetworkImage(
                                         imageUrl: "assets/images/default.png",
@@ -123,16 +129,17 @@ class _HomePageState extends State<HomePage> {
                                           "assets/images/default.png",
                                           width: 120,
                                           height: 120,
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 const SizedBox(
-                                  width: 20,
+                                  width: 15,
                                 ),
-                                SizedBox(
-                                  width: 235,
+                                Container(
+                                  width: 58.9.w,
                                   child: Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
@@ -171,8 +178,8 @@ class _HomePageState extends State<HomePage> {
                               physics: const NeverScrollableScrollPhysics(),
                               crossAxisCount: 4,
                               crossAxisSpacing: 20,
-                              mainAxisSpacing: 5,
-                              childAspectRatio: 4 / 5,
+                              mainAxisSpacing: 15,
+                              childAspectRatio: 3.6 / 5,
                               children: [
                                 cardHolder(
                                   'Đặt lịch',
@@ -301,39 +308,22 @@ class _HomePageState extends State<HomePage> {
                           const SizedBox(
                             height: 30,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.only(left: 15),
-                                child: Text(
-                                  "Trải Nghiệm Dịch Vụ",
-                                  style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const RecommendServices(),
+                                const SizedBox(
+                                  height: 30,
                                 ),
-                              ),
-                              // const RecomendServices(),
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 15),
-                                child: Text(
-                                  "Top Stylist",
-                                  style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                const barberTop(),
+                                const SizedBox(
+                                  height: 30,
                                 ),
-                              ),
-                              // const barberTop(),
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              // branchShopNearYou(widget.callback),
-                            ],
+                                branchShopNearYou(widget.callback),
+                              ],
+                            ),
                           ),
                         ],
                       ),

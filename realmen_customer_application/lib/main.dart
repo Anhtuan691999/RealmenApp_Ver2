@@ -25,21 +25,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
       return GetMaterialApp(
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('vi'),
-          ],
-          getPages: RouteGenerator.routes(),
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.grey,
-            textTheme: GoogleFonts.quicksandTextTheme(
-              Theme.of(context).textTheme,
-            ),
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('vi'),
+        ],
+        getPages: RouteGenerator().routes(),
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.grey,
+          textTheme: GoogleFonts.quicksandTextTheme(
+            Theme.of(context).textTheme,
           ),
-          initialRoute: SplashPage.SplashPageRoute);
+        ),
+        initialRoute: SplashPage.SplashPageRoute,
+      );
     });
   }
 }

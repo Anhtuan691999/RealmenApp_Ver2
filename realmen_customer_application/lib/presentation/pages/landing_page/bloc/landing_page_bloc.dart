@@ -8,9 +8,14 @@ part 'landing_page_event.dart';
 part 'landing_page_state.dart';
 
 class LandingPageBloc extends Bloc<LandingPageEvent, LandingPageInitial> {
-  LandingPageBloc() : super(const LandingPageInitial(bottomIndex: 0)) {
+  LandingPageBloc() : super(LandingPageInitial(bottomIndex: 0)) {
     on<LandingPageTabChangeEvent>(_landingPageTabChangeEvent);
+    on<LandingPageInitialEvent>(_landingPageInitialEvent);
   }
+
+  FutureOr<void> _landingPageInitialEvent(
+      LandingPageEvent event, Emitter<LandingPageState> emit) {}
+
   FutureOr<void> _landingPageTabChangeEvent(
       LandingPageTabChangeEvent event, Emitter<LandingPageState> emit) {
     emit(TabChangeActionState(bottomIndex: event.bottomIndex));

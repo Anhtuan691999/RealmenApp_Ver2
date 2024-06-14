@@ -17,6 +17,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  @override
+  void initState() {
+    print('Current Route: ${Get.currentRoute}');
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     String phone = AuthPref.getPhone();

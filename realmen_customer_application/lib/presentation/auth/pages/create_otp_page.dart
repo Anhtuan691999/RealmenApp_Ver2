@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:realmen_customer_application/presentation/auth/bloc/auth_bloc.dart';
 import 'package:sizer/sizer.dart';
 
@@ -20,6 +21,11 @@ class _CreateOtpPageState extends State<CreateOtpPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController phoneController = TextEditingController();
 
+  @override
+  void initState() {
+    print('Current Route: ${Get.currentRoute}');
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -175,6 +181,8 @@ class _CreateOtpPageState extends State<CreateOtpPage> {
                                             if (value == null ||
                                                 value.isEmpty) {
                                               return 'Vui lòng không để trống sđt';
+                                            } else if (value.length < 10) {
+                                              return "Số điện thoại không hợp lệ";
                                             }
 
                                             return null; // Trả về null nếu không có lỗi
