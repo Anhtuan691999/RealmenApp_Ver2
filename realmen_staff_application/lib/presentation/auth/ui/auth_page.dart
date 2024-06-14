@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:realmen_staff_application/presentation/auth/bloc/auth_bloc.dart';
 import 'package:realmen_staff_application/presentation/auth/pages/login_page.dart';
-import 'package:realmen_staff_application/presentation/pages/landing_page/landing_page.dart';
+import 'package:realmen_staff_application/presentation/landing_page/landing_page.dart';
 import 'package:realmen_staff_application/utils/dialog/loading_dialog.dart';
 import 'package:realmen_staff_application/utils/snackbar/snackbar.dart';
 
@@ -65,7 +65,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
           case AuthenticationSuccessState:
             final successState = state as AuthenticationSuccessState;
             print("token:" + successState.token);
-            Get.offAllNamed(LandingPage.LandingPageRouter,
+            Get.offAllNamed(LandingPage.LandingPageRoute,
                 arguments: {'token': successState.token});
             break;
         }

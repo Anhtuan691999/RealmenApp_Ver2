@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           supportedLocales: const [
             Locale('vi'),
           ],
-          getPages: RouteGenerator.routes(),
+          getPages: RouteGenerator().routes(),
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: Colors.grey,

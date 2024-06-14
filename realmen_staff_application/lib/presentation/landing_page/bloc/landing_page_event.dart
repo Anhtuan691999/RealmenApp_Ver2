@@ -8,6 +8,8 @@ sealed class LandingPageEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class LandingPageInitialEvent extends LandingPageEvent {}
+
 class LandingPageTabChangeEvent extends LandingPageEvent {
   final int bottomIndex;
 

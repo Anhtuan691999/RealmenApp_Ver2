@@ -6,24 +6,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
-import 'package:realmen_staff_application/presentation/pages/booking_page.dart';
 import 'package:realmen_staff_application/presentation/home/ui/home_page.dart';
+import 'package:realmen_staff_application/presentation/pages/register_work_schedule.dart';
+import 'package:realmen_staff_application/presentation/pages/work_schedule.dart';
 
-import 'package:realmen_staff_application/presentation/pages/landing_page/bloc/landing_page_bloc.dart';
-import 'package:realmen_staff_application/presentation/pages/profile_page.dart';
-import 'package:realmen_staff_application/presentation/pages/promotion_page.dart';
-import 'package:realmen_staff_application/presentation/pages/service_price_list.dart';
+import '../pages/profile_screen.dart';
+import '../pages/task_screen.dart';
+import 'bloc/landing_page_bloc.dart';
 
 class LandingPage extends StatefulWidget {
   final int? index;
   const LandingPage({
-    Key? key,
+    super.key,
     this.index,
-  }) : super(key: key);
+  });
 
   @override
   State<LandingPage> createState() => _LandingPageState();
-  static const LandingPageRouter = '/landing-page';
+  static const LandingPageRoute = '/realmen';
 }
 
 class _LandingPageState extends State<LandingPage> {
@@ -34,10 +34,6 @@ class _LandingPageState extends State<LandingPage> {
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   late final HomePage homePage;
-  late final ServicePricePage servicePricePage;
-  late final PromotionPage promotionPage;
-  late final BookingPage bookingPage;
-  late final ProfilePage profilePage;
 
   void setPage(index) {
     final CurvedNavigationBarState? navBarState =
@@ -49,20 +45,10 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {
     // Lấy token từ arguments
     final arguments = Get.arguments as Map<String, dynamic>?;
-    token = arguments?['token'];
-
+    token = arguments.isNull ? "" : arguments?['token'];
+    // landingPageBloc.add(LandingPageInitial(bottomIndex: 0) as LandingPageEvent);
+    print('Current Route: ${Get.currentRoute}');
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.index != null) {
-        bottomIndex = widget.index!;
-        setPage(bottomIndex);
-      }
-    });
   }
 
   @override
@@ -73,18 +59,17 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = [
-      HomePage(setPage),
-      const ServicePricePage(),
-      const BookingPage(),
-      const PromotionPage(),
-      const ProfilePage(),
+      const ProfileScreen(),
+      const TaskScreen(),
+      const WorkScheduleScreen(),
+      const RegisterWorkScheduleScreen(),
     ];
     return BlocConsumer<LandingPageBloc, LandingPageInitial>(
+        bloc: landingPageBloc,
         listener: (context, state) {},
         builder: (context, state) {
           return SafeArea(
             child: Scaffold(
-              // key: _bottomNavigationKey,
               body: pages[state.bottomIndex],
               bottomNavigationBar: CurvedNavigationBar(
                 key: _bottomNavigationKey,
@@ -92,21 +77,16 @@ class _LandingPageState extends State<LandingPage> {
                 backgroundColor: Colors.black87,
                 items: const [
                   CurvedNavigationBarItem(
-                    child: Icon(Icons.home_outlined),
-                    label: 'Trang chủ',
+                    child: Icon(Icons.task),
+                    label: 'Công việc',
                   ),
                   CurvedNavigationBarItem(
                     child: Icon(Icons.list_alt),
-                    label: 'Dịch vụ',
+                    label: 'Lịch làm',
                   ),
                   CurvedNavigationBarItem(
                     child: Icon(Icons.calendar_month),
-                    label: 'Đặt lịch',
-                  ),
-                  CurvedNavigationBarItem(
-                    // child: Icon(Icons.newspaper),
-                    child: Icon(CommunityMaterialIcons.ticket_percent_outline),
-                    label: 'Ưu đãi',
+                    label: 'Đăng kí lịch',
                   ),
                   CurvedNavigationBarItem(
                     child: Icon(Icons.perm_identity),
