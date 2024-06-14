@@ -7,6 +7,8 @@ import 'package:realmen_customer_application/presentation/pages/landing_page/lan
 import 'package:realmen_customer_application/presentation/pages/splash_page.dart';
 import 'package:realmen_customer_application/presentation/auth/ui/auth_page.dart';
 
+import '../presentation/pages/branches/branches_overview.dart';
+
 class RouteGenerator {
   final LandingPageBloc landingPageBloc = LandingPageBloc();
   final AuthenticationBloc authenticationBloc = AuthenticationBloc();
@@ -25,6 +27,10 @@ class RouteGenerator {
         name: LandingPage.LandingPageRoute,
         page: () => BlocProvider<LandingPageBloc>.value(
             value: landingPageBloc, child: LandingPage()),
+      ),
+      GetPage(
+        name: BranchesOverviewScreen.BranchesOverviewScreenRoute,
+        page: () => const BranchesOverviewScreen(),
       ),
     ];
   }

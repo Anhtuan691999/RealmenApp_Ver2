@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../pages/branches/branches_overview.dart';
 import '../widgets/branch_shop_near_you.dart';
 import '../widgets/card_holder_widget.dart';
 import '../widgets/recoment_services.dart';
@@ -230,8 +231,8 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    // Get.toNamed(BranchesOverviewScreen
-                                    //     .BranchesOverviewScreenRoute);
+                                    Get.toNamed(BranchesOverviewScreen
+                                        .BranchesOverviewScreenRoute);
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
