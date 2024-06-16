@@ -77,12 +77,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
             break;
           case ShowLandingPageState:
             Get.offAllNamed(LandingPage.LandingPageRoute);
-          // Navigator.pushAndRemoveUntil<void>(
-          //   context,
-          //   MaterialPageRoute<void>(
-          //       builder: (BuildContext context) => LandingPage()),
-          //   ModalRoute.withName('/'),
-          // );
         }
       },
       builder: (context, state) {

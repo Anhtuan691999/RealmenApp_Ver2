@@ -9,8 +9,6 @@ final class AuthenticationInitial extends AuthenticationState {}
 
 abstract class AuthenticationActionState extends AuthenticationState {}
 
-
-
 class ShowLoginPageState extends AuthenticationState {}
 
 class ShowLoadingActionState extends AuthenticationActionState {}
@@ -22,17 +20,13 @@ class ShowSnackBarActionState extends AuthenticationActionState {
   ShowSnackBarActionState({required this.status, required this.message});
 }
 
-
-
-
+class ShowLandingPageState extends AuthenticationActionState {}
 
 class AuthenticationLoadingState extends AuthenticationActionState {
   final bool isLoading;
 
   AuthenticationLoadingState({required this.isLoading});
 }
-
-
 
 class AuthenticationSuccessState extends AuthenticationActionState {
   final String token;
