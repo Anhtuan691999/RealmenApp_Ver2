@@ -86,7 +86,7 @@ class AuthenticationBloc
     // var results = await AuthRepository().login(event.phone, event.otp);
     // var responseMessage = results['message'];
     // var responseStatus = results['status'];
-    // var responseBody = results['body'];
+    // var respo  nseBody = results['body'];
     // if (responseStatus) {
     //   emit(AuthenticationLoadingState(isLoading: false));
     //   rawToken = responseBody['value']['accessToken'];
