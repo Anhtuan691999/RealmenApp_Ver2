@@ -1,9 +1,6 @@
 // ignore_for_file: constant_identifier_names, avoid_print, prefer_conditional_assignment
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:sizer/sizer.dart';
 

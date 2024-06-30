@@ -148,7 +148,8 @@ class _HomePageState extends State<HomePage> {
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
-                                        " ${time != null ? "Chào buổi $time," : ""} ${name ?? ''}",
+                                        // ignore: unnecessary_null_comparison
+                                        " ${time != null ? "Chào buổi $time," : ""} $name",
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                           fontWeight: FontWeight.w600,

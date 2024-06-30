@@ -1,13 +1,8 @@
 // ignore_for_file: must_be_immutable, camel_case_types, use_build_context_synchronously, avoid_unnecessary_containers, avoid_print
 
-import 'dart:convert';
-import 'dart:math';
 
 import 'package:community_material_icon/community_material_icon.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:intl/intl.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:sizer/sizer.dart';

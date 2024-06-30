@@ -127,6 +127,7 @@ class AuthenticationBloc
     var results = await AuthRepository().register(accountModel);
     var responseMessage = results['message'];
     var responseStatus = results['status'];
+    // ignore: unused_local_variable
     var responseBody = results['body'];
     if (responseStatus) {
       emit(AuthenticationLoadingState(isLoading: false));
