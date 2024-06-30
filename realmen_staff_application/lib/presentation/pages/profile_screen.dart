@@ -1,12 +1,6 @@
 // ignore_for_file: must_be_immutable, constant_identifier_names, avoid_print
 
-import 'dart:convert';
-
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:community_material_icon/community_material_icon.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:sizer/sizer.dart';
 

@@ -19,7 +19,8 @@ class AuthRepository extends ApiEndpoints implements IAuthRepository {
   @override
   Future<Map<String, dynamic>> createOtp(String phone) async {
     try {
-      Uri uri = Uri.parse("$customerUrl/create-otp?phone=$phone");
+      Uri uri =
+          Uri.parse("$appAuthenticationControllerUrl/send-otp?phone=$phone");
       final client = http.Client();
       final response = await client.post(
         uri,
@@ -28,7 +29,7 @@ class AuthRepository extends ApiEndpoints implements IAuthRepository {
           'Content-Type': 'application/json',
           'Accept': '*/*',
         },
-      ).timeout(const Duration(seconds: 500));
+      ).timeout(const Duration(seconds: 180));
       return processResponse(response);
     } catch (e) {
       if (e is NotFoundException) {
@@ -46,7 +47,7 @@ class AuthRepository extends ApiEndpoints implements IAuthRepository {
   Future<Map<String, dynamic>> login(String phone, String otp) async {
     try {
       var credentials = {"phone": phone, "otp": otp};
-      Uri uri = Uri.parse("$customerUrl/customer");
+      Uri uri = Uri.parse("$appAuthenticationControllerUrl/customer");
       final client = http.Client();
       final response = await client
           .post(uri,
@@ -56,7 +57,7 @@ class AuthRepository extends ApiEndpoints implements IAuthRepository {
                 'Accept': '*/*',
               },
               body: jsonEncode(credentials))
-          .timeout(const Duration(seconds: 500));
+          .timeout(const Duration(seconds: 180));
       return processResponse(response);
     } catch (e) {
       return ExceptionHandlers().getExceptionString(e);
@@ -66,7 +67,7 @@ class AuthRepository extends ApiEndpoints implements IAuthRepository {
   @override
   Future<Map<String, dynamic>> register(AccountModel accountModel) async {
     try {
-      Uri uri = Uri.parse(accountsUrl);
+      Uri uri = Uri.parse(appAccountControllerUrl);
       final client = http.Client();
       final response = await client
           .post(uri,
@@ -76,7 +77,7 @@ class AuthRepository extends ApiEndpoints implements IAuthRepository {
                 'Accept': '*/*',
               },
               body: accountModel.toJson())
-          .timeout(const Duration(seconds: 500));
+          .timeout(const Duration(seconds: 180));
       return processResponse(response);
     } catch (e) {
       return ExceptionHandlers().getExceptionString(e);

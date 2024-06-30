@@ -1,7 +1,5 @@
 // ignore_for_file: unused_field
 
-import 'dart:convert';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -68,7 +66,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
             Get.offAllNamed(LandingPage.LandingPageRoute,
                 arguments: {'token': successState.token});
             break;
-            case ShowLandingPageState:
+          case ShowLandingPageState:
             Get.offAllNamed(LandingPage.LandingPageRoute);
         }
       },

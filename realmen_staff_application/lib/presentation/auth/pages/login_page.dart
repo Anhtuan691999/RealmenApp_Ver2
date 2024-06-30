@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:pinput/pinput.dart';
-import 'package:realmen_staff_application/data/shared_preferences/auth_pref.dart';
 import 'package:realmen_staff_application/presentation/auth/bloc/auth_bloc.dart';
 import 'package:sizer/sizer.dart';
 

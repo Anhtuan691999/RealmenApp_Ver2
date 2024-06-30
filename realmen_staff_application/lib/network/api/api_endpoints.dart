@@ -4,8 +4,8 @@ class ApiEndpoints {
   static String domainUrl = "${dotenv.env["DOMAIN"]}";
 
   //$ Authentication API $//
-  final String authUrl = "$domainUrl/mobile/auth";
+  final String appAuthenticationControllerUrl = "$domainUrl/mobile/auth";
 
   //$ Account API $//
-  final String accountsUrl = "$domainUrl/mobile/accounts";
+  final String appAccountControllerUrl = "$domainUrl/mobile/accounts";
 }

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:realmen_staff_application/data/models/account_model.dart';
 import 'package:realmen_staff_application/data/shared_preferences/auth_pref.dart';
 
 import '../../../repository/AuthRepo/auth_repository.dart';
@@ -42,29 +41,29 @@ class AuthenticationBloc
   late String rawToken;
   FutureOr<void> _authenticationLoginEvent(
       AuthenticationLoginEvent event, Emitter<AuthenticationState> emit) async {
-    // emit(AuthenticationLoadingState(isLoading: true));
-    // var results = await AuthRepository().login(event.phone, event.password);
-    // var responseMessage = results['message'];
-    // var responseStatus = results['status'];
-    // var responseBody = results['body'];
-    // if (responseStatus) {
-    //   emit(AuthenticationLoadingState(isLoading: false));
-    //   rawToken = responseBody['value']['accessToken'];
-    //   String role = responseBody['value']['accessToken'];
+    emit(AuthenticationLoadingState(isLoading: true));
+    var results = await AuthRepository().login(event.phone, event.password);
+    var responseMessage = results['message'];
+    var responseStatus = results['status'];
+    var responseBody = results['body'];
+    if (responseStatus) {
+      emit(AuthenticationLoadingState(isLoading: false));
+      rawToken = responseBody['value']['accessToken'];
+      String role = responseBody['value']['accessToken'];
 
-    //   // save info acc
-    //   AuthPref.setToken(rawToken);
-    //   AuthPref.setRole(role);
+      // save info acc
+      AuthPref.setToken(rawToken);
+      AuthPref.setRole(role);
 
-    //   emit(ShowSnackBarActionState(
-    //       message: "Đăng nhập thành công", status: responseStatus));
-    //   emit(AuthenticationSuccessState(token: rawToken));
-    // } else {
-    //   emit(AuthenticationLoadingState(isLoading: false));
-    //   emit(ShowSnackBarActionState(
-    //       message: responseMessage, status: responseStatus));
-    // }
-    emit(ShowLandingPageState());
+      emit(ShowSnackBarActionState(
+          message: "Đăng nhập thành công", status: responseStatus));
+      emit(AuthenticationSuccessState(token: rawToken));
+    } else {
+      emit(AuthenticationLoadingState(isLoading: false));
+      emit(ShowSnackBarActionState(
+          message: responseMessage, status: responseStatus));
+    }
+    // emit(ShowLandingPageState());
   }
 
   //7

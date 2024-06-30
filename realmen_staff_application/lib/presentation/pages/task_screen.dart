@@ -1,10 +1,8 @@
 // ignore_for_file: must_be_immutable, constant_identifier_names, unused_field, prefer_const_constructors, sized_box_for_whitespace, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:sizer/sizer.dart';
-import 'package:badges/badges.dart' as badges;
 
 class TaskScreen extends StatefulWidget {
   const TaskScreen({super.key});

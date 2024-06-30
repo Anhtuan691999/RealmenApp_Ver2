@@ -3,57 +3,50 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
 class AuthenticationModel extends Equatable {
-  String? accessToken;
   int? accountId;
-  int? branchId;
-  String? staffCode;
-  String? phone;
-  String? firstName;
   String? lastName;
-  bool? isAccountActive;
-  String? role;
-
+  String? firstName;
+  String? accessToken;
+  String? issueAt;
+  String? roleCode;
+  String? roleName;
   AuthenticationModel({
-    this.accessToken,
     this.accountId,
-    this.branchId,
-    this.staffCode,
-    this.phone,
-    this.firstName,
     this.lastName,
-    this.isAccountActive,
-    this.role,
+    this.firstName,
+    this.accessToken,
+    this.issueAt,
+    this.roleCode,
+    this.roleName,
   });
+
+  @override
+  List<Object?> get props => [accessToken];
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'accessToken': accessToken,
       'accountId': accountId,
-      'branchId': branchId,
-      'staffCode': staffCode,
-      'phone': phone,
-      'firstName': firstName,
       'lastName': lastName,
-      'isAccountActive': isAccountActive,
-      'role': role,
+      'firstName': firstName,
+      'accessToken': accessToken,
+      'issueAt': issueAt,
+      'roleCode': roleCode,
+      'roleName': roleName,
     };
   }
 
   factory AuthenticationModel.fromMap(Map<String, dynamic> map) {
     return AuthenticationModel(
+      accountId: map['accountId'] != null ? map['accountId'] as int : null,
+      lastName: map['lastName'] != null ? map['lastName'] as String : null,
+      firstName: map['firstName'] != null ? map['firstName'] as String : null,
       accessToken:
           map['accessToken'] != null ? map['accessToken'] as String : null,
-      accountId: map['accountId'] != null ? map['accountId'] as int : null,
-      branchId: map['branchId'] != null ? map['branchId'] as int : null,
-      staffCode: map['staffCode'] != null ? map['staffCode'] as String : null,
-      phone: map['phone'] != null ? map['phone'] as String : null,
-      firstName: map['firstName'] != null ? map['firstName'] as String : null,
-      lastName: map['lastName'] != null ? map['lastName'] as String : null,
-      isAccountActive: map['isAccountActive'] != null
-          ? map['isAccountActive'] as bool
-          : null,
-      role: map['role'] != null ? map['role'] as String : null,
+      issueAt: map['issueAt'] != null ? map['issueAt'] as String : null,
+      roleCode: map['roleCode'] != null ? map['roleCode'] as String : null,
+      roleName: map['roleName'] != null ? map['roleName'] as String : null,
     );
   }
 
@@ -61,7 +54,4 @@ class AuthenticationModel extends Equatable {
 
   factory AuthenticationModel.fromJson(String source) =>
       AuthenticationModel.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  List<Object?> get props => [accessToken];
 }

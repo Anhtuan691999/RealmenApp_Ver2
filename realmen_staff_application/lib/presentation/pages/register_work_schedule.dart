@@ -1,8 +1,6 @@
 // ignore_for_file: must_be_immutable, unnecessary_null_comparison, avoid_print, constant_identifier_names, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import 'package:sizer/sizer.dart';
 

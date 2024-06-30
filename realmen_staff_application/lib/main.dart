@@ -5,7 +5,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:realmen_staff_application/data/shared_preferences/shared_preferences.dart';
 import 'package:realmen_staff_application/presentation/pages/splash_page.dart';
-import 'package:realmen_staff_application/presentation/auth/ui/auth_page.dart';
 import 'package:realmen_staff_application/router/router.dart';
 import 'package:sizer/sizer.dart';
 
