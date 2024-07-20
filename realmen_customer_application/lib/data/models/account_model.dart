@@ -7,15 +7,17 @@ class AccountModel {
   String? phone;
   String? thumbnail;
   String? dob;
-  String? gender;
-
-  AccountModel(
-      {this.firstName,
-      this.lastName,
-      this.phone,
-      this.thumbnail,
-      this.dob,
-      this.gender});
+  String? genderCode;
+  String? genderName;
+  AccountModel({
+    this.firstName,
+    this.lastName,
+    this.phone,
+    this.thumbnail,
+    this.dob,
+    this.genderCode,
+    this.genderName,
+  });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -24,7 +26,8 @@ class AccountModel {
       'phone': phone,
       'thumbnail': thumbnail,
       'dob': dob,
-      'gender': gender,
+      'genderCode': genderCode,
+      'genderName': genderName,
     };
   }
 
@@ -35,7 +38,10 @@ class AccountModel {
       phone: map['phone'] != null ? map['phone'] as String : null,
       thumbnail: map['thumbnail'] != null ? map['thumbnail'] as String : null,
       dob: map['dob'] != null ? map['dob'] as String : null,
-      gender: map['gender'] != null ? map['gender'] as String : null,
+      genderCode:
+          map['genderCode'] != null ? map['genderCode'] as String : null,
+      genderName:
+          map['genderName'] != null ? map['genderName'] as String : null,
     );
   }
 

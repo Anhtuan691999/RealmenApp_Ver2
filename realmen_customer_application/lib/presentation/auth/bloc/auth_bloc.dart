@@ -55,27 +55,28 @@ class AuthenticationBloc
   FutureOr<void> _authenticationInputPhoneEvent(
       AuthenticationInputPhoneEvent event,
       Emitter<AuthenticationState> emit) async {
-    // emit(AuthenticationLoadingState(isLoading: true));
-    // var results = await AuthRepository().createOtp(event.phone);
-    // var responseMessage = results['message'];
-    // var responseStatus = results['status'];
+    emit(AuthenticationLoadingState(isLoading: true));
+    var results = await AuthRepository().createOtp(event.phone);
+    var responseMessage = results['message'];
+    var responseStatus = results['status'];
 
-    // if (responseStatus) {
-    //   emit(AuthenticationLoadingState(isLoading: false));
-    //   AuthPref.setPhone(event.phone.toString());
-    //   emit(ShowLoginPageState());
-    // } else if (!responseStatus && results['statusCode'] == 404) {
-    //   emit(AuthenticationLoadingState(isLoading: false));
-    //   emit(ShowSnackBarActionState(
-    //       message: responseMessage, status: responseStatus));
-    //   emit(ShowRegisterPageState(phone: event.phone.toString()));
-    // } else {
-    //   emit(AuthenticationLoadingState(isLoading: false));
-    //   emit(ShowSnackBarActionState(
-    //       message: responseMessage, status: responseStatus));
-    // }
-    AuthPref.setPhone(event.phone.toString());
-    emit(ShowLoginPageState());
+    if (responseStatus) {
+      emit(AuthenticationLoadingState(isLoading: false));
+      AuthPref.setPhone(event.phone.toString());
+      emit(ShowLoginPageState());
+    } else if (!responseStatus && results['statusCode'] == 404) {
+      emit(AuthenticationLoadingState(isLoading: false));
+      emit(ShowSnackBarActionState(
+          message: responseMessage, status: responseStatus));
+      emit(ShowRegisterPageState(phone: event.phone.toString()));
+    } else {
+      emit(AuthenticationLoadingState(isLoading: false));
+      emit(ShowSnackBarActionState(
+          message: responseMessage, status: responseStatus));
+    }
+
+    // AuthPref.setPhone(event.phone.toString());
+    // emit(ShowLoginPageState());
   }
 
   //5
@@ -112,7 +113,8 @@ class AuthenticationBloc
     String firstName = event.firstName;
     String lastName = event.lastName;
     String dob = event.dob;
-    String gender = event.gender == "NAM" ? "MALE" : "FEMALE";
+    String genderName = event.gender;
+    String genderCode = genderName == "NAM" ? "MALE" : "FEMALE";
     String thumbnail = event.thumbnail;
 
     AccountModel accountModel = AccountModel(
@@ -120,7 +122,8 @@ class AuthenticationBloc
       firstName: firstName,
       lastName: lastName,
       dob: dob,
-      gender: gender,
+      genderName: genderName,
+      genderCode: genderCode,
       thumbnail: thumbnail,
     );
 

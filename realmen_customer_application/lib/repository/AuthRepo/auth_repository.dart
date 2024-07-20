@@ -20,7 +20,7 @@ class AuthRepository extends ApiEndpoints implements IAuthRepository {
   Future<Map<String, dynamic>> createOtp(String phone) async {
     try {
       Uri uri =
-          Uri.parse("$appAuthenticationControllerUrl/send-otp?phone=$phone");
+          Uri.parse("$AuthenticationUrl/send-otp?phone=$phone");
       final client = http.Client();
       final response = await client.post(
         uri,
@@ -47,7 +47,7 @@ class AuthRepository extends ApiEndpoints implements IAuthRepository {
   Future<Map<String, dynamic>> login(String phone, String otp) async {
     try {
       var credentials = {"phone": phone, "otp": otp};
-      Uri uri = Uri.parse("$appAuthenticationControllerUrl/customer");
+      Uri uri = Uri.parse("$AuthenticationUrl/customer");
       final client = http.Client();
       final response = await client
           .post(uri,
@@ -67,7 +67,7 @@ class AuthRepository extends ApiEndpoints implements IAuthRepository {
   @override
   Future<Map<String, dynamic>> register(AccountModel accountModel) async {
     try {
-      Uri uri = Uri.parse(appAccountControllerUrl);
+      Uri uri = Uri.parse(AccountUrl);
       final client = http.Client();
       final response = await client
           .post(uri,

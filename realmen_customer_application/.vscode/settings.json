@@ -2,5 +2,6 @@
     "java.compile.nullAnalysis.mode": "disabled",
     "cSpell.words": [
         "Trang"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

@@ -1,21 +1,19 @@
 // ignore_for_file: must_be_immutable, camel_case_types, use_build_context_synchronously, avoid_unnecessary_containers, avoid_print
 
+import 'dart:convert';
 
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:intl/intl.dart';
+import 'package:realmen_customer_application/data/models/branch_model.dart';
 import 'package:sizer/sizer.dart';
 
-class branchShopNearYou extends StatefulWidget {
-  branchShopNearYou(this.callback, {super.key});
+class branchShopNearYou extends StatelessWidget {
+  branchShopNearYou(this.callback, {super.key, required this.branchList});
   Function callback;
-
-  @override
-  State<branchShopNearYou> createState() => _branchShopNearYouState();
-}
-
-class _branchShopNearYouState extends State<branchShopNearYou> {
+  List<BranchDataModel> branchList;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,16 +42,14 @@ class _branchShopNearYouState extends State<branchShopNearYou> {
             ),
             itemCount: 5,
             itemBuilder: (context, index) {
-              // final openBranchWidget =
-              //     DateTime.parse("${branchesForCity![index].open}");
-              // final closeBranchWidget =
-              //     DateTime.parse('${branchesForCity![index].close}');
+              final openBranchWidget =
+                  DateTime.parse("${branchList[index].open}");
+              final closeBranchWidget =
+                  DateTime.parse('${branchList[index].close}');
 
-              // String openBranch = DateFormat.H().format(openBranchWidget);
-              // String closeBranch =
-              //     DateFormat.H().format(closeBranchWidget);
-              String openBranch = "7:00";
-              String closeBranch = "21:00";
+              String openBranch = DateFormat.H().format(openBranchWidget);
+              String closeBranch = DateFormat.H().format(closeBranchWidget);
+
               return InkWell(
                 onTap: () {},
                 child: Container(
@@ -82,7 +78,7 @@ class _branchShopNearYouState extends State<branchShopNearYou> {
                             topLeft: Radius.circular(10),
                           ),
                           child: CachedNetworkImage(
-                            imageUrl: "assets/images/barber1.jpg",
+                            imageUrl: branchList[index].branchThumbnail!,
                             height: 160,
                             width: MediaQuery.of(context).size.width / 1.4,
                             fit: BoxFit.cover,
@@ -113,7 +109,11 @@ class _branchShopNearYouState extends State<branchShopNearYou> {
                                 child: Wrap(
                                   children: [
                                     Text(
-                                      "Barber Name",
+                                      utf8.decode(branchList[index]
+                                          .branchName
+                                          .toString()
+                                          .runes
+                                          .toList()),
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w500,
@@ -139,7 +139,10 @@ class _branchShopNearYouState extends State<branchShopNearYou> {
                                             child: SizedBox(width: 4),
                                           ),
                                           TextSpan(
-                                              text: "1.0 km",
+                                              text: branchList[index]
+                                                  .distanceInKm!
+                                                  .distance
+                                                  .toString(),
                                               style: TextStyle(
                                                 color: Colors.white
                                                     .withOpacity(0.8),
@@ -154,7 +157,11 @@ class _branchShopNearYouState extends State<branchShopNearYou> {
                                 height: 3,
                               ),
                               Text(
-                                "123 Địa chỉ",
+                                utf8.decode(
+                                    ("${branchList[index].branchStreet} ${branchList[index].branchWard} ${branchList[index].branchDistrict} ${branchList[index].branchProvince}")
+                                        .toString()
+                                        .runes
+                                        .toList()),
                                 maxLines: 2,
                                 style: TextStyle(
                                   overflow: TextOverflow.ellipsis,
@@ -189,7 +196,8 @@ class _branchShopNearYouState extends State<branchShopNearYou> {
                                   ),
                                   ElevatedButton(
                                     onPressed: () {
-                                      widget.callback(2);
+                                      callback(
+                                          2); // đổi event booking branch đã chọn
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xffE3E3E3),
@@ -250,21 +258,4 @@ class _branchShopNearYouState extends State<branchShopNearYou> {
       ],
     );
   }
-
-  // Logic
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  List<String> urlList = [
-    "barber1.jpg",
-    "barber2.jpg",
-    "barber3.jpg",
-  ];
 }
