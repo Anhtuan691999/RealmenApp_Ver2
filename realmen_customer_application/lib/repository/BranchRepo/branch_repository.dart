@@ -1,3 +1,4 @@
+import 'package:realmen_customer_application/data/shared_preferences/auth_pref.dart';
 import 'package:realmen_customer_application/network/api/api_endpoints.dart';
 import 'package:http/http.dart' as http;
 import 'package:realmen_customer_application/network/exceptions/app_exceptions.dart';
@@ -11,6 +12,7 @@ class BranchRepository extends ApiEndpoints implements IBranchRepository {
   @override
   Future<Map<String, dynamic>> getBranchForHome() async {
     try {
+      final String jwtToken = AuthPref.getToken().toString();
       Uri uri = Uri.parse(
           "$BranchUrl?search&latitude=16.01620225221449&longitude=108.20495660759316&branchStatusCodes=active&current&pageSize");
       final client = http.Client();
@@ -20,6 +22,7 @@ class BranchRepository extends ApiEndpoints implements IBranchRepository {
           "Access-Control-Allow-Origin": "*",
           'Content-Type': 'application/json',
           'Accept': '*/*',
+          'Authorization': 'Bearer $jwtToken'
         },
       ).timeout(const Duration(seconds: 180));
       return processResponse(response);

@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import '../../network/exceptions/app_exceptions.dart';
 
 abstract class IAuthRepository {
-  Future<Map<String, dynamic>> login(String phone, String otp);
+  Future<Map<String, dynamic>> login(String phone, String password);
 }
 
 class AuthRepository extends ApiEndpoints implements IAuthRepository {
@@ -15,7 +15,7 @@ class AuthRepository extends ApiEndpoints implements IAuthRepository {
   Future<Map<String, dynamic>> login(String phone, String password) async {
     try {
       var credentials = {"staffCode": phone, "password": password};
-      Uri uri = Uri.parse("$appAuthenticationControllerUrl/staff");
+      Uri uri = Uri.parse("$appAuthenticationControllerUrl");
       final client = http.Client();
       final response = await client
           .post(uri,

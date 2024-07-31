@@ -31,29 +31,21 @@ class branchShopNearYou extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 331,
+          height: 335,
           child: GridView.builder(
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1,
-              mainAxisSpacing: 4.0,
-              crossAxisSpacing: 4.0,
-            ),
-            itemCount: 5,
+                crossAxisCount: 1,
+                mainAxisSpacing: 4.0,
+                crossAxisSpacing: 4.0,
+                childAspectRatio: 335 / 350),
+            itemCount: branchList.length > 5 ? 5 : branchList.length,
             itemBuilder: (context, index) {
-              final openBranchWidget =
-                  DateTime.parse("${branchList[index].open}");
-              final closeBranchWidget =
-                  DateTime.parse('${branchList[index].close}');
-
-              String openBranch = DateFormat.H().format(openBranchWidget);
-              String closeBranch = DateFormat.H().format(closeBranchWidget);
-
               return InkWell(
                 onTap: () {},
                 child: Container(
-                  width: MediaQuery.of(context).size.width / 1.4,
+                  // width: MediaQuery.of(context).size.width,
                   margin: const EdgeInsets.only(
                       left: 15, top: 5, bottom: 5, right: 5),
                   decoration: BoxDecoration(
@@ -80,7 +72,7 @@ class branchShopNearYou extends StatelessWidget {
                           child: CachedNetworkImage(
                             imageUrl: branchList[index].branchThumbnail!,
                             height: 160,
-                            width: MediaQuery.of(context).size.width / 1.4,
+                            width: MediaQuery.of(context).size.width,
                             fit: BoxFit.cover,
                             progressIndicatorBuilder:
                                 (context, url, progress) => Center(
@@ -91,7 +83,7 @@ class branchShopNearYou extends StatelessWidget {
                             errorWidget: (context, url, error) => Image.asset(
                               "assets/images/barber1.jpg",
                               height: 160,
-                              width: MediaQuery.of(context).size.width / 1.4,
+                              width: MediaQuery.of(context).size.width / 1.3,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -140,8 +132,7 @@ class branchShopNearYou extends StatelessWidget {
                                           ),
                                           TextSpan(
                                               text: branchList[index]
-                                                  .distanceInKm!
-                                                  .distance
+                                                  .distanceKm!
                                                   .toString(),
                                               style: TextStyle(
                                                 color: Colors.white
@@ -176,20 +167,23 @@ class branchShopNearYou extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  Container(
-                                    height: 40,
-                                    padding: const EdgeInsets.all(5),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: const Color(0xff444444),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "${openBranch}h - ${closeBranch}h",
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
+                                  ConstrainedBox(
+                                    constraints: BoxConstraints(minWidth: 120),
+                                    child: Container(
+                                      height: 40,
+                                      padding: const EdgeInsets.all(5),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: const Color(0xff444444),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "${branchList[index].open}h - ${branchList[index].close}h",
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -205,40 +199,44 @@ class branchShopNearYou extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
-                                    child: Container(
-                                      height: 40,
-                                      width: 120,
-                                      padding: const EdgeInsets.all(0),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            // margin: const EdgeInsets.only(left: 5.0),
-                                            child: Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                'đặt lịch'.toUpperCase(),
-                                                textAlign: TextAlign.center,
-                                                style: const TextStyle(
-                                                  fontSize: 20,
-                                                  color: Colors.black,
+                                    child: ConstrainedBox(
+                                      constraints:
+                                          BoxConstraints(minWidth: 120),
+                                      child: Container(
+                                        height: 40,
+                                        // width: 120,
+                                        padding: const EdgeInsets.all(0),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              // margin: const EdgeInsets.only(left: 5.0),
+                                              child: Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                  'đặt lịch'.toUpperCase(),
+                                                  textAlign: TextAlign.center,
+                                                  style: const TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.black,
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          const Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Icon(
-                                              CommunityMaterialIcons
-                                                  .arrow_right,
-                                              color: Colors.black,
-                                              size: 24,
+                                            const Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Icon(
+                                                CommunityMaterialIcons
+                                                    .arrow_right,
+                                                color: Colors.black,
+                                                size: 24,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),

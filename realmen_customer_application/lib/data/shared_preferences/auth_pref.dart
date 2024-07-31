@@ -1,4 +1,6 @@
+import 'package:get/get.dart';
 import 'package:realmen_customer_application/data/shared_preferences/shared_preferences.dart';
+import 'package:realmen_customer_application/presentation/auth/ui/auth_page.dart';
 
 class AuthPref {
   static Future<void> setPhone(String phone) async {
@@ -15,5 +17,10 @@ class AuthPref {
 
   static String getToken() {
     return SharedPreferencesHelper.preferences.getString("token") ?? "";
+  }
+
+  static Future<void> logout() async {
+    await SharedPreferencesHelper.preferences.clear();
+    Get.offAllNamed(AuthenticationPage.AuthenticationPageRoute);
   }
 }

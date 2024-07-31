@@ -78,7 +78,7 @@ class _LandingPageState extends State<LandingPage> {
       const ServicePricePage(),
       const BookingPage(),
       const PromotionPage(),
-      const ProfilePage(),
+      ProfilePage(setPage),
     ];
     return BlocConsumer<LandingPageBloc, LandingPageInitial>(
         bloc: landingPageBloc,

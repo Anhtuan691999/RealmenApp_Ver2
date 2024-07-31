@@ -5,7 +5,6 @@ class BranchDataModel {
   int? branchId;
   String? branchName;
   String? branchThumbnail;
-  dynamic branchAddress;
   String? branchStreet;
   String? branchWard;
   String? branchDistrict;
@@ -17,30 +16,32 @@ class BranchDataModel {
   DistanceInKm? distanceInKm;
   String? branchStatusCode;
   String? branchStatusName;
-  BranchDataModel({
-    this.branchId,
-    this.branchName,
-    this.branchThumbnail,
-    required this.branchAddress,
-    this.branchStreet,
-    this.branchWard,
-    this.branchDistrict,
-    this.branchProvince,
-    this.latitude,
-    this.longitude,
-    this.open,
-    this.close,
-    this.distanceInKm,
-    this.branchStatusCode,
-    this.branchStatusName,
-  });
+
+  //Thuộc tính bổ sung cho logic nghiệp vụ
+  String? distanceKm;
+
+  BranchDataModel(
+      {this.branchId,
+      this.branchName,
+      this.branchThumbnail,
+      this.branchStreet,
+      this.branchWard,
+      this.branchDistrict,
+      this.branchProvince,
+      this.latitude,
+      this.longitude,
+      this.open,
+      this.close,
+      this.distanceInKm,
+      this.branchStatusCode,
+      this.branchStatusName,
+      this.distanceKm});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'branchId': branchId,
       'branchName': branchName,
       'branchThumbnail': branchThumbnail,
-      'branchAddress': branchAddress,
       'branchStreet': branchStreet,
       'branchWard': branchWard,
       'branchDistrict': branchDistrict,
@@ -63,7 +64,6 @@ class BranchDataModel {
       branchThumbnail: map['branchThumbnail'] != null
           ? map['branchThumbnail'] as String
           : null,
-      branchAddress: map['branchAddress'] as dynamic,
       branchStreet:
           map['branchStreet'] != null ? map['branchStreet'] as String : null,
       branchWard:
@@ -92,8 +92,8 @@ class BranchDataModel {
 
   String toJson() => json.encode(toMap());
 
-  factory BranchDataModel.fromJson(String source) =>
-      BranchDataModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory BranchDataModel.fromJson(Map<String, dynamic> source) =>
+      BranchDataModel.fromMap(source);
 }
 
 class DistanceInKm {

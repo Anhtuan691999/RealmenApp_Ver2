@@ -32,12 +32,22 @@ class _HomePageState extends State<HomePage> {
   final HomePageBloc homePageBloc = HomePageBloc();
   String time = "sáng";
   String name = "default";
+
+  @override
+  void initState() {
+    homePageBloc.add(HomePageInitialEvent());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomePageBloc, HomePageState>(
       bloc: homePageBloc,
       builder: (context, state) {
-        final successState = state as HomePageLoadedSuccessState;
+        HomePageLoadedSuccessState? successState;
+        if (state is HomePageLoadedSuccessState) {
+          successState = state;
+        }
         return Scaffold(
           body: Stack(
             children: [
@@ -361,7 +371,7 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               branchShopNearYou(
                                                 widget.callback,
-                                                branchList: successState
+                                                branchList: successState!
                                                     .loadedBranchsList,
                                               ),
                                             ],

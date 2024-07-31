@@ -55,28 +55,28 @@ class AuthenticationBloc
   FutureOr<void> _authenticationInputPhoneEvent(
       AuthenticationInputPhoneEvent event,
       Emitter<AuthenticationState> emit) async {
-    emit(AuthenticationLoadingState(isLoading: true));
-    var results = await AuthRepository().createOtp(event.phone);
-    var responseMessage = results['message'];
-    var responseStatus = results['status'];
+    // emit(AuthenticationLoadingState(isLoading: true));
+    // var results = await AuthRepository().createOtp(event.phone);
+    // var responseMessage = results['message'];
+    // var responseStatus = results['status'];
 
-    if (responseStatus) {
-      emit(AuthenticationLoadingState(isLoading: false));
-      AuthPref.setPhone(event.phone.toString());
-      emit(ShowLoginPageState());
-    } else if (!responseStatus && results['statusCode'] == 404) {
-      emit(AuthenticationLoadingState(isLoading: false));
-      emit(ShowSnackBarActionState(
-          message: responseMessage, status: responseStatus));
-      emit(ShowRegisterPageState(phone: event.phone.toString()));
-    } else {
-      emit(AuthenticationLoadingState(isLoading: false));
-      emit(ShowSnackBarActionState(
-          message: responseMessage, status: responseStatus));
-    }
+    // if (responseStatus) {
+    //   emit(AuthenticationLoadingState(isLoading: false));
+    //   AuthPref.setPhone(event.phone.toString());
+    //   emit(ShowLoginPageState());
+    // } else if (!responseStatus && results['statusCode'] == 404) {
+    //   emit(AuthenticationLoadingState(isLoading: false));
+    //   emit(ShowSnackBarActionState(
+    //       message: responseMessage, status: responseStatus));
+    //   emit(ShowRegisterPageState(phone: event.phone.toString()));
+    // } else {
+    //   emit(AuthenticationLoadingState(isLoading: false));
+    //   emit(ShowSnackBarActionState(
+    //       message: responseMessage, status: responseStatus));
+    // }
 
-    // AuthPref.setPhone(event.phone.toString());
-    // emit(ShowLoginPageState());
+    AuthPref.setPhone(event.phone.toString());
+    emit(ShowLoginPageState());
   }
 
   //5
