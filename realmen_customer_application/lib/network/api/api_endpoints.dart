@@ -11,4 +11,7 @@ class ApiEndpoints {
 
   //$ Branch API $//
   final String BranchUrl = "$domainUrl/mobile/branch";
+
+  //$ Service API $//
+  final String ServiceUrl = "$domainUrl/mobile/shop-service";
 }

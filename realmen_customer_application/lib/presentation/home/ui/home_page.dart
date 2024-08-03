@@ -361,7 +361,11 @@ class _HomePageState extends State<HomePage> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              const RecommendServices(),
+                                              RecommendServices(
+                                                widget.callback,
+                                                serviceList: successState!
+                                                    .loadedServicesList,
+                                              ),
                                               const SizedBox(
                                                 height: 30,
                                               ),

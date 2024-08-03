@@ -4,18 +4,18 @@ import 'package:http/http.dart' as http;
 import 'package:realmen_customer_application/network/exceptions/app_exceptions.dart';
 import 'package:realmen_customer_application/network/exceptions/exception_handlers.dart';
 
-abstract class IBranchRepository {
-  Future<Map<String, dynamic>> getBranchForHome();
-  Future<Map<String, dynamic>> getBranchByProvince();
+abstract class IServiceRepository {
+  Future<Map<String, dynamic>> getAllServices();
+  Future<Map<String, dynamic>> getServiceDetail(int serviceId);
 }
 
-class BranchRepository extends ApiEndpoints implements IBranchRepository {
+class ServiceRepository extends ApiEndpoints implements IServiceRepository {
   @override
-  Future<Map<String, dynamic>> getBranchForHome() async {
+  Future<Map<String, dynamic>> getAllServices() async {
     try {
       final String jwtToken = AuthPref.getToken().toString();
       Uri uri = Uri.parse(
-          "$BranchUrl?search&latitude=16.01620225221449&longitude=108.20495660759316&branchStatusCodes=active&current&pageSize");
+          "$ServiceUrl?search&branchId=&shopCategoryId&shopServicePriceRange&current&pageSize");
       final client = http.Client();
       final response = await client.get(
         uri,
@@ -33,10 +33,10 @@ class BranchRepository extends ApiEndpoints implements IBranchRepository {
   }
 
   @override
-  Future<Map<String, dynamic>> getBranchByProvince() async {
+  Future<Map<String, dynamic>> getServiceDetail(int serviceId) async {
     try {
       final String jwtToken = AuthPref.getToken().toString();
-      Uri uri = Uri.parse("$BranchUrl/group-by-province");
+      Uri uri = Uri.parse("$ServiceUrl/$serviceId");
       final client = http.Client();
       final response = await client.get(
         uri,

@@ -1,18 +1,18 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:realmen_customer_application/data/models/service_model.dart';
 import 'package:sizer/sizer.dart';
 
-class RecommendServices extends StatefulWidget {
-  const RecommendServices({super.key});
+class RecommendServices extends StatelessWidget {
+  Function callback;
+  List<ServiceDataModel> serviceList;
+  RecommendServices(this.callback, {super.key, required this.serviceList});
 
-  @override
-  State<RecommendServices> createState() => _RecommendServicesState();
-}
-
-class _RecommendServicesState extends State<RecommendServices> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -39,7 +39,7 @@ class _RecommendServicesState extends State<RecommendServices> {
               mainAxisSpacing: 4.0,
               crossAxisSpacing: 4.0,
             ),
-            itemCount: 5,
+            itemCount: serviceList.length <= 5 ? serviceList.length : 5,
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {},
@@ -70,7 +70,7 @@ class _RecommendServicesState extends State<RecommendServices> {
                             topLeft: Radius.circular(10),
                           ),
                           child: CachedNetworkImage(
-                            imageUrl: "assets/images/massage.jpg",
+                            imageUrl: serviceList[index].shopServiceThumbnail!,
                             height: 160,
                             width: MediaQuery.of(context).size.width / 1.4,
                             fit: BoxFit.cover,
@@ -88,28 +88,28 @@ class _RecommendServicesState extends State<RecommendServices> {
                             ),
                           ),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           height: 56,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                // ignore: unnecessary_null_comparison
-                                "Cắt tóc",
+                                // ignore: unnecessary_null_comparison, unnecessary_string_interpolations
+                                "${utf8.decode(serviceList[index].shopServiceName.toString().runes.toList())}",
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white,
                                 ),
                               ),
-                              // Text(
-                              //   "90,0000 VNĐ",
-                              //   style: TextStyle(
-                              //     fontSize: 15,
-                              //     color: Colors.white.withOpacity(0.8),
-                              //   ),
-                              // ),
+                              Text(
+                                "${serviceList[index].shopServicePriceS}",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.white.withOpacity(0.8),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -123,15 +123,5 @@ class _RecommendServicesState extends State<RecommendServices> {
         ),
       ],
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }
