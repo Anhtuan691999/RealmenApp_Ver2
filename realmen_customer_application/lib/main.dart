@@ -6,10 +6,10 @@ import 'package:get/get.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:realmen_customer_application/data/shared_preferences/shared_preferences.dart';
+import 'package:realmen_customer_application/features/data/shared_preferences/shared_preferences.dart';
 import 'package:realmen_customer_application/firebase_options.dart';
-import 'package:realmen_customer_application/presentation/pages/splash_page.dart';
-import 'package:realmen_customer_application/router/router.dart';
+import 'package:realmen_customer_application/features/presentation/pages/splash_page.dart';
+import 'package:realmen_customer_application/core/router/router.dart';
 import 'package:sizer/sizer.dart';
 
 Future<void> main() async {
