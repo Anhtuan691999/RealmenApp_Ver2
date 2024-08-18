@@ -5,13 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
-import 'package:realmen_staff_application/presentation/home/ui/home_page.dart';
-import 'package:realmen_staff_application/presentation/pages/register_work_schedule.dart';
-import 'package:realmen_staff_application/presentation/pages/work_schedule.dart';
 
-import '../pages/profile_screen.dart';
-import '../pages/task_screen.dart';
-import 'bloc/landing_page_bloc.dart';
+import 'package:realmen_staff_application/presentation/work_schedule/ui/work_schedule.dart';
+
+import '../../pages/profile_screen.dart';
+import '../../pages/task_screen.dart';
+import '../bloc/landing_page_bloc.dart';
 
 class LandingPage extends StatefulWidget {
   final int? index;
@@ -31,8 +30,6 @@ class _LandingPageState extends State<LandingPage> {
 
   int bottomIndex = 0;
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
-
-  late final HomePage homePage;
 
   void setPage(index) {
     final CurvedNavigationBarState? navBarState =
@@ -58,10 +55,9 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = [
-      const ProfileScreen(),
       const TaskScreen(),
       const WorkScheduleScreen(),
-      const RegisterWorkScheduleScreen(),
+      const ProfileScreen(),
     ];
     return BlocConsumer<LandingPageBloc, LandingPageInitial>(
         bloc: landingPageBloc,
@@ -82,10 +78,6 @@ class _LandingPageState extends State<LandingPage> {
                   CurvedNavigationBarItem(
                     child: Icon(Icons.list_alt),
                     label: 'Lịch làm',
-                  ),
-                  CurvedNavigationBarItem(
-                    child: Icon(Icons.calendar_month),
-                    label: 'Đăng kí lịch',
                   ),
                   CurvedNavigationBarItem(
                     child: Icon(Icons.perm_identity),

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:realmen_staff_application/presentation/landing_page/landing_page.dart';
+import 'package:realmen_staff_application/presentation/landing_page/ui/landing_page.dart';
 
 import 'package:realmen_staff_application/presentation/pages/splash_page.dart';
 import 'package:realmen_staff_application/presentation/auth/ui/auth_page.dart';

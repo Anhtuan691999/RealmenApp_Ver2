@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:realmen_staff_application/presentation/auth/bloc/auth_bloc.dart';
 import 'package:realmen_staff_application/presentation/auth/pages/login_page.dart';
-import 'package:realmen_staff_application/presentation/landing_page/landing_page.dart';
+import 'package:realmen_staff_application/presentation/landing_page/ui/landing_page.dart';
 import 'package:realmen_staff_application/utils/dialog/loading_dialog.dart';
 import 'package:realmen_staff_application/utils/snackbar/snackbar.dart';
 

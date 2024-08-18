@@ -117,6 +117,10 @@ dependencies:
   # So sánh 2 Obj sp Models
   equatable: ^2.0.5
 
+  syncfusion_flutter_calendar: ^26.1.35
+  syncfusion_localizations: ^26.1.35
+  image_picker: ^1.0.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
