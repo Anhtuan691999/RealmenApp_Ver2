@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:realmen_customer_application/features/presentation/auth/bloc/auth_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/home/bloc/home_page_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/pages/landing_page/bloc/landing_page_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/pages/landing_page/landing_page.dart';
 import 'package:realmen_customer_application/features/presentation/pages/splash_page.dart';
@@ -11,7 +12,7 @@ import '../../features/presentation/pages/branches/branches_overview.dart';
 class RouteGenerator {
   final LandingPageBloc landingPageBloc = LandingPageBloc();
   final AuthenticationBloc authenticationBloc = AuthenticationBloc();
-
+  final HomePageBloc homePageBloc = HomePageBloc();
   List<GetPage> routes() {
     return [
       GetPage(
@@ -29,11 +30,11 @@ class RouteGenerator {
       GetPage(
         name: LandingPage.LandingPageRoute,
         page: () => BlocProvider<LandingPageBloc>.value(
-            value: landingPageBloc, child: LandingPage()),
+            value: landingPageBloc, child: const LandingPage()),
       ),
       GetPage(
         name: BranchesOverviewScreen.BranchesOverviewScreenRoute,
-        page: () => const BranchesOverviewScreen(),
+        page: () => BranchesOverviewScreen(bloc: homePageBloc),
       ),
     ];
   }

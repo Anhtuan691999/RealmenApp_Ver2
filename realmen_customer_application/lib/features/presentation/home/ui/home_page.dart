@@ -41,8 +41,18 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomePageBloc, HomePageState>(
+    return BlocConsumer<HomePageBloc, HomePageState>(
       bloc: homePageBloc,
+      listenWhen: (previous, current) => current is HomePageActionState,
+      listener: (context, state) {
+        switch (state.runtimeType) {
+          case ShowBranchPageState:
+            Get.to(() => BranchesOverviewScreen(
+                  bloc: homePageBloc,
+                ));
+            break;
+        }
+      },
       builder: (context, state) {
         HomePageLoadedSuccessState? successState;
         if (state is HomePageLoadedSuccessState) {

@@ -119,3 +119,43 @@ class DistanceInKm {
   factory DistanceInKm.fromJson(String source) =>
       DistanceInKm.fromMap(json.decode(source) as Map<String, dynamic>);
 }
+
+class BranchProvince {
+  String? province;
+  BranchDataModel? branches;
+  BranchProvince({
+    this.province,
+    this.branches,
+  });
+
+  BranchProvince copyWith({
+    String? province,
+    BranchDataModel? branches,
+  }) {
+    return BranchProvince(
+      province: province ?? this.province,
+      branches: branches ?? this.branches,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'province': province,
+      'branches': branches?.toMap(),
+    };
+  }
+
+  factory BranchProvince.fromMap(Map<String, dynamic> map) {
+    return BranchProvince(
+      province: map['province'] != null ? map['province'] as String : null,
+      branches: map['branches'] != null
+          ? BranchDataModel.fromMap(map['branches'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory BranchProvince.fromJson(Map<String, dynamic> source) =>
+      BranchProvince.fromMap(source);
+}

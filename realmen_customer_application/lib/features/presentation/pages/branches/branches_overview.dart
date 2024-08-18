@@ -2,11 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:realmen_customer_application/features/presentation/home/bloc/home_page_bloc.dart';
 
 import 'package:sizer/sizer.dart';
 
 class BranchesOverviewScreen extends StatefulWidget {
-  const BranchesOverviewScreen({super.key});
+  final HomePageBloc bloc;
+  const BranchesOverviewScreen({super.key, required this.bloc});
 
   @override
   State<BranchesOverviewScreen> createState() => _BranchesOverviewScreenState();
@@ -17,7 +19,7 @@ class _BranchesOverviewScreenState extends State<BranchesOverviewScreen> {
   @override
   void initState() {
     print('Current Route: ${Get.currentRoute}');
-
+    widget.bloc.add(LoadedBranchProvinceListEvent());
     super.initState();
   }
 

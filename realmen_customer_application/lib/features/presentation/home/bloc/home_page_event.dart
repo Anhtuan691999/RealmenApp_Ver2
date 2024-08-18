@@ -6,22 +6,19 @@ sealed class HomePageEvent {}
 
 class HomePageInitialEvent extends HomePageEvent {}
 
-class ShowBranchEvent extends HomePageEvent {
-  final List<BranchDataModel>? loadedBranchsList;
-  ShowBranchEvent({
-    this.loadedBranchsList,
-  });
-}
+class ShowBranchPageEvent extends HomePageEvent {}
 
-class ShowRealMenMemberEvent extends HomePageEvent {}
+class LoadedBranchProvinceListEvent extends HomePageEvent {}
 
-class ShowBookingHistoryEvent extends HomePageEvent {}
+class ShowRealMenMemberPageEvent extends HomePageEvent {}
 
-class ShowBookingConfirmationEvent extends HomePageEvent {}
+class ShowBookingHistoryPageEvent extends HomePageEvent {}
 
-class ShowServiceEvent extends HomePageEvent {
+class ShowBookingConfirmationPageEvent extends HomePageEvent {}
+
+class ShowServicePageEvent extends HomePageEvent {
   final List<ServiceDataModel>? loadedServicesList;
-  ShowServiceEvent({
+  ShowServicePageEvent({
     this.loadedServicesList,
   });
 }

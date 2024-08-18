@@ -16,6 +16,8 @@ part 'home_page_state.dart';
 class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
   HomePageBloc() : super(HomePageInitial()) {
     on<HomePageInitialEvent>(_homePageInitialEvent);
+    on<ShowBranchPageEvent>(_showBranchPageEvent);
+    on<LoadedBranchProvinceListEvent>(_loadedBranchProvinceListEvent);
   }
   FutureOr<void> _homePageInitialEvent(
       HomePageInitialEvent event, Emitter<HomePageState> emit) async {
@@ -97,4 +99,12 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
           loadedBranchsList: branchList, loadedServicesList: serviceList));
     }
   }
+
+  FutureOr<void> _showBranchPageEvent(
+      ShowBranchPageEvent event, Emitter<HomePageState> emit) async {
+    emit(ShowBranchPageState());
+  }
+
+  FutureOr<void> _loadedBranchProvinceListEvent(
+      LoadedBranchProvinceListEvent event, Emitter<HomePageState> emit) {}
 }
