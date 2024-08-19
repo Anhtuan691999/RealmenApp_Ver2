@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:realmen_customer_application/features/presentation/auth/bloc/auth_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -30,7 +27,7 @@ class _CreateOtpPageState extends State<CreateOtpPage> {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-    final FocusNode _focusNode = FocusNode();
+    final FocusNode focusNode = FocusNode();
     phoneController = widget.phone != null
         ? TextEditingController(text: widget.phone.toString())
         : TextEditingController();
@@ -110,7 +107,7 @@ class _CreateOtpPageState extends State<CreateOtpPage> {
                                       SizedBox(
                                         height: 2.h,
                                       ),
-                                      Container(
+                                      SizedBox(
                                         width: 70.w,
                                         // height: height * 0.1,
                                         child: TextFormField(
@@ -123,11 +120,11 @@ class _CreateOtpPageState extends State<CreateOtpPage> {
                                             FilteringTextInputFormatter
                                                 .digitsOnly
                                           ],
-                                          focusNode: _focusNode,
+                                          focusNode: focusNode,
                                           onFieldSubmitted: (value) =>
-                                              _focusNode.unfocus(),
+                                              focusNode.unfocus(),
                                           onTapOutside: (event) =>
-                                              _focusNode.unfocus(),
+                                              focusNode.unfocus(),
                                           onEditingComplete: () {
                                             if (_formKey.currentState!
                                                 .validate()) {
@@ -174,7 +171,7 @@ class _CreateOtpPageState extends State<CreateOtpPage> {
                                               fontWeight: FontWeight.w400,
                                               color: Color(0xffC4C4C4),
                                             ),
-                                            errorStyle: TextStyle(
+                                            errorStyle: const TextStyle(
                                               fontSize: 13.0,
                                             ),
                                           ),
@@ -201,7 +198,7 @@ class _CreateOtpPageState extends State<CreateOtpPage> {
                                               style: TextButton.styleFrom(
                                                 alignment: Alignment.center,
                                               ),
-                                              child: Text(
+                                              child: const Text(
                                                 "Đăng ký",
                                                 style: TextStyle(
                                                   decoration:
@@ -218,7 +215,7 @@ class _CreateOtpPageState extends State<CreateOtpPage> {
                                         // margin: const EdgeInsets.only(top: 22),
                                         width: 70.w,
                                         height: 40,
-                                        margin: EdgeInsets.only(bottom: 10),
+                                        margin: const EdgeInsets.only(bottom: 10),
                                         decoration: BoxDecoration(
                                           gradient: const LinearGradient(
                                               begin: Alignment.topLeft,
@@ -236,7 +233,7 @@ class _CreateOtpPageState extends State<CreateOtpPage> {
                                           onPressed: () {
                                             if (_formKey.currentState!
                                                 .validate()) {
-                                              _focusNode.unfocus();
+                                              focusNode.unfocus();
                                               widget.bloc.add(
                                                   AuthenticationInputPhoneEvent(
                                                 phone: phoneController.text,

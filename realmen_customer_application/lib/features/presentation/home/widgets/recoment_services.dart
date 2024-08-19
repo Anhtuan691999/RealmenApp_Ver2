@@ -97,7 +97,7 @@ class RecommendServices extends StatelessWidget {
                               Text(
                                 // ignore: unnecessary_null_comparison, unnecessary_string_interpolations
                                 "${utf8.decode(serviceList[index].shopServiceName.toString().runes.toList())}",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white,

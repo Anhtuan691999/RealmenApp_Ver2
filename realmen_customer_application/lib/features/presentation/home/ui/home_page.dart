@@ -3,7 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:custom_rounded_rectangle_border/custom_rounded_rectangle_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:realmen_customer_application/features/presentation/home/bloc/home_page_bloc.dart';
@@ -170,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                                     const SizedBox(
                                       width: 15,
                                     ),
-                                    Container(
+                                    SizedBox(
                                       width: 58.9.w,
                                       child: Column(
                                         mainAxisAlignment:
@@ -385,7 +384,7 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               branchShopNearYou(
                                                 widget.callback,
-                                                branchList: successState!
+                                                branchList: successState
                                                     .loadedBranchsList,
                                               ),
                                             ],

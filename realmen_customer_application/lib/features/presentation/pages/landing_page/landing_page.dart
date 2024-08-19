@@ -4,7 +4,6 @@ import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:realmen_customer_application/features/presentation/pages/booking_page.dart';
 import 'package:realmen_customer_application/features/presentation/home/ui/home_page.dart';

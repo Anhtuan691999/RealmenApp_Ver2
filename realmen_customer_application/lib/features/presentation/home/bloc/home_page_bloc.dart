@@ -23,8 +23,8 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
       HomePageInitialEvent event, Emitter<HomePageState> emit) async {
     emit(HomePageLoadingState());
     final storage = FirebaseStorage.instance;
-    final IBranchRepository branchRepository = new BranchRepository();
-    final IServiceRepository serviceRepository = new ServiceRepository();
+    final IBranchRepository branchRepository = BranchRepository();
+    final IServiceRepository serviceRepository = ServiceRepository();
     NumberFormat numberFormat = NumberFormat('#,##0');
     // Branch Data
     var branchs = await branchRepository.getBranchForHome();
@@ -68,28 +68,28 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
         branch.open = branch.open!.substring(0, 2);
         branch.close = branch.close!.substring(0, 2);
       }
-    }
 
-    // Service data
-    if (serviceStatus) {
-      serviceList = (serviceBody['content'] as List)
-          .map((e) => ServiceDataModel.fromJson(e as Map<String, dynamic>))
-          .toList();
+      // Service data
+      if (serviceStatus) {
+        serviceList = (serviceBody['content'] as List)
+            .map((e) => ServiceDataModel.fromJson(e as Map<String, dynamic>))
+            .toList();
 
-      List<String> urlList = ["6.jpg", "massage3.jpg", "massage1.jpg"];
-      for (var service in serviceList) {
-        try {
-          var reference = storage.ref(service.shopServiceThumbnail);
-          service.shopServiceThumbnail = await reference.getDownloadURL();
-        } catch (e) {
-          final random = Random();
-          var randomUrl = random.nextInt(urlList.length);
-          var reference = storage.ref('service/${urlList[randomUrl]}');
-          service.shopServiceThumbnail = await reference.getDownloadURL();
+        List<String> urlList = ["6.jpg", "massage3.jpg", "massage1.jpg"];
+        for (var service in serviceList) {
+          try {
+            var reference = storage.ref(service.shopServiceThumbnail);
+            service.shopServiceThumbnail = await reference.getDownloadURL();
+          } catch (e) {
+            final random = Random();
+            var randomUrl = random.nextInt(urlList.length);
+            var reference = storage.ref('service/${urlList[randomUrl]}');
+            service.shopServiceThumbnail = await reference.getDownloadURL();
+          }
+          service.shopServicePriceS = service.shopServicePrice! >= 0
+              ? "${numberFormat.format(service.shopServicePrice)} VNĐ"
+              : "0 VNĐ";
         }
-        service.shopServicePriceS = service.shopServicePrice! >= 0
-            ? "${numberFormat.format(service.shopServicePrice)} VNĐ"
-            : "0 VNĐ";
       }
     }
 

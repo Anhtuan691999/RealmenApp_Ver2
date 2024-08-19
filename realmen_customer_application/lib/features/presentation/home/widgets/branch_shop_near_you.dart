@@ -6,7 +6,6 @@ import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:intl/intl.dart';
 import 'package:realmen_customer_application/features/data/models/branch_model.dart';
 import 'package:sizer/sizer.dart';
 
@@ -168,7 +167,7 @@ class branchShopNearYou extends StatelessWidget {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   ConstrainedBox(
-                                    constraints: BoxConstraints(minWidth: 120),
+                                    constraints: const BoxConstraints(minWidth: 120),
                                     child: Container(
                                       height: 40,
                                       padding: const EdgeInsets.all(5),
@@ -201,7 +200,7 @@ class branchShopNearYou extends StatelessWidget {
                                     ),
                                     child: ConstrainedBox(
                                       constraints:
-                                          BoxConstraints(minWidth: 120),
+                                          const BoxConstraints(minWidth: 120),
                                       child: Container(
                                         height: 40,
                                         // width: 120,

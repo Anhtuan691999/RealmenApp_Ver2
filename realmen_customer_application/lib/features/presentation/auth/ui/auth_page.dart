@@ -69,7 +69,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
             break;
           case AuthenticationSuccessState:
             final successState = state as AuthenticationSuccessState;
-            print("token:" + successState.token);
+            print("token:${successState.token}");
             Get.offAllNamed(LandingPage.LandingPageRoute,
                 arguments: {'token': successState.token});
             break;

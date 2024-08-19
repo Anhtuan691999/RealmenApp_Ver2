@@ -37,8 +37,9 @@ class AuthRepository extends ApiEndpoints implements IAuthRepository {
           "message": e.message.toString(),
           "statusCode": 404
         };
-      } else
+      } else {
         return ExceptionHandlers().getExceptionString(e);
+      }
     }
   }
 

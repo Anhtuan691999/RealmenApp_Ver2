@@ -46,6 +46,25 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:557539940447:android:15c60119d18e928f1ea3ea",
+        "android_client_info": {
+          "package_name": "customer.rm.bloc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0-Ozhc5UuiFEYFpnmR9hFTAIGxEUJzvA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:557539940447:android:bba7fee3c23203741ea3ea",
         "android_client_info": {
           "package_name": "realmen.staff.app"
