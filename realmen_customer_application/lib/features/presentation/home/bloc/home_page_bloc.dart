@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
+import 'package:realmen_customer_application/core/utils/utf8_encoding.dart';
 import 'package:realmen_customer_application/features/data/models/branch_model.dart';
 import 'package:realmen_customer_application/features/data/models/service_model.dart';
 import 'package:realmen_customer_application/features/domain/repository/BranchRepo/branch_repository.dart';
@@ -118,7 +119,12 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
       branchProvinceList = (branchProvinceBody['content'] as List)
           .map((e) => BranchProvince.fromJson(e as Map<String, dynamic>))
           .toList();
-      for (var branchProvince in branchProvinceList) {}
+      for (var branchProvince in branchProvinceList) {
+        branchProvince.province =
+            Utf8Encoding().decode(branchProvince.province!);
+      }
+      emit(LoadedBranchProvinceListState(
+          branchProvinceList: branchProvinceList));
     }
   }
 }

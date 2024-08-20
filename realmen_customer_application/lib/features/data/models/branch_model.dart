@@ -150,8 +150,11 @@ class BranchProvince {
     return BranchProvince(
       province: map['province'] != null ? map['province'] as String : "",
       branches: map['branches'] != null
-          ? BranchDataModel.fromMap(map['branches'] as Map<String, dynamic>)
-          : null,
+          ? map['branches']
+              .map((branch) =>
+                  BranchDataModel.fromMap(branch as Map<String, dynamic>))
+              .toList()
+          : [],
       total: map['total'] != null ? map['total'] as int : 0,
     );
   }
