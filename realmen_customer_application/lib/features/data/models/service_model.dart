@@ -3,28 +3,28 @@ import 'dart:convert';
 
 class ServiceDataModel {
   int? shopServiceId;
-  dynamic branchId;
+  int? branchId;
   String? shopServiceName;
   int? shopServicePrice;
   String? shopServiceThumbnail;
   int? shopCategoryId;
   String? shopCategoryCode;
   String? shopCategoryName;
-  dynamic serviceDisplays;
+  String? serviceDisplays;
 
   // bổ sung
   String? shopServicePriceS;
 
   ServiceDataModel(
       {this.shopServiceId,
-      required this.branchId,
+      this.branchId,
       this.shopServiceName,
       this.shopServicePrice,
       this.shopServiceThumbnail,
       this.shopCategoryId,
       this.shopCategoryCode,
       this.shopCategoryName,
-      required this.serviceDisplays,
+      this.serviceDisplays,
       this.shopServicePriceS});
 
   Map<String, dynamic> toMap() {
@@ -44,14 +44,13 @@ class ServiceDataModel {
   factory ServiceDataModel.fromMap(Map<String, dynamic> map) {
     return ServiceDataModel(
       shopServiceId:
-          map['shopServiceId'] != null ? map['shopServiceId'] as int : null,
+          map['shopServiceId'] != null ? map['shopServiceId'] as int : 0,
       branchId: map['branchId'] as dynamic,
       shopServiceName: map['shopServiceName'] != null
           ? map['shopServiceName'] as String
-          : null,
-      shopServicePrice: map['shopServicePrice'] != null
-          ? map['shopServicePrice'] as int
-          : null,
+          : "",
+      shopServicePrice:
+          map['shopServicePrice'] != null ? map['shopServicePrice'] as int : 0,
       shopServiceThumbnail: map['shopServiceThumbnail'] != null
           ? map['shopServiceThumbnail'] as String
           : null,
@@ -62,8 +61,10 @@ class ServiceDataModel {
           : null,
       shopCategoryName: map['shopCategoryName'] != null
           ? map['shopCategoryName'] as String
-          : null,
-      serviceDisplays: map['serviceDisplays'] as dynamic,
+          : "",
+      serviceDisplays: map['serviceDisplays'] != null
+          ? map['serviceDisplays'] as String
+          : "",
     );
   }
 

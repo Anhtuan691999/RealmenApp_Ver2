@@ -22,7 +22,7 @@ class HomePageLoadedSuccessState extends HomePageState {
   });
 }
 
-class ShowBranchPageState extends HomePageActionState {}
+class ShowBranchOverviewPageState extends HomePageActionState {}
 
 class LoadedBranchProvinceListState extends HomePageActionState {
   final List<BranchProvince> branchProvinceList;
@@ -30,6 +30,8 @@ class LoadedBranchProvinceListState extends HomePageActionState {
     required this.branchProvinceList,
   });
 }
+
+class LoadingBranchProvinceListState extends HomePageActionState {}
 
 class ShowRealMenMemberPageState extends HomePageActionState {}
 

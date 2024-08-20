@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
       listenWhen: (previous, current) => current is HomePageActionState,
       listener: (context, state) {
         switch (state.runtimeType) {
-          case ShowBranchPageState:
+          case ShowBranchOverviewPageState:
             Get.to(() => BranchesOverviewScreen(
                   bloc: homePageBloc,
                 ));
@@ -264,8 +264,8 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        Get.toNamed(BranchesOverviewScreen
-                                            .BranchesOverviewScreenRoute);
+                                        homePageBloc
+                                            .add(ShowBranchOverviewPageEvent());
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
@@ -390,7 +390,22 @@ class _HomePageState extends State<HomePage> {
                                             ],
                                           ),
                                         )
-                                      : Container(),
+                                      : Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  top: 30),
+                                              height: 50,
+                                              width: 50,
+                                              child:
+                                                  const CircularProgressIndicator(),
+                                            )
+                                          ],
+                                        ),
                             ],
                           ),
                         ),

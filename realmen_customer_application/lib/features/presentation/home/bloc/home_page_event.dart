@@ -6,7 +6,7 @@ sealed class HomePageEvent {}
 
 class HomePageInitialEvent extends HomePageEvent {}
 
-class ShowBranchPageEvent extends HomePageEvent {}
+class ShowBranchOverviewPageEvent extends HomePageEvent {}
 
 class LoadedBranchProvinceListEvent extends HomePageEvent {}
 

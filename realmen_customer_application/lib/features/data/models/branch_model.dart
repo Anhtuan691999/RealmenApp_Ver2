@@ -123,18 +123,18 @@ class DistanceInKm {
 class BranchProvince {
   String? province;
   BranchDataModel? branches;
-  BranchProvince({
-    this.province,
-    this.branches,
-  });
+  int? total;
+  BranchProvince({this.province, this.branches, this.total});
 
   BranchProvince copyWith({
     String? province,
     BranchDataModel? branches,
+    int? total,
   }) {
     return BranchProvince(
       province: province ?? this.province,
       branches: branches ?? this.branches,
+      total: total ?? this.total,
     );
   }
 
@@ -142,15 +142,17 @@ class BranchProvince {
     return <String, dynamic>{
       'province': province,
       'branches': branches?.toMap(),
+      'total': total,
     };
   }
 
   factory BranchProvince.fromMap(Map<String, dynamic> map) {
     return BranchProvince(
-      province: map['province'] != null ? map['province'] as String : null,
+      province: map['province'] != null ? map['province'] as String : "",
       branches: map['branches'] != null
           ? BranchDataModel.fromMap(map['branches'] as Map<String, dynamic>)
           : null,
+      total: map['total'] != null ? map['total'] as int : 0,
     );
   }
 

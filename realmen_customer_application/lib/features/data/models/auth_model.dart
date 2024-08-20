@@ -39,9 +39,9 @@ class AuthenticationModel extends Equatable {
 
   factory AuthenticationModel.fromMap(Map<String, dynamic> map) {
     return AuthenticationModel(
-      accountId: map['accountId'] != null ? map['accountId'] as int : null,
-      lastName: map['lastName'] != null ? map['lastName'] as String : null,
-      firstName: map['firstName'] != null ? map['firstName'] as String : null,
+      accountId: map['accountId'] != null ? map['accountId'] as int : 0,
+      lastName: map['lastName'] != null ? map['lastName'] as String : "",
+      firstName: map['firstName'] != null ? map['firstName'] as String : "",
       accessToken:
           map['accessToken'] != null ? map['accessToken'] as String : null,
       issueAt: map['issueAt'] != null ? map['issueAt'] as String : null,

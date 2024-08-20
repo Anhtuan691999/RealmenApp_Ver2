@@ -16,7 +16,7 @@ part 'home_page_state.dart';
 class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
   HomePageBloc() : super(HomePageInitial()) {
     on<HomePageInitialEvent>(_homePageInitialEvent);
-    on<ShowBranchPageEvent>(_showBranchPageEvent);
+    on<ShowBranchOverviewPageEvent>(_showBranchOverviewPageEvent);
     on<LoadedBranchProvinceListEvent>(_loadedBranchProvinceListEvent);
   }
   FutureOr<void> _homePageInitialEvent(
@@ -100,11 +100,25 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
     }
   }
 
-  FutureOr<void> _showBranchPageEvent(
-      ShowBranchPageEvent event, Emitter<HomePageState> emit) async {
-    emit(ShowBranchPageState());
+  FutureOr<void> _showBranchOverviewPageEvent(
+      ShowBranchOverviewPageEvent event, Emitter<HomePageState> emit) async {
+    emit(ShowBranchOverviewPageState());
   }
 
   FutureOr<void> _loadedBranchProvinceListEvent(
-      LoadedBranchProvinceListEvent event, Emitter<HomePageState> emit) {}
+      LoadedBranchProvinceListEvent event, Emitter<HomePageState> emit) async {
+    emit(LoadingBranchProvinceListState());
+    final IBranchRepository branchRepository = BranchRepository();
+    // branch province data
+    var branchProvinces = await branchRepository.getBranchByProvince();
+    var branchProvinceStatus = branchProvinces["status"];
+    var branchProvinceBody = branchProvinces["body"];
+    List<BranchProvince> branchProvinceList = [];
+    if (branchProvinceStatus) {
+      branchProvinceList = (branchProvinceBody['content'] as List)
+          .map((e) => BranchProvince.fromJson(e as Map<String, dynamic>))
+          .toList();
+      for (var branchProvince in branchProvinceList) {}
+    }
+  }
 }

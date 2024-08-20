@@ -137,6 +137,27 @@ class _WorkScheduleState extends State<WorkScheduleScreen> {
                                             timeFormat: "CA TỐI",
                                           ),
                                           specialRegions: _specialTimeRegions,
+                                          loadMoreWidgetBuilder:
+                                              (BuildContext context,
+                                                  LoadMoreCallback
+                                                      loadMoreAppointments) {
+                                            return FutureBuilder<void>(
+                                              future: loadMoreAppointments(),
+                                              builder: (BuildContext context,
+                                                  AsyncSnapshot<void>
+                                                      snapShot) {
+                                                return Container(
+                                                    height: 50,
+                                                    width: double.infinity,
+                                                    alignment: Alignment.center,
+                                                    child: CircularProgressIndicator(
+                                                        valueColor:
+                                                            const AlwaysStoppedAnimation<
+                                                                    Color?>(
+                                                                Colors.white)));
+                                              },
+                                            );
+                                          },
                                         ),
                                       )
                                     : Container(),
