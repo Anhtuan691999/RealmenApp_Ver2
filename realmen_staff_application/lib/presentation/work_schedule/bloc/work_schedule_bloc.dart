@@ -17,28 +17,28 @@ class WorkScheduleBloc extends Bloc<WorkScheduleEvent, WorkScheduleState> {
   Future<FutureOr<void>> _workScheduleInitialEvent(
       WorkScheduleInitialEvent event, Emitter<WorkScheduleState> emit) async {
     emit(WorkScheduleLoadingState());
-    AppointmentDataSource loadedDataSource =
-        AppointmentDataSource(<Appointment>[]);
+    WorkScheduleDataSource loadedDataSource =
+        WorkScheduleDataSource(<WorkSchedule>[]);
     String shiftMorning = "MORNING";
     String shiftNight = "NIGHT";
     Color colorMorning = Colors.deepOrange.shade400;
     Color colorNight = Colors.deepPurple.shade400;
 
-    List<Appointment> loadedAppointment = [
+    List<WorkSchedule> loadedAppointment = [
       // SANG
-      Appointment(
+      WorkSchedule(
         startTime: DateTime(2024, 8, 14, 7, 0, 0),
         endTime: DateTime(2024, 8, 14, 15, 0, 0),
         color: colorMorning,
         subject: shiftMorning,
       ),
-      Appointment(
+      WorkSchedule(
         startTime: DateTime(2024, 8, 17, 7, 0, 0),
         endTime: DateTime(2024, 8, 17, 15, 0, 0),
         color: colorMorning,
         subject: shiftMorning,
       ),
-      Appointment(
+      WorkSchedule(
         startTime: DateTime(2024, 8, 16, 7, 0, 0),
         endTime: DateTime(2024, 8, 16, 15, 0, 0),
         color: colorMorning,
@@ -46,13 +46,13 @@ class WorkScheduleBloc extends Bloc<WorkScheduleEvent, WorkScheduleState> {
       ),
 
       // TOI
-      Appointment(
+      WorkSchedule(
         startTime: DateTime(2024, 8, 21, 15, 0, 0),
         endTime: DateTime(2024, 8, 21, 23, 0, 0),
         color: colorNight,
         subject: shiftNight,
       ),
-      Appointment(
+      WorkSchedule(
         startTime: DateTime(2024, 8, 23, 15, 0, 0),
         endTime: DateTime(2024, 8, 23, 23, 0, 0),
         color: colorNight,
@@ -60,19 +60,19 @@ class WorkScheduleBloc extends Bloc<WorkScheduleEvent, WorkScheduleState> {
       ),
 
       // SO LE
-      Appointment(
+      WorkSchedule(
         startTime: DateTime(2024, 8, 26, 7, 0, 0),
         endTime: DateTime(2024, 8, 26, 15, 0, 0),
         color: colorMorning,
         subject: shiftMorning,
       ),
-      Appointment(
+      WorkSchedule(
         startTime: DateTime(2024, 8, 26, 15, 0, 0),
         endTime: DateTime(2024, 8, 26, 23, 0, 0),
         color: colorNight,
         subject: shiftNight,
       ),
-      Appointment(
+      WorkSchedule(
         startTime: DateTime(2024, 8, 30, 7, 0, 0),
         endTime: DateTime(2024, 8, 30, 15, 0, 0),
         color: colorMorning,

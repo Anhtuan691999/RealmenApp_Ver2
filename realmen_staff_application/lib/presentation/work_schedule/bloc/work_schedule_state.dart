@@ -12,7 +12,7 @@ final class WorkScheduleInitial extends WorkScheduleState {}
 final class WorkScheduleLoadingState extends WorkScheduleState {}
 
 final class WorkScheduleLoadedSuccessState extends WorkScheduleState {
-  final AppointmentDataSource? loadedDataSource;
+  final WorkScheduleDataSource? loadedDataSource;
 
   WorkScheduleLoadedSuccessState({required this.loadedDataSource});
 }
