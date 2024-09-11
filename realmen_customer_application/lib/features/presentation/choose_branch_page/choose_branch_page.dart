@@ -94,9 +94,6 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
                                           onPressed: () async {
                                             widget.bookingBloc.add(
                                                 ChooseBranchBookingSelectBranchGetBackEvent());
-                                            // await Future.delayed(
-                                            //     Duration(milliseconds: 200));
-                                            // Get.back();
                                           },
                                         ),
                                       ),
@@ -313,7 +310,8 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
                                             child: TextButton(
                                               style: const ButtonStyle(),
                                               onPressed: () {
-                                                // searchBranchesWithLocation();
+                                                chooseBranchPageBloc.add(
+                                                    LoadedBranchNearEvent());
                                               },
                                               child: const Row(
                                                 mainAxisAlignment:
@@ -561,7 +559,9 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
                                                           ],
                                                         ),
                                                         child: ElevatedButton(
-                                                          onPressed: () {},
+                                                          onPressed: () {
+                                                            j
+                                                          },
                                                           style: ElevatedButton
                                                               .styleFrom(
                                                             padding:

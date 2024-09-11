@@ -28,7 +28,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
     final IServiceRepository serviceRepository = ServiceRepository();
     NumberFormat numberFormat = NumberFormat('#,##0');
     // Branch Data
-    var branchs = await branchRepository.getBranch(null);
+    var branchs = await branchRepository.getBranch(null, null);
     var branchStatus = branchs["status"];
     var branchBody = branchs["body"];
     List<BranchDataModel> branchList = [];

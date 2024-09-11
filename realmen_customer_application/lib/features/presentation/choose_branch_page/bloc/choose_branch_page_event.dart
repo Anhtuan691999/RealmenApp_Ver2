@@ -15,3 +15,5 @@ class ChooseBranchLoadedBranchListEvent extends ChooseBranchPageEvent {
   final String? cityController;
   ChooseBranchLoadedBranchListEvent({this.search, this.cityController});
 }
+
+class LoadedBranchNearEvent extends ChooseBranchPageEvent {}

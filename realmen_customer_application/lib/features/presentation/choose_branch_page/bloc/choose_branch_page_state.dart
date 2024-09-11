@@ -40,3 +40,5 @@ class LoadedBookingBranchListState extends ChooseBranchPageState {
 class LoadingBookingBranchListState extends ChooseBranchPageState {}
 
 class NoDataBookingBranchListState extends ChooseBranchPageState {}
+
+class LoadedBranchNearState extends ChooseBranchPageState {}

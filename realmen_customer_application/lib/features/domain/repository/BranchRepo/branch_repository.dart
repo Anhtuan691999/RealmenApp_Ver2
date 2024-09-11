@@ -6,13 +6,14 @@ import 'package:realmen_customer_application/core/network/exceptions/exception_h
 import 'package:realmen_customer_application/features/data/shared_preferences/shared_preferences.dart';
 
 abstract class IBranchRepository {
-  Future<Map<String, dynamic>> getBranch(String? search);
+  Future<Map<String, dynamic>> getBranch(String? search, int? currentPage);
   Future<Map<String, dynamic>> getBranchByProvince();
 }
 
 class BranchRepository extends ApiEndpoints implements IBranchRepository {
   @override
-  Future<Map<String, dynamic>> getBranch(String? search) async {
+  Future<Map<String, dynamic>> getBranch(
+      String? search, int? currentPage) async {
     double lat = 0;
     double lng = 0;
     try {
@@ -22,7 +23,7 @@ class BranchRepository extends ApiEndpoints implements IBranchRepository {
       lng = positionLongLat['lng'] as double;
 
       Uri uri = Uri.parse(
-          "$BranchUrl?search${search != null ? '=$search' : ''}&latitude=$lat&longitude=$lng&branchStatusCodes=ACTIVE&current&pageSize");
+          "$BranchUrl?search${search != null ? '=$search' : ''}&latitude=$lat&longitude=$lng&branchStatusCodes=ACTIVE&current=${currentPage ?? ''}&pageSize");
       final client = http.Client();
       final response = await client.get(
         uri,
