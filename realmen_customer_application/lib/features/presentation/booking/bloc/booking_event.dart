@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'booking_bloc.dart';
 
 sealed class BookingEvent extends Equatable {
@@ -6,3 +7,9 @@ sealed class BookingEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class BookingInitialEvent extends BookingEvent {}
+
+class BookingShowBranchEvent extends BookingEvent {}
+
+class ChooseBranchBookingSelectBranchEvent extends BookingEvent {}

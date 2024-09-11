@@ -55,10 +55,16 @@ class LocationService extends ILocationService {
 
     prefs.setBool("locationPermission", true);
     prefs.setBool("permissionDeniedForever", false);
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.best);
-    prefs.setDouble("longitude", position.longitude);
-    prefs.setDouble("latitude", position.latitude);
-    return position;
+    Position position;
+    try {
+      position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.best,
+          timeLimit: Duration(seconds: 60));
+      prefs.setDouble("longitude", position.longitude.abs());
+      prefs.setDouble("latitude", position.latitude.abs());
+      return position;
+    } catch (e) {
+      return null;
+    }
   }
 }

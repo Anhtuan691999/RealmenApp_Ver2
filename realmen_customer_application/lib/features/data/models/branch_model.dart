@@ -19,6 +19,7 @@ class BranchDataModel {
 
   //Thuộc tính bổ sung cho logic nghiệp vụ
   String? distanceKm;
+  String? branchAddress;
 
   BranchDataModel(
       {this.branchId,
@@ -35,7 +36,8 @@ class BranchDataModel {
       this.distanceInKm,
       this.branchStatusCode,
       this.branchStatusName,
-      this.distanceKm});
+      this.distanceKm,
+      this.branchAddress});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -122,13 +124,13 @@ class DistanceInKm {
 
 class BranchProvince {
   String? province;
-  BranchDataModel? branches;
+  List<BranchDataModel>? branches;
   int? total;
   BranchProvince({this.province, this.branches, this.total});
 
   BranchProvince copyWith({
     String? province,
-    BranchDataModel? branches,
+    List<BranchDataModel>? branches,
     int? total,
   }) {
     return BranchProvince(
@@ -141,7 +143,7 @@ class BranchProvince {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'province': province,
-      'branches': branches?.toMap(),
+      'branches': branches,
       'total': total,
     };
   }
@@ -150,9 +152,8 @@ class BranchProvince {
     return BranchProvince(
       province: map['province'] != null ? map['province'] as String : "",
       branches: map['branches'] != null
-          ? map['branches']
-              .map((branch) =>
-                  BranchDataModel.fromMap(branch as Map<String, dynamic>))
+          ? (map['branches'] as List)
+              .map((branch) => BranchDataModel.fromMap(branch))
               .toList()
           : [],
       total: map['total'] != null ? map['total'] as int : 0,

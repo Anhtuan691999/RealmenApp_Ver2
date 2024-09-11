@@ -3,19 +3,26 @@ import 'package:realmen_customer_application/core/network/api/api_endpoints.dart
 import 'package:http/http.dart' as http;
 import 'package:realmen_customer_application/core/network/exceptions/app_exceptions.dart';
 import 'package:realmen_customer_application/core/network/exceptions/exception_handlers.dart';
+import 'package:realmen_customer_application/features/data/shared_preferences/shared_preferences.dart';
 
 abstract class IBranchRepository {
-  Future<Map<String, dynamic>> getBranchForHome();
+  Future<Map<String, dynamic>> getBranch(String? search);
   Future<Map<String, dynamic>> getBranchByProvince();
 }
 
 class BranchRepository extends ApiEndpoints implements IBranchRepository {
   @override
-  Future<Map<String, dynamic>> getBranchForHome() async {
+  Future<Map<String, dynamic>> getBranch(String? search) async {
+    double lat = 0;
+    double lng = 0;
     try {
       final String jwtToken = AuthPref.getToken().toString();
+      final positionLongLat = await AuthPref.getLongLat();
+      lat = positionLongLat['lat'] as double;
+      lng = positionLongLat['lng'] as double;
+
       Uri uri = Uri.parse(
-          "$BranchUrl?search&latitude=16.01620225221449&longitude=108.20495660759316&branchStatusCodes=active&current&pageSize");
+          "$BranchUrl?search${search != null ? '=$search' : ''}&latitude=$lat&longitude=$lng&branchStatusCodes=active&current&pageSize");
       final client = http.Client();
       final response = await client.get(
         uri,

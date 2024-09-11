@@ -38,3 +38,14 @@ class ShowRealMenMemberPageState extends HomePageActionState {}
 class ShowBookingHistoryPageState extends HomePageActionState {}
 
 class ShowBookingConfirmationPageState extends HomePageActionState {}
+
+class ShowListBranchForProvincePageState extends HomePageActionState {}
+
+class LoadedListBranchForProvinceState extends HomePageActionState {
+  final List<BranchDataModel> branchList;
+  LoadedListBranchForProvinceState({
+    required this.branchList,
+  });
+}
+
+class LoadingListBranchForProvinceState extends HomePageActionState {}

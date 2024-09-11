@@ -22,3 +22,7 @@ class ShowServicePageEvent extends HomePageEvent {
     this.loadedServicesList,
   });
 }
+
+class ShowListBranchForProvincePageEvent extends HomePageEvent {}
+
+class LoadedListBranchForProvinceEvent extends HomePageEvent {}

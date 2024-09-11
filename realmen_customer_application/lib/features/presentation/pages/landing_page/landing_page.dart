@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
-import 'package:realmen_customer_application/features/presentation/pages/booking_page.dart';
+import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/booking/ui/booking_page.dart';
 import 'package:realmen_customer_application/features/presentation/home/ui/home_page.dart';
 
 import 'package:realmen_customer_application/features/presentation/pages/landing_page/bloc/landing_page_bloc.dart';
@@ -37,6 +38,7 @@ class _LandingPageState extends State<LandingPage> {
   late final PromotionPage promotionPage;
   late final BookingPage bookingPage;
   late final ProfilePage profilePage;
+  final BookingBloc bookingPageBloc = BookingBloc();
 
   void setPage(index) {
     final CurvedNavigationBarState? navBarState =
@@ -75,7 +77,8 @@ class _LandingPageState extends State<LandingPage> {
     List<Widget> pages = [
       HomePage(setPage),
       const ServicePricePage(),
-      const BookingPage(),
+      BlocProvider<BookingBloc>.value(
+          value: bookingPageBloc, child: BookingPage(setPage)),
       const PromotionPage(),
       ProfilePage(setPage),
     ];

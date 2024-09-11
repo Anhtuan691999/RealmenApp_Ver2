@@ -2,20 +2,23 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/booking/widgets/branch.dart';
 
 import 'package:sizer/sizer.dart';
 
-class BookingScreen extends StatefulWidget {
+class BookingPage extends StatefulWidget {
   Function callback;
-  BookingScreen(this.callback, {super.key});
+  BookingPage(this.callback, {super.key});
 
   @override
-  State<BookingScreen> createState() => _BookingScreenState();
-  static const String BookingScreenRoute = "/booking-screen";
+  State<BookingPage> createState() => _BookingPageState();
+  static const String BookingPageRoute = "/booking-Page";
 }
 
-class _BookingScreenState extends State<BookingScreen>
+class _BookingPageState extends State<BookingPage>
     with SingleTickerProviderStateMixin {
+  final BookingBloc bloc = BookingBloc();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -205,8 +208,9 @@ class _BookingScreenState extends State<BookingScreen>
                               child: TabBarView(
                                 controller: _tabController,
                                 physics: const NeverScrollableScrollPhysics(),
-                                children: const [
-                                  // BranchOptionBooking(widget.callback),
+                                children: [
+                                  BranchOptionBooking(
+                                      bloc: bloc, widget.callback),
                                   // StylistOptionBooking(widget.callback),
                                 ],
                               ),

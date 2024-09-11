@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:realmen_customer_application/features/presentation/auth/bloc/auth_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/booking/ui/booking_page.dart';
 import 'package:realmen_customer_application/features/presentation/home/bloc/home_page_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/pages/landing_page/bloc/landing_page_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/pages/landing_page/landing_page.dart';
@@ -13,6 +15,7 @@ class RouteGenerator {
   final LandingPageBloc landingPageBloc = LandingPageBloc();
   final AuthenticationBloc authenticationBloc = AuthenticationBloc();
   final HomePageBloc homePageBloc = HomePageBloc();
+  final BookingBloc bookingPageBloc = BookingBloc();
   List<GetPage> routes() {
     return [
       GetPage(

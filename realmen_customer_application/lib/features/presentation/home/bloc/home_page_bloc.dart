@@ -28,7 +28,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
     final IServiceRepository serviceRepository = ServiceRepository();
     NumberFormat numberFormat = NumberFormat('#,##0');
     // Branch Data
-    var branchs = await branchRepository.getBranchForHome();
+    var branchs = await branchRepository.getBranch(null);
     var branchStatus = branchs["status"];
     var branchBody = branchs["body"];
     List<BranchDataModel> branchList = [];
@@ -60,8 +60,9 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
           var reference = storage.ref('branch/${urlList[randomUrl]}');
           branch.branchThumbnail = await reference.getDownloadURL();
         }
+
         if (branch.distanceInKm!.distance! >= 1) {
-          branch.distanceKm = "${branch.distanceInKm!.distance!}km";
+          branch.distanceKm = "${(branch.distanceInKm!.distance!).toInt()}km";
         } else {
           branch.distanceKm =
               "${(branch.distanceInKm!.distance! * 1000).toInt()}m";
