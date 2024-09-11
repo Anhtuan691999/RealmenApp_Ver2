@@ -2,11 +2,17 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:realmen_customer_application/features/data/shared_preferences/shared_preferences.dart';
+import 'package:realmen_customer_application/features/presentation/auth/bloc/auth_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/choose_branch_page/bloc/choose_branch_page_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/home/bloc/home_page_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/pages/landing_page/bloc/landing_page_bloc.dart';
 import 'package:realmen_customer_application/firebase_options.dart';
 import 'package:realmen_customer_application/features/presentation/pages/splash_page.dart';
 import 'package:realmen_customer_application/core/router/router.dart';
@@ -44,22 +50,31 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
-      return GetMaterialApp(
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => AuthenticationBloc()),
+          BlocProvider(create: (_) => LandingPageBloc()),
+          BlocProvider(create: (_) => HomePageBloc()),
+          BlocProvider(create: (_) => BookingBloc()),
+          BlocProvider(create: (_) => ChooseBranchPageBloc()),
         ],
-        supportedLocales: const [
-          Locale('vi'),
-        ],
-        getPages: RouteGenerator().routes(),
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.grey,
-          textTheme: GoogleFonts.quicksandTextTheme(
-            Theme.of(context).textTheme,
+        child: GetMaterialApp(
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('vi'),
+          ],
+          getPages: RouteGenerator().routes(),
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primarySwatch: Colors.grey,
+            textTheme: GoogleFonts.quicksandTextTheme(
+              Theme.of(context).textTheme,
+            ),
           ),
+          initialRoute: SplashPage.SplashPageRoute,
         ),
-        initialRoute: SplashPage.SplashPageRoute,
       );
     });
   }

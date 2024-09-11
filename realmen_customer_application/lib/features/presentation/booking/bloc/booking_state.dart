@@ -18,6 +18,6 @@ class BookingDataState extends BookingState {
 
 final class BookingInitial extends BookingState {}
 
-abstract class BookingActionState extends BookingState {}
+class ShowBookingBranchState extends BookingState {}
 
-class ShowBookingBranchState extends BookingActionState {}
+class ChooseBranchBookingSelectBranchGetBackState extends BookingState {}

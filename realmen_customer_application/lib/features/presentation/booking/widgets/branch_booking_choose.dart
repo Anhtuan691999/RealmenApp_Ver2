@@ -24,6 +24,7 @@ class _ChooseBranchBookingState extends State<ChooseBranchBooking> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BookingBloc, BookingState>(
+      bloc: widget.bloc,
       builder: (context, state) {
         return TimelineTile(
           isLast: false,
@@ -56,6 +57,7 @@ class _ChooseBranchBookingState extends State<ChooseBranchBooking> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
+                    print('BookingBloc instance: ${widget.bloc}');
                     widget.bloc.add(BookingShowBranchEvent());
                   },
                   style: ElevatedButton.styleFrom(

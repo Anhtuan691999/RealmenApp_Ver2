@@ -13,3 +13,5 @@ class BookingInitialEvent extends BookingEvent {}
 class BookingShowBranchEvent extends BookingEvent {}
 
 class ChooseBranchBookingSelectBranchEvent extends BookingEvent {}
+
+class ChooseBranchBookingSelectBranchGetBackEvent extends BookingEvent {}

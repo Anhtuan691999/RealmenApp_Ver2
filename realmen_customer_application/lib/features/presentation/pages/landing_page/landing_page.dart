@@ -38,7 +38,6 @@ class _LandingPageState extends State<LandingPage> {
   late final PromotionPage promotionPage;
   late final BookingPage bookingPage;
   late final ProfilePage profilePage;
-  final BookingBloc bookingPageBloc = BookingBloc();
 
   void setPage(index) {
     final CurvedNavigationBarState? navBarState =
@@ -50,7 +49,7 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {
     // Lấy token từ arguments
     final arguments = Get.arguments as Map<String, dynamic>?;
-    token = arguments.isNull ? "" : arguments?['token'];
+    token = arguments?.isNull ?? true ? "" : arguments?['token'];
     // landingPageBloc.add(LandingPageInitial(bottomIndex: 0) as LandingPageEvent);
     print('Current Route: ${Get.currentRoute}');
     super.initState();
@@ -77,8 +76,7 @@ class _LandingPageState extends State<LandingPage> {
     List<Widget> pages = [
       HomePage(setPage),
       const ServicePricePage(),
-      BlocProvider<BookingBloc>.value(
-          value: bookingPageBloc, child: BookingPage(setPage)),
+      BookingPage(setPage),
       const PromotionPage(),
       ProfilePage(setPage),
     ];

@@ -7,9 +7,7 @@ sealed class ChooseBranchPageState extends Equatable {
   List<Object?> get props => [];
 }
 
-final class ChooseBranchPageInitial extends ChooseBranchPageState {
-  ChooseBranchPageInitial() : super();
-}
+final class ChooseBranchPageInitial extends ChooseBranchPageState {}
 
 class LoadedBookingBranchListState extends ChooseBranchPageState {
   final List<BranchDataModel>? branchList;

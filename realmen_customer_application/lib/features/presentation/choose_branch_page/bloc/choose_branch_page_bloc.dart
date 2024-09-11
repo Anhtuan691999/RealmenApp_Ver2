@@ -21,9 +21,9 @@ class ChooseBranchPageBloc
 
   FutureOr<void> _chooseBranchPageInitialEvent(
       ChooseBranchPageInitialEvent event,
-      Emitter<ChooseBranchPageState> emit) async* {
+      Emitter<ChooseBranchPageState> emit) async {
     final IBranchRepository branchRepository = BranchRepository();
-    final ChooseBranchPageBloc chooseBranchPageBloc = ChooseBranchPageBloc();
+    // final ChooseBranchPageBloc chooseBranchPageBloc = ChooseBranchPageBloc();
     List<String> cities = [];
     List<BranchProvince> branchProvinceList = [];
     cities.add("TP/Tỉnh");
@@ -42,15 +42,28 @@ class ChooseBranchPageBloc
           cities.add(branchProvince.province.toString());
         }
       }
-      emit(LoadedBookingBranchListState());
-      yield (state as LoadedBookingBranchListState).copyWith(cities: cities);
-      chooseBranchPageBloc.add(ChooseBranchLoadedBranchListEvent());
+      emit(LoadedBookingBranchListState(cities: cities));
+
+      add(ChooseBranchLoadedBranchListEvent());
     } catch (e) {}
   }
 
   FutureOr<void> _chooseBranchLoadedBranchListEvent(
       ChooseBranchLoadedBranchListEvent event,
-      Emitter<ChooseBranchPageState> emit) async* {
+      Emitter<ChooseBranchPageState> emit) async {
+    // get current state data
+    List<String>? currentCities = (state is LoadedBookingBranchListState)
+        ? (state as LoadedBookingBranchListState).cities
+        : [];
+    List<BranchDataModel>? currentBranchList =
+        (state is LoadedBookingBranchListState)
+            ? (state as LoadedBookingBranchListState).branchList
+            : [];
+
+    String currentCityController = (state is LoadedBookingBranchListState)
+        ? (state as LoadedBookingBranchListState).cityController ?? "TP/Tỉnh"
+        : "TP/Tỉnh";
+
     emit(LoadingBookingBranchListState());
     final IBranchRepository branchRepository = BranchRepository();
     final storage = FirebaseStorage.instance;
@@ -142,9 +155,12 @@ class ChooseBranchPageBloc
             return distanceA.compareTo(distanceB);
           }
         });
-        yield (state as LoadedBookingBranchListState)
-            .copyWith(branchList: branchsList, cityController: cityController);
       }
+
+      emit(LoadedBookingBranchListState(
+          branchList: branchsList,
+          cityController: cityController,
+          cities: currentCities));
     } catch (e) {}
   }
 }

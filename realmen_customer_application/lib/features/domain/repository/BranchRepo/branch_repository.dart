@@ -22,7 +22,7 @@ class BranchRepository extends ApiEndpoints implements IBranchRepository {
       lng = positionLongLat['lng'] as double;
 
       Uri uri = Uri.parse(
-          "$BranchUrl?search${search != null ? '=$search' : ''}&latitude=$lat&longitude=$lng&branchStatusCodes=active&current&pageSize");
+          "$BranchUrl?search${search != null ? '=$search' : ''}&latitude=$lat&longitude=$lng&branchStatusCodes=ACTIVE&current&pageSize");
       final client = http.Client();
       final response = await client.get(
         uri,

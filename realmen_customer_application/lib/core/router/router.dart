@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:realmen_customer_application/features/presentation/auth/bloc/auth_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/booking/ui/booking_page.dart';
+import 'package:realmen_customer_application/features/presentation/choose_branch_page/bloc/choose_branch_page_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/choose_branch_page/choose_branch_page.dart';
 import 'package:realmen_customer_application/features/presentation/home/bloc/home_page_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/pages/landing_page/bloc/landing_page_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/pages/landing_page/landing_page.dart';
@@ -16,6 +18,7 @@ class RouteGenerator {
   final AuthenticationBloc authenticationBloc = AuthenticationBloc();
   final HomePageBloc homePageBloc = HomePageBloc();
   final BookingBloc bookingPageBloc = BookingBloc();
+  final ChooseBranchPageBloc chooseBranchPageBloc = ChooseBranchPageBloc();
   List<GetPage> routes() {
     return [
       GetPage(
@@ -24,12 +27,11 @@ class RouteGenerator {
       ),
       GetPage(
         name: AuthenticationPage.AuthenticationPageRoute,
-        page: () => const AuthenticationPage(),
+        page: () => BlocProvider(
+          create: (context) => AuthenticationBloc(),
+          child: const AuthenticationPage(),
+        ),
       ),
-      // GetPage(
-      //   name: LandingPage.LandingPageRoute,
-      //   page: () => const LandingPage(),
-      // ),
       GetPage(
         name: LandingPage.LandingPageRoute,
         page: () => BlocProvider<LandingPageBloc>.value(
@@ -37,7 +39,25 @@ class RouteGenerator {
       ),
       GetPage(
         name: BranchesOverviewScreen.BranchesOverviewScreenRoute,
-        page: () => BranchesOverviewScreen(bloc: homePageBloc),
+        page: () {
+          final homePageBloc = BlocProvider.of<HomePageBloc>(Get.context!);
+          return BranchesOverviewScreen(bloc: homePageBloc);
+        },
+      ),
+      GetPage(
+        name: BookingPage.BookingPageRoute,
+        page: () {
+          final callback =
+              (int index) {}; // Hàm callback rỗng hoặc hàm cụ thể của bạn
+          return BookingPage(callback);
+        },
+      ),
+      GetPage(
+        name: ChooseBranchesPage.ChooseBranchesPageRoute,
+        page: () {
+          final bookingBloc = BlocProvider.of<BookingBloc>(Get.context!);
+          return ChooseBranchesPage(bookingBloc: bookingBloc);
+        },
       ),
     ];
   }
