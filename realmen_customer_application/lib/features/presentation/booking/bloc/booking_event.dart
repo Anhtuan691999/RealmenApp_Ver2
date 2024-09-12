@@ -15,3 +15,12 @@ class BookingShowBranchEvent extends BookingEvent {}
 class ChooseBranchBookingSelectBranchEvent extends BookingEvent {}
 
 class ChooseBranchBookingSelectBranchGetBackEvent extends BookingEvent {}
+
+class ChooseBranchBookingSelectedBranchEvent extends BookingEvent {
+  final BranchDataModel selectedBranch;
+  const ChooseBranchBookingSelectedBranchEvent({
+    required this.selectedBranch,
+  });
+  @override
+  List<Object> get props => [selectedBranch];
+}

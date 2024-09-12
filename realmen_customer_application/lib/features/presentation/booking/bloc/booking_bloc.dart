@@ -14,6 +14,8 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<BookingShowBranchEvent>(_bookingShowBranchEvent);
     on<ChooseBranchBookingSelectBranchGetBackEvent>(
         _chooseBranchBookingSelectBranchGetBackEvent);
+    on<ChooseBranchBookingSelectedBranchEvent>(
+        _chooseBranchBookingSelectedBranchEvent);
   }
 
   FutureOr<void> _bookingInitialEvent(
@@ -28,5 +30,26 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       ChooseBranchBookingSelectBranchGetBackEvent event,
       Emitter<BookingState> emit) {
     emit(ChooseBranchBookingSelectBranchGetBackState());
+  }
+
+  FutureOr<void> _chooseBranchBookingSelectedBranchEvent(
+      ChooseBranchBookingSelectedBranchEvent event,
+      Emitter<BookingState> emit) async {
+    try {
+      emit(ChooseBranchBookingSelectedBranchState());
+
+      // Lấy trạng thái hiện tại nếu là BookingDataState
+      if (state is BookingDataState) {
+        final currentState = state as BookingDataState;
+
+        // Cập nhật state với chi nhánh mới
+        emit(currentState.copyWith(
+          selectedBranch: event.selectedBranch,
+        ));
+      } else {
+        // Nếu state hiện tại không phải BookingDataState, tạo state mới với chi nhánh được chọn
+        emit(BookingDataState(selectedBranch: event.selectedBranch));
+      }
+    } catch (e) {}
   }
 }

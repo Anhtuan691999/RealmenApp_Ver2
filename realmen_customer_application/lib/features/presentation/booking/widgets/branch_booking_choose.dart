@@ -21,11 +21,23 @@ class ChooseBranchBooking extends StatefulWidget {
 }
 
 class _ChooseBranchBookingState extends State<ChooseBranchBooking> {
+  String buttonText = 'Tất cả Barber REALMEN';
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BookingBloc, BookingState>(
       bloc: widget.bloc,
       builder: (context, state) {
+        BookingDataState? currentState;
+        if (state is BookingDataState) {
+          currentState = state;
+          if (currentState.selectedBranch != null) {
+            buttonText = currentState.selectedBranch!.branchName.toString();
+          } else {
+            buttonText = 'Tất cả Barber REALMEN';
+          }
+        }
+
         return TimelineTile(
           isLast: false,
           beforeLineStyle: const LineStyle(color: Colors.black, thickness: 2),
@@ -91,7 +103,7 @@ class _ChooseBranchBookingState extends State<ChooseBranchBooking> {
                                     child: Container(
                                       margin: const EdgeInsets.only(left: 10.0),
                                       child: Text(
-                                        'Tất cả Barber REALMEN',
+                                        buttonText,
                                         maxLines: 1,
                                         style: const TextStyle(
                                             overflow: TextOverflow.ellipsis,

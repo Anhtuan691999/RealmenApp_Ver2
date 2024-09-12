@@ -135,10 +135,7 @@ class ChooseBranchPageBloc
             branch.branchThumbnail = await reference.getDownloadURL();
           } catch (e) {
             try {
-              final random = Random();
-              var randomUrl = random.nextInt(urlList.length);
-              var reference = storage.ref('branch/${urlList[randomUrl]}');
-              branch.branchThumbnail = await reference.getDownloadURL();
+              branch.branchThumbnail = 'assets/image/${branch.branchThumbnail}';
             } catch (e) {
               final random = Random();
               var randomUrl = random.nextInt(urlList.length);
@@ -237,10 +234,7 @@ class ChooseBranchPageBloc
             branch.branchThumbnail = await reference.getDownloadURL();
           } catch (e) {
             try {
-              final random = Random();
-              var randomUrl = random.nextInt(urlList.length);
-              var reference = storage.ref('branch/${urlList[randomUrl]}');
-              branch.branchThumbnail = await reference.getDownloadURL();
+              branch.branchThumbnail = 'assets/image/${branch.branchThumbnail}';
             } catch (e) {
               final random = Random();
               var randomUrl = random.nextInt(urlList.length);

@@ -560,7 +560,11 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
                                                         ),
                                                         child: ElevatedButton(
                                                           onPressed: () {
-                                                            j
+                                                            widget.bookingBloc.add(
+                                                                ChooseBranchBookingSelectedBranchEvent(
+                                                                    selectedBranch:
+                                                                        currentState!
+                                                                            .branchList![index]));
                                                           },
                                                           style: ElevatedButton
                                                               .styleFrom(

@@ -43,6 +43,9 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
 
             case ChooseBranchBookingSelectBranchGetBackState:
               Get.back();
+
+            case ChooseBranchBookingSelectedBranchState:
+              Get.back();
           }
         },
         builder: (context, state) {
