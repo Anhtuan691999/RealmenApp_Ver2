@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
+import 'package:diacritic/diacritic.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart';
@@ -14,10 +15,20 @@ part 'choose_branch_page_state.dart';
 
 class ChooseBranchPageBloc
     extends Bloc<ChooseBranchPageEvent, ChooseBranchPageState> {
+  List<BranchDataModel> _branchList = [];
+  List<BranchDataModel> _branchListForAutocomplete = [];
+  List<String> _cities = [];
+  List<BranchProvince> _branchProvinceList = [];
+  String? _cityController;
+
   ChooseBranchPageBloc() : super(ChooseBranchPageInitial()) {
     on<ChooseBranchPageInitialEvent>(_chooseBranchPageInitialEvent);
     on<ChooseBranchLoadedBranchListEvent>(_chooseBranchLoadedBranchListEvent);
     on<LoadedBranchNearEvent>(_loadedBranchNearEvent);
+    on<AutocompleteOptionsBuilderEvent>(_autocompleteOptionsBuilderEvent);
+    on<AutocompleteOnSelectedEvent>(_autocompleteOnSelectedEvent);
+    on<SearchOnSubmitEvent>(_searchOnSubmitEvent);
+    on<ClearSearchEvent>(_clearSearchEvent);
   }
 
   FutureOr<void> _chooseBranchPageInitialEvent(
@@ -43,7 +54,7 @@ class ChooseBranchPageBloc
           cities.add(branchProvince.province.toString());
         }
       }
-      emit(LoadedBookingBranchListState(cities: cities));
+      _cities = cities;
 
       add(ChooseBranchLoadedBranchListEvent());
     } catch (e) {}
@@ -53,17 +64,6 @@ class ChooseBranchPageBloc
       ChooseBranchLoadedBranchListEvent event,
       Emitter<ChooseBranchPageState> emit) async {
     // get current state data
-    List<String>? currentCities = (state is LoadedBookingBranchListState)
-        ? (state as LoadedBookingBranchListState).cities
-        : [];
-    List<BranchDataModel>? currentBranchList =
-        (state is LoadedBookingBranchListState)
-            ? (state as LoadedBookingBranchListState).branchList
-            : [];
-
-    String currentCityController = (state is LoadedBookingBranchListState)
-        ? (state as LoadedBookingBranchListState).cityController ?? "TP/Tỉnh"
-        : "TP/Tỉnh";
 
     emit(LoadingBookingBranchListState());
     final IBranchRepository branchRepository = BranchRepository();
@@ -162,20 +162,19 @@ class ChooseBranchPageBloc
           }
         });
       }
-
+      _branchList = branchsList;
       emit(LoadedBookingBranchListState(
           branchList: branchsList,
+          branchListForAutocomplete: branchsList,
           cityController: cityController,
-          cities: currentCities));
+          cities: _cities));
     } catch (e) {}
   }
 
   FutureOr<void> _loadedBranchNearEvent(
       LoadedBranchNearEvent event, Emitter<ChooseBranchPageState> emit) async {
     // currentCities
-    List<String>? currentCities = (state is LoadedBookingBranchListState)
-        ? (state as LoadedBookingBranchListState).cities
-        : [];
+
     emit(LoadingBookingBranchListState());
 
     final IBranchRepository branchRepository = BranchRepository();
@@ -262,11 +261,77 @@ class ChooseBranchPageBloc
           }
         });
       }
-
+      _branchList = branchsList;
+      _cityController = cityController;
       emit(LoadedBookingBranchListState(
           branchList: branchsList,
+          branchListForAutocomplete: branchsList,
           cityController: cityController,
-          cities: currentCities));
+          cities: _cities));
     } catch (e) {}
+  }
+
+  FutureOr<void> _autocompleteOptionsBuilderEvent(
+      AutocompleteOptionsBuilderEvent event,
+      Emitter<ChooseBranchPageState> emit) {
+    // try {
+    //   dynamic branchList;
+    //   if (event.textEditingValue.text.isEmpty ||
+    //       event.textEditingValue.text == '') {
+    //   } else if (_branchList.isNotEmpty) {
+    //     branchList = _branchList
+    //         .where((element) => removeDiacritics(element.branchName!)
+    //             .toLowerCase()
+    //             .contains(removeDiacritics(event.textEditingValue.text
+    //                     .split(' - ')[0]
+    //                     .toString()
+    //                     .trim())
+    //                 .toLowerCase()))
+    //         .toList();
+    //   }
+
+    //   emit(LoadedBookingBranchListState(
+    //       branchList: branchList as List<BranchDataModel>,
+    //       cities: _cities,
+    //       cityController: _cityController));
+    // } catch (e) {
+    emit(LoadedBookingBranchListState(
+        branchList: _branchList,
+        cities: _cities,
+        cityController: _cityController));
+    // }
+  }
+
+  FutureOr<void> _autocompleteOnSelectedEvent(
+      AutocompleteOnSelectedEvent event, Emitter<ChooseBranchPageState> emit) {
+    try {
+      _branchListForAutocomplete = [];
+      _branchListForAutocomplete!.add(event.address!);
+      emit(AutocompleteOnSelectedState());
+      emit(LoadedBookingBranchListState(
+          branchList: _branchListForAutocomplete,
+          branchListForAutocomplete: _branchList,
+          cities: _cities,
+          cityController: _cityController));
+    } catch (e) {}
+  }
+
+  FutureOr<void> _searchOnSubmitEvent(
+      SearchOnSubmitEvent event, Emitter<ChooseBranchPageState> emit) {
+    emit(SearchOnSubmitState());
+    emit(LoadedBookingBranchListState(
+        branchList: _branchListForAutocomplete,
+        branchListForAutocomplete: _branchList,
+        cities: _cities,
+        cityController: _cityController));
+  }
+
+  FutureOr<void> _clearSearchEvent(
+      ClearSearchEvent event, Emitter<ChooseBranchPageState> emit) {
+    // emit(LoadedBookingBranchListState(
+    //     branchList: _branchList,
+    //     branchListForAutocomplete: _branchList,
+    //     cities: _cities,
+    //     cityController: _cityController));
   }
 }

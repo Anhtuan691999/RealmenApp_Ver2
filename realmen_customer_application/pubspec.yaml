@@ -116,6 +116,9 @@ dependencies:
   # So sánh 2 Obj sp Models
   equatable: ^2.0.5
 
+  # xóa dấu
+  diacritic: ^0.1.5
+
 
 
 dev_dependencies:

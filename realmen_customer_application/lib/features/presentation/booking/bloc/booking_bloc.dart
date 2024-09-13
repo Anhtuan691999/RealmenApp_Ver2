@@ -9,6 +9,13 @@ part 'booking_event.dart';
 part 'booking_state.dart';
 
 class BookingBloc extends Bloc<BookingEvent, BookingState> {
+  BranchDataModel? _selectedBranch;
+  List<ServiceDataModel>? _selectedService;
+  // AccountInfoModel? _selectedStylist;
+  // AccountInfoModel? _selectedMassur;
+  dynamic _selectedDate;
+  dynamic _selectedTime;
+
   BookingBloc() : super(BookingInitial()) {
     on<BookingInitialEvent>(_bookingInitialEvent);
     on<BookingShowBranchEvent>(_bookingShowBranchEvent);
@@ -37,18 +44,16 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       Emitter<BookingState> emit) async {
     try {
       emit(ChooseBranchBookingSelectedBranchState());
-
-      // Lấy trạng thái hiện tại nếu là BookingDataState
-      if (state is BookingDataState) {
-        final currentState = state as BookingDataState;
-
-        // Cập nhật state với chi nhánh mới
-        emit(currentState.copyWith(
-          selectedBranch: event.selectedBranch,
-        ));
-      } else {
+      if (_selectedBranch != event.selectedBranch) {
         // Nếu state hiện tại không phải BookingDataState, tạo state mới với chi nhánh được chọn
         emit(BookingDataState(selectedBranch: event.selectedBranch));
+        _selectedBranch = event.selectedBranch;
+      } else {
+        // Cập nhật state với chi nhánh mới
+        emit(BookingDataState().copyWith(
+          selectedBranch: event.selectedBranch,
+        ));
+        _selectedBranch = event.selectedBranch;
       }
     } catch (e) {}
   }

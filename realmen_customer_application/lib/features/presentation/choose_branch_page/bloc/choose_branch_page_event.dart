@@ -17,3 +17,23 @@ class ChooseBranchLoadedBranchListEvent extends ChooseBranchPageEvent {
 }
 
 class LoadedBranchNearEvent extends ChooseBranchPageEvent {}
+
+class AutocompleteOptionsBuilderEvent extends ChooseBranchPageEvent {
+  final dynamic textEditingValue;
+  final String? cityController;
+  AutocompleteOptionsBuilderEvent({
+    this.textEditingValue,
+    this.cityController,
+  });
+}
+
+class AutocompleteOnSelectedEvent extends ChooseBranchPageEvent {
+  BranchDataModel? address;
+  AutocompleteOnSelectedEvent({
+    this.address,
+  });
+}
+
+class SearchOnSubmitEvent extends ChooseBranchPageEvent {}
+
+class ClearSearchEvent extends ChooseBranchPageEvent {}
