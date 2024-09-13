@@ -19,6 +19,20 @@ class BookingPage extends StatefulWidget {
 class _BookingPageState extends State<BookingPage>
     with SingleTickerProviderStateMixin {
   final BookingBloc bookingBloc = BookingBloc();
+  late TabController _tabController;
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    bookingBloc.add(BookingInitialEvent());
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
@@ -236,18 +250,5 @@ class _BookingPageState extends State<BookingPage>
         ],
       )),
     );
-  }
-
-  late TabController _tabController;
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
   }
 }

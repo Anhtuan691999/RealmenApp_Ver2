@@ -16,7 +16,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:realmen_customer_application/features/data/models/branch_model.dart';
 import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
-import 'package:realmen_customer_application/features/presentation/choose_branch_page/bloc/choose_branch_page_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/booking/pages/choose_branch_page/bloc/choose_branch_page_bloc.dart';
 
 import 'package:sizer/sizer.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';

@@ -48,12 +48,16 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         // Nếu state hiện tại không phải BookingDataState, tạo state mới với chi nhánh được chọn
         emit(BookingDataState(selectedBranch: event.selectedBranch));
         _selectedBranch = event.selectedBranch;
+        emit(ChooseBranchBookingSelectedBranchState(
+            selectedBranch: _selectedBranch));
       } else {
         // Cập nhật state với chi nhánh mới
         emit(BookingDataState().copyWith(
           selectedBranch: event.selectedBranch,
         ));
         _selectedBranch = event.selectedBranch;
+        emit(ChooseBranchBookingSelectedBranchState(
+            selectedBranch: _selectedBranch));
       }
     } catch (e) {}
   }

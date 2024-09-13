@@ -44,4 +44,9 @@ class ShowBookingBranchState extends BookingState {}
 
 class ChooseBranchBookingSelectBranchGetBackState extends BookingState {}
 
-class ChooseBranchBookingSelectedBranchState extends BookingState {}
+class ChooseBranchBookingSelectedBranchState extends BookingState {
+  BranchDataModel? selectedBranch;
+  ChooseBranchBookingSelectedBranchState({
+    this.selectedBranch,
+  });
+}

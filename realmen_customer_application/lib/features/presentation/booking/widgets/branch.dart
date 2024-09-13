@@ -4,31 +4,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:realmen_customer_application/features/data/models/branch_model.dart';
 import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
-import 'package:realmen_customer_application/features/presentation/choose_branch_page/choose_branch_page.dart';
-import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_booking_choose.dart';
+import 'package:realmen_customer_application/features/presentation/booking/pages/choose_branch_page/choose_branch_page.dart';
+import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_branch.dart';
+import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_date/branch_choose_date.dart';
 import 'package:sizer/sizer.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class BranchOptionBooking extends StatefulWidget {
   final BookingBloc bloc;
-  BranchOptionBooking(this.callback, {super.key, required this.bloc});
   Function? callback;
+  BranchOptionBooking(this.callback, {super.key, required this.bloc});
   @override
   State<BranchOptionBooking> createState() => _BranchOptionBookingState();
 }
 
 class _BranchOptionBookingState extends State<BranchOptionBooking>
     with AutomaticKeepAliveClientMixin {
+  BranchDataModel? selectedBranch;
   @override
   bool get wantKeepAlive => true;
-
-  @override
-  void initState() {
-    print('BookingBloc instance: ${widget.bloc}');
-    widget.bloc.add(BookingInitialEvent());
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +41,8 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
               Get.back();
 
             case ChooseBranchBookingSelectedBranchState:
+              selectedBranch = (state as ChooseBranchBookingSelectedBranchState)
+                  .selectedBranch;
               Get.back();
           }
         },
@@ -55,50 +53,10 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
               // 1 chon chi nhanh
               ChooseBranchBooking(bloc: widget.bloc),
 
-              // 2
-              // TimelineTile(
-              //   // false la hien thanh
-              //   isLast: false,
-              //   beforeLineStyle:
-              //       const LineStyle(color: Colors.black, thickness: 2),
-
-              //   // icon
-              //   indicatorStyle: IndicatorStyle(
-              //     color: Colors.transparent,
-              //     width: 35,
-              //     height: 40,
-              //     padding: const EdgeInsets.only(top: 4, bottom: 4, right: 5),
-              //     indicator: Image.asset('assets/images/logo-no-text.png'),
-              //     indicatorXY: 0.0,
-              //   ),
-
-              //   // content
-              //   endChild: selectedBranch.branchId != null &&
-              //           // selectedService != null &&
-              //           selectedService.isNotEmpty &&
-              //           selectedBranch.branchServiceList != null &&
-              //           selectedBranch.branchServiceList!.isNotEmpty
-              //       ? ChooseStylistAndDateTimeBooking(
-              //           onDateSelected: updateSelectedDate,
-              //           onTimeSelected: updateSelectedTime,
-              //           onStylistSelected: updateSelectedStylist,
-              //           accountStaffList: selectedBranch.accountStaffList!,
-              //           selectedService: selectedService,
-              //           onUpdatePostBooking: updatePostBooking,
-              //           onUpdateOption: updateOption,
-              //           openBranch: selectedBranch.open!,
-              //           closeBranch: selectedBranch.close!,
-              //           massuerList: massuerList,
-              //         )
-              //       : Container(
-              //           height: 150,
-              //           padding: const EdgeInsets.only(top: 10, right: 15),
-              //           constraints: const BoxConstraints(minHeight: 120),
-              //           child: const Text(
-              //             "3. Chọn stylist & ngày, giờ ",
-              //             style: TextStyle(fontSize: 20),
-              //           )),
-              // ),
+              // 2 chon ngay
+              selectedBranch != null
+                  ? ChooseDateBooking(bloc: widget.bloc)
+                  : Container(),
 
               // // 3
               // TimelineTile(
