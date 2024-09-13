@@ -58,7 +58,9 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
                   ? ChooseDateBooking(bloc: widget.bloc)
                   : Container(),
 
-              // // 3
+              // 3
+              // ChooseServiceBooking(bloc: widget.bloc)
+
               // TimelineTile(
               //   // false la hien thanh
               //   isLast: false,

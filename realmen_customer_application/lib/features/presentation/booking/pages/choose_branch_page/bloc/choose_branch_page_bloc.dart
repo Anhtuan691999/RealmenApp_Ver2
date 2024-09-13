@@ -274,27 +274,7 @@ class ChooseBranchPageBloc
   FutureOr<void> _autocompleteOptionsBuilderEvent(
       AutocompleteOptionsBuilderEvent event,
       Emitter<ChooseBranchPageState> emit) {
-    // try {
-    //   dynamic branchList;
-    //   if (event.textEditingValue.text.isEmpty ||
-    //       event.textEditingValue.text == '') {
-    //   } else if (_branchList.isNotEmpty) {
-    //     branchList = _branchList
-    //         .where((element) => removeDiacritics(element.branchName!)
-    //             .toLowerCase()
-    //             .contains(removeDiacritics(event.textEditingValue.text
-    //                     .split(' - ')[0]
-    //                     .toString()
-    //                     .trim())
-    //                 .toLowerCase()))
-    //         .toList();
-    //   }
-
-    //   emit(LoadedBookingBranchListState(
-    //       branchList: branchList as List<BranchDataModel>,
-    //       cities: _cities,
-    //       cityController: _cityController));
-    // } catch (e) {
+  
     emit(LoadedBookingBranchListState(
         branchList: _branchList,
         cities: _cities,
