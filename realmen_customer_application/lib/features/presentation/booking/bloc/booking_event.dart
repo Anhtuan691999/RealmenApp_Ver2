@@ -24,3 +24,16 @@ class ChooseBranchBookingSelectedBranchEvent extends BookingEvent {
   @override
   List<Object> get props => [selectedBranch];
 }
+
+class BookingShowServiceEvent extends BookingEvent {}
+
+class ChooseBranchBookingSelectedServiceEvent extends BookingEvent {
+  final List<ServiceDataModel> selectedServices;
+  const ChooseBranchBookingSelectedServiceEvent({
+    required this.selectedServices,
+  });
+  @override
+  List<Object> get props => [selectedServices];
+}
+
+class ChooseBranchBookingSelectServiceGetBackEvent extends BookingEvent {}

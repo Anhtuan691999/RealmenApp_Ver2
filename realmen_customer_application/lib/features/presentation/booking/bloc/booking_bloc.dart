@@ -10,7 +10,7 @@ part 'booking_state.dart';
 
 class BookingBloc extends Bloc<BookingEvent, BookingState> {
   BranchDataModel? _selectedBranch;
-  List<ServiceDataModel>? _selectedService;
+  List<ServiceDataModel> _selectedServices = [];
   // AccountInfoModel? _selectedStylist;
   // AccountInfoModel? _selectedMassur;
   dynamic _selectedDate;
@@ -23,6 +23,11 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         _chooseBranchBookingSelectBranchGetBackEvent);
     on<ChooseBranchBookingSelectedBranchEvent>(
         _chooseBranchBookingSelectedBranchEvent);
+    on<BookingShowServiceEvent>(_bookingShowServiceEvent);
+    on<ChooseBranchBookingSelectServiceGetBackEvent>(
+        _chooseBranchBookingSelectServiceGetBackEvent);
+    on<ChooseBranchBookingSelectedServiceEvent>(
+        _chooseBranchBookingSelectedServiceEvent);
   }
 
   FutureOr<void> _bookingInitialEvent(
@@ -43,7 +48,6 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       ChooseBranchBookingSelectedBranchEvent event,
       Emitter<BookingState> emit) async {
     try {
-      emit(ChooseBranchBookingSelectedBranchState());
       if (_selectedBranch != event.selectedBranch) {
         // Nếu state hiện tại không phải BookingDataState, tạo state mới với chi nhánh được chọn
         emit(BookingDataState(selectedBranch: event.selectedBranch));
@@ -60,5 +64,28 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
             selectedBranch: _selectedBranch));
       }
     } catch (e) {}
+  }
+
+  FutureOr<void> _bookingShowServiceEvent(
+      BookingShowServiceEvent event, Emitter<BookingState> emit) async {
+    emit(BookingShowServiceState());
+  }
+
+  FutureOr<void> _chooseBranchBookingSelectedServiceEvent(
+      ChooseBranchBookingSelectedServiceEvent event,
+      Emitter<BookingState> emit) async {
+    try {
+      _selectedServices = event.selectedServices;
+      emit(ChooseBranchBookingSelectedServiceState(
+          selectedServices: _selectedServices));
+    } catch (e) {
+      emit(ChooseBranchBookingSelectedServiceState(selectedServices: const []));
+    }
+  }
+
+  FutureOr<void> _chooseBranchBookingSelectServiceGetBackEvent(
+      ChooseBranchBookingSelectServiceGetBackEvent event,
+      Emitter<BookingState> emit) {
+    emit(ChooseBranchBookingSelectServiceGetBackState());
   }
 }

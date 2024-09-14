@@ -78,3 +78,12 @@ class ServiceDataModel {
     return 'ServiceDataModel(shopServiceId: $shopServiceId, branchId: $branchId, shopServiceName: $shopServiceName, shopServicePrice: $shopServicePrice, shopServiceThumbnail: $shopServiceThumbnail, shopCategoryId: $shopCategoryId, shopCategoryCode: $shopCategoryCode, shopCategoryName: $shopCategoryName, serviceDisplays: $serviceDisplays)';
   }
 }
+
+class ServiceCategoryModel {
+  String? title;
+  List<ServiceDataModel>? services;
+  ServiceCategoryModel({
+    this.title,
+    this.services,
+  });
+}

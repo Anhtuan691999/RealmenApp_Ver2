@@ -50,3 +50,14 @@ class ChooseBranchBookingSelectedBranchState extends BookingState {
     this.selectedBranch,
   });
 }
+
+class BookingShowServiceState extends BookingState {}
+
+class ChooseBranchBookingSelectedServiceState extends BookingState {
+  List<ServiceDataModel> selectedServices;
+  ChooseBranchBookingSelectedServiceState({
+    required this.selectedServices,
+  });
+}
+
+class ChooseBranchBookingSelectServiceGetBackState extends BookingState {}

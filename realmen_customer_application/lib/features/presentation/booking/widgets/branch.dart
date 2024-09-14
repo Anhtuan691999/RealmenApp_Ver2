@@ -5,10 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:realmen_customer_application/features/data/models/branch_model.dart';
+import 'package:realmen_customer_application/features/data/models/service_model.dart';
 import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/booking/pages/choose_branch_page/choose_branch_page.dart';
+import 'package:realmen_customer_application/features/presentation/booking/pages/choose_service_page/choose_service_page.dart';
 import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_branch.dart';
 import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_date/branch_choose_date.dart';
+import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_service.dart';
 import 'package:sizer/sizer.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
@@ -22,13 +25,14 @@ class BranchOptionBooking extends StatefulWidget {
 
 class _BranchOptionBookingState extends State<BranchOptionBooking>
     with AutomaticKeepAliveClientMixin {
-  BranchDataModel? selectedBranch;
   @override
   bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    BranchDataModel? selectedBranch;
+    List<ServiceDataModel> selectedServices = [];
     return BlocProvider.value(
       value: widget.bloc,
       child: BlocConsumer<BookingBloc, BookingState>(
@@ -43,6 +47,19 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
             case ChooseBranchBookingSelectedBranchState:
               selectedBranch = (state as ChooseBranchBookingSelectedBranchState)
                   .selectedBranch;
+              Get.back();
+
+            case BookingShowServiceState:
+              Get.to(() => ChooseServicesPage(
+                  bookingBloc: widget.bloc,
+                  branchId: selectedBranch!.branchId!,
+                  selectedServices: selectedServices));
+            case ChooseBranchBookingSelectServiceGetBackState:
+              Get.back();
+            case ChooseBranchBookingSelectedServiceState:
+              selectedServices =
+                  (state as ChooseBranchBookingSelectedServiceState)
+                      .selectedServices;
               Get.back();
           }
         },
@@ -59,8 +76,11 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
                   : Container(),
 
               // 3
-              // ChooseServiceBooking(bloc: widget.bloc)
-
+              selectedBranch != null
+                  ? ChooseServiceBooking(
+                      bloc: widget.bloc,
+                    )
+                  : Container(),
               // TimelineTile(
               //   // false la hien thanh
               //   isLast: false,

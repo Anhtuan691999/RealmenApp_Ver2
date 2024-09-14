@@ -176,9 +176,9 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
                                               fontSize: 18,
                                             ),
                                           ),
-                                          Text(
+                                          const Text(
                                             "Tận hưởng trải nghiệm cắt tóc nam đỉnh \ncao tại các chi nhánh của RealMen trải dài khắp \n Hà Nội, TP.HCM và các tỉnh lân cận!",
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w400,
                                               fontSize: 16,
@@ -321,7 +321,7 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
                                           child: Material(
                                             elevation: 4.0,
                                             child: ConstrainedBox(
-                                              constraints: BoxConstraints(
+                                              constraints: const BoxConstraints(
                                                   maxHeight: 200),
                                               child: Container(
                                                 width: 90.w,
@@ -709,7 +709,7 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
                                                 },
                                               )
                                             : Container(
-                                                child: Center(
+                                                child: const Center(
                                                   child: Text(
                                                     "Không tìm thấy Barber.\nVui lòng thử lại.",
                                                     textAlign: TextAlign.center,
