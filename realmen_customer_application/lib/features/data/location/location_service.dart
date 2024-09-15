@@ -59,7 +59,7 @@ class LocationService extends ILocationService {
     try {
       position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.best,
-          timeLimit: Duration(seconds: 60));
+          timeLimit: const Duration(seconds: 60));
       prefs.setDouble("longitude", position.longitude.abs());
       prefs.setDouble("latitude", position.latitude.abs());
       return position;

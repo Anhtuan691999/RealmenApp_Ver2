@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: library_private_types_in_public_api, constant_identifier_names, avoid_print, prefer_typing_uninitialized_variables
 
-import 'dart:convert';
-import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -27,11 +25,11 @@ class ChooseServicesPage extends StatefulWidget {
       "/choose-service-booking-page";
 
   ChooseServicesPage({
-    Key? key,
+    super.key,
     required this.branchId,
     required this.bookingBloc,
     required this.selectedServices,
-  }) : super(key: key);
+  });
 }
 
 class _ChooseServicesPageState extends State<ChooseServicesPage> {
@@ -424,7 +422,7 @@ class _ChooseServicesPageState extends State<ChooseServicesPage> {
                                                                   style:
                                                                       ButtonStyle(
                                                                     backgroundColor:
-                                                                        MaterialStateProperty.all<
+                                                                        WidgetStateProperty.all<
                                                                             Color>(
                                                                       isSelected
                                                                           ? Colors
@@ -432,7 +430,7 @@ class _ChooseServicesPageState extends State<ChooseServicesPage> {
                                                                           : Colors
                                                                               .white,
                                                                     ),
-                                                                    shape: MaterialStateProperty
+                                                                    shape: WidgetStateProperty
                                                                         .all<
                                                                             RoundedRectangleBorder>(
                                                                       RoundedRectangleBorder(
@@ -484,10 +482,10 @@ class _ChooseServicesPageState extends State<ChooseServicesPage> {
                                                 },
                                                 style: ButtonStyle(
                                                   backgroundColor:
-                                                      MaterialStateProperty.all<
+                                                      WidgetStateProperty.all<
                                                           Color>(Colors.black),
                                                   shape:
-                                                      MaterialStateProperty.all<
+                                                      WidgetStateProperty.all<
                                                           RoundedRectangleBorder>(
                                                     RoundedRectangleBorder(
                                                       borderRadius:

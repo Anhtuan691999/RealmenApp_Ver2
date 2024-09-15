@@ -1,19 +1,12 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, constant_identifier_names, avoid_print, use_build_context_synchronously, duplicate_ignore, prefer_conditional_assignment
 
 import 'dart:async';
-import 'dart:convert';
-import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:diacritic/diacritic.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
 
-import 'package:provider/provider.dart';
 import 'package:realmen_customer_application/features/data/models/branch_model.dart';
 import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/booking/pages/choose_branch_page/bloc/choose_branch_page_bloc.dart';
@@ -51,7 +44,7 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
       bloc: chooseBranchPageBloc,
       builder: (context, state) {
         LoadedBookingBranchListState? currentState;
-        FutureOr<Iterable<BranchDataModel>> _autocompleteBranchList =
+        FutureOr<Iterable<BranchDataModel>> autocompleteBranchList =
             const Iterable.empty();
 
         if (state is LoadedBookingBranchListState) {
@@ -223,7 +216,7 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
                                           return const Iterable.empty();
                                         } else if (currentState!
                                             .branchList!.isNotEmpty) {
-                                          var optionsBuilderBranchList = currentState!
+                                          var optionsBuilderBranchList = currentState
                                               .branchListForAutocomplete!
                                               .where((element) =>
                                                   removeDiacritics(
@@ -323,7 +316,7 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
                                             child: ConstrainedBox(
                                               constraints: const BoxConstraints(
                                                   maxHeight: 200),
-                                              child: Container(
+                                              child: SizedBox(
                                                 width: 90.w,
                                                 child: ListView.builder(
                                                   padding: EdgeInsets.zero,
@@ -490,7 +483,7 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
                                                       // radius: const Radius.circular(40),
                                                       // thickness: MaterialStateProperty.all(6),
                                                       thumbVisibility:
-                                                          MaterialStateProperty
+                                                          WidgetStateProperty
                                                               .all(true),
                                                     ),
                                                   ),
@@ -518,7 +511,7 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
                                                 shrinkWrap: true,
                                                 physics:
                                                     const NeverScrollableScrollPhysics(),
-                                                itemCount: currentState!
+                                                itemCount: currentState
                                                     .branchList!.length,
                                                 itemBuilder: (context, index) {
                                                   return Column(

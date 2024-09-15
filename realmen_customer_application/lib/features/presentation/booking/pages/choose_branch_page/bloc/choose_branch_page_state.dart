@@ -2,7 +2,7 @@
 part of 'choose_branch_page_bloc.dart';
 
 sealed class ChooseBranchPageState extends Equatable {
-  ChooseBranchPageState();
+  const ChooseBranchPageState();
 
   @override
   List<Object?> get props => [];

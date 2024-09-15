@@ -47,8 +47,7 @@ class RouteGenerator {
       GetPage(
         name: BookingPage.BookingPageRoute,
         page: () {
-          final callback =
-              (int index) {}; // Hàm callback rỗng hoặc hàm cụ thể của bạn
+          callback(int index) {} // Hàm callback rỗng hoặc hàm cụ thể của bạn
           return BookingPage(callback);
         },
       ),

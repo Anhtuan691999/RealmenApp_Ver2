@@ -2,10 +2,8 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
-import 'package:diacritic/diacritic.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:http/http.dart';
 import 'package:realmen_customer_application/core/utils/utf8_encoding.dart';
 import 'package:realmen_customer_application/features/data/models/branch_model.dart';
 import 'package:realmen_customer_application/features/domain/repository/BranchRepo/branch_repository.dart';
@@ -18,7 +16,7 @@ class ChooseBranchPageBloc
   List<BranchDataModel> _branchList = [];
   List<BranchDataModel> _branchListForAutocomplete = [];
   List<String> _cities = [];
-  List<BranchProvince> _branchProvinceList = [];
+  final List<BranchProvince> _branchProvinceList = [];
   String? _cityController;
 
   ChooseBranchPageBloc() : super(ChooseBranchPageInitial()) {
@@ -56,7 +54,7 @@ class ChooseBranchPageBloc
       }
       _cities = cities;
 
-      add(ChooseBranchLoadedBranchListEvent());
+      add(const ChooseBranchLoadedBranchListEvent());
     } catch (e) {}
   }
 
@@ -71,7 +69,7 @@ class ChooseBranchPageBloc
     // cities option
     String cityController = event.cityController ?? "TP/Tỉnh";
     // branch  data
-    var branchs;
+    Map<String, dynamic> branchs;
     var branchsStatus;
     var branchsBody;
     List<BranchDataModel> branchsList = [];
@@ -181,7 +179,7 @@ class ChooseBranchPageBloc
     final storage = FirebaseStorage.instance;
     // cities option
     String cityController = "TP/Tỉnh";
-    var branchs;
+    Map<String, dynamic> branchs;
     var branchsStatus;
     var branchsBody;
     int totalPage = 3;
@@ -286,7 +284,7 @@ class ChooseBranchPageBloc
       AutocompleteOnSelectedEvent event, Emitter<ChooseBranchPageState> emit) {
     try {
       _branchListForAutocomplete = [];
-      _branchListForAutocomplete!.add(event.address!);
+      _branchListForAutocomplete.add(event.address!);
       emit(AutocompleteOnSelectedState());
       emit(LoadedBookingBranchListState(
           branchList: _branchListForAutocomplete,

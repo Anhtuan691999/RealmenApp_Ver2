@@ -13,7 +13,7 @@ class ChooseBranchPageInitialEvent extends ChooseBranchPageEvent {}
 class ChooseBranchLoadedBranchListEvent extends ChooseBranchPageEvent {
   final String? search;
   final String? cityController;
-  ChooseBranchLoadedBranchListEvent({this.search, this.cityController});
+  const ChooseBranchLoadedBranchListEvent({this.search, this.cityController});
 }
 
 class LoadedBranchNearEvent extends ChooseBranchPageEvent {}
@@ -21,7 +21,7 @@ class LoadedBranchNearEvent extends ChooseBranchPageEvent {}
 class AutocompleteOptionsBuilderEvent extends ChooseBranchPageEvent {
   final dynamic textEditingValue;
   final String? cityController;
-  AutocompleteOptionsBuilderEvent({
+  const AutocompleteOptionsBuilderEvent({
     this.textEditingValue,
     this.cityController,
   });

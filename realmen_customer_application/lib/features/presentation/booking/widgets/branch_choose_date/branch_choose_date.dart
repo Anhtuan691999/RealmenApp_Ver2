@@ -1,7 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_date/bloc/branch_choose_date_bloc.dart';
 import 'package:timeline_tile/timeline_tile.dart';
@@ -18,7 +17,7 @@ class ChooseDateBooking extends StatefulWidget {
 }
 
 class _ChooseDateBookingState extends State<ChooseDateBooking> {
-  BranchChooseDateBloc _branchChooseDateBloc = BranchChooseDateBloc();
+  final BranchChooseDateBloc _branchChooseDateBloc = BranchChooseDateBloc();
   @override
   void initState() {
     super.initState();
@@ -280,7 +279,7 @@ class _ChooseDateBookingState extends State<ChooseDateBooking> {
                                               // radius: const Radius.circular(40),
                                               // thickness: MaterialStateProperty.all(6),
                                               thumbVisibility:
-                                                  MaterialStateProperty.all(
+                                                  WidgetStateProperty.all(
                                                       true),
                                             ),
                                           ),

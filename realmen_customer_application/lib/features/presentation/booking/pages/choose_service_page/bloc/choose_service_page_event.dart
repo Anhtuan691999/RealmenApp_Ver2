@@ -11,7 +11,7 @@ sealed class ChooseServicePageEvent extends Equatable {
 class ChooseServicePageInitialEvent extends ChooseServicePageEvent {
   final int branchId;
   final List<ServiceDataModel> selectedServices;
-  ChooseServicePageInitialEvent({
+  const ChooseServicePageInitialEvent({
     required this.branchId,
     required this.selectedServices,
   });

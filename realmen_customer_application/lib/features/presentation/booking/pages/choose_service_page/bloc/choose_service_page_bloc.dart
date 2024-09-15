@@ -12,7 +12,7 @@ class ChooseServicePageBloc
     extends Bloc<ChooseServicePageEvent, ChooseServicePageState> {
   List<ServiceDataModel> _servicesList = [];
   List<ServiceDataModel> _selectedServices = [];
-  List<ServiceCategoryModel> _serviceCatagoryList = [];
+  final List<ServiceCategoryModel> _serviceCatagoryList = [];
 
   ChooseServicePageBloc() : super(ChooseServicePageInitial()) {
     on<ChooseServicePageInitialEvent>(_chooseServicePageInitialEvent);

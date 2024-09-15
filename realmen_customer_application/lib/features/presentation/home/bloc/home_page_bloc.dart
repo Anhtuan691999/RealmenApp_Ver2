@@ -32,7 +32,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
     var branchStatus = branchs["status"];
     var branchBody = branchs["body"];
     List<BranchDataModel> branchList = [];
-    var services;
+    Map<String, dynamic> services;
     // Service Data
     try {
       services = await serviceRepository.getAllServices(1);

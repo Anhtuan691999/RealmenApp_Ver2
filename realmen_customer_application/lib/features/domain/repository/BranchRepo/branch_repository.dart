@@ -3,7 +3,6 @@ import 'package:realmen_customer_application/core/network/api/api_endpoints.dart
 import 'package:http/http.dart' as http;
 import 'package:realmen_customer_application/core/network/exceptions/app_exceptions.dart';
 import 'package:realmen_customer_application/core/network/exceptions/exception_handlers.dart';
-import 'package:realmen_customer_application/features/data/shared_preferences/shared_preferences.dart';
 
 abstract class IBranchRepository {
   Future<Map<String, dynamic>> getBranch(String? search, int? currentPage);

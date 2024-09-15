@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable, no_leading_underscores_for_local_identifiers
 
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +8,7 @@ import 'package:realmen_customer_application/features/presentation/booking/bloc/
 
 class ChooseServiceBooking extends StatefulWidget {
   final BookingBloc bloc;
-  ChooseServiceBooking({
+  const ChooseServiceBooking({
     super.key,
     required this.bloc,
   });
@@ -134,7 +133,7 @@ class _ChooseServiceBookingState extends State<ChooseServiceBooking> {
   }
 
   bool isActived = false;
-  bool _isDisposed = false;
+  final bool _isDisposed = false;
 
 //   _getTextContainers(List<BranchServiceModel> selectedServices) {
 // // Update your UI or perform other actions with selectedServices

@@ -1,12 +1,8 @@
 // ignore_for_file: avoid_print, must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
 
-import 'package:sizer/sizer.dart';
-import 'package:timeline_tile/timeline_tile.dart';
 
 class StylistOptionBooking extends StatefulWidget {
   final BookingBloc bloc;
@@ -25,7 +21,7 @@ class _StylistOptionBookingState extends State<StylistOptionBooking>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return SingleChildScrollView(
+    return const SingleChildScrollView(
         child: Column(
       children: [
         // 1
@@ -185,8 +181,4 @@ class _StylistOptionBookingState extends State<StylistOptionBooking>
     ));
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
 }

@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:realmen_customer_application/features/data/models/branch_model.dart';
 import 'package:realmen_customer_application/features/data/models/service_model.dart';
 import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
@@ -12,8 +11,6 @@ import 'package:realmen_customer_application/features/presentation/booking/pages
 import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_branch.dart';
 import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_date/branch_choose_date.dart';
 import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_service.dart';
-import 'package:sizer/sizer.dart';
-import 'package:timeline_tile/timeline_tile.dart';
 
 class BranchOptionBooking extends StatefulWidget {
   final BookingBloc bloc;
