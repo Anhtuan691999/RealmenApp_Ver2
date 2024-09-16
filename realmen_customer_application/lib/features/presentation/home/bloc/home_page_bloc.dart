@@ -92,8 +92,8 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
             var reference = storage.ref('service/${urlList[randomUrl]}');
             service.shopServiceThumbnail = await reference.getDownloadURL();
           }
-          service.shopServicePriceS = service.shopServicePrice! >= 0
-              ? "${numberFormat.format(service.shopServicePrice)} VNĐ"
+          service.shopServicePriceS = service.branchServicePrice! >= 0
+              ? "${numberFormat.format(service.branchServicePrice)} VNĐ"
               : "0 VNĐ";
         }
       }

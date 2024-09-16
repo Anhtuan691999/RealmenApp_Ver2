@@ -23,3 +23,5 @@ class ChooseServiceSelectedEvent extends ChooseServicePageEvent {
     required this.selectedService,
   });
 }
+
+class ChooseServicePageLoadedSuccessEvent extends ChooseServicePageEvent {}

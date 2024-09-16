@@ -2,12 +2,16 @@
 import 'dart:convert';
 
 class ServiceDataModel {
+  int? branchServiceId;
   int? shopServiceId;
   int? branchId;
+  int? dailyPlanId;
   String? shopServiceName;
-  int? shopServicePrice;
+  int? branchServicePrice;
   String? shopServiceThumbnail;
-  int? shopCategoryId;
+  int? estimateDuration;
+  String? durationUnitCode;
+  String? durationUnitName;
   String? shopCategoryCode;
   String? shopCategoryName;
   String? serviceDisplays;
@@ -15,26 +19,35 @@ class ServiceDataModel {
   // bổ sung
   String? shopServicePriceS;
 
-  ServiceDataModel(
-      {this.shopServiceId,
-      this.branchId,
-      this.shopServiceName,
-      this.shopServicePrice,
-      this.shopServiceThumbnail,
-      this.shopCategoryId,
-      this.shopCategoryCode,
-      this.shopCategoryName,
-      this.serviceDisplays,
-      this.shopServicePriceS});
+  ServiceDataModel({
+    this.branchServiceId,
+    this.shopServiceId,
+    this.branchId,
+    this.dailyPlanId,
+    this.shopServiceName,
+    this.branchServicePrice,
+    this.shopServiceThumbnail,
+    this.estimateDuration,
+    this.durationUnitCode,
+    this.durationUnitName,
+    this.shopCategoryCode,
+    this.shopCategoryName,
+    this.serviceDisplays,
+    this.shopServicePriceS,
+  });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'branchServiceId': branchServiceId,
       'shopServiceId': shopServiceId,
       'branchId': branchId,
+      'dailyPlanId': dailyPlanId,
       'shopServiceName': shopServiceName,
-      'shopServicePrice': shopServicePrice,
+      'branchServicePrice': branchServicePrice,
       'shopServiceThumbnail': shopServiceThumbnail,
-      'shopCategoryId': shopCategoryId,
+      'estimateDuration': estimateDuration,
+      'durationUnitCode': durationUnitCode,
+      'durationUnitName': durationUnitName,
       'shopCategoryCode': shopCategoryCode,
       'shopCategoryName': shopCategoryName,
       'serviceDisplays': serviceDisplays,
@@ -43,28 +56,40 @@ class ServiceDataModel {
 
   factory ServiceDataModel.fromMap(Map<String, dynamic> map) {
     return ServiceDataModel(
+      branchServiceId:
+          map['branchServiceId'] != null ? map['branchServiceId'] as int : null,
       shopServiceId:
-          map['shopServiceId'] != null ? map['shopServiceId'] as int : 0,
-      branchId: map['branchId'] as dynamic,
+          map['shopServiceId'] != null ? map['shopServiceId'] as int : null,
+      branchId: map['branchId'] != null ? map['branchId'] as int : null,
+      dailyPlanId:
+          map['dailyPlanId'] != null ? map['dailyPlanId'] as int : null,
       shopServiceName: map['shopServiceName'] != null
           ? map['shopServiceName'] as String
-          : "",
-      shopServicePrice:
-          map['shopServicePrice'] != null ? map['shopServicePrice'] as int : 0,
+          : null,
+      branchServicePrice: map['branchServicePrice'] != null
+          ? map['branchServicePrice'] as int
+          : null,
       shopServiceThumbnail: map['shopServiceThumbnail'] != null
           ? map['shopServiceThumbnail'] as String
           : null,
-      shopCategoryId:
-          map['shopCategoryId'] != null ? map['shopCategoryId'] as int : null,
+      estimateDuration: map['estimateDuration'] != null
+          ? map['estimateDuration'] as int
+          : null,
+      durationUnitCode: map['durationUnitCode'] != null
+          ? map['durationUnitCode'] as String
+          : null,
+      durationUnitName: map['durationUnitName'] != null
+          ? map['durationUnitName'] as String
+          : null,
       shopCategoryCode: map['shopCategoryCode'] != null
           ? map['shopCategoryCode'] as String
           : null,
       shopCategoryName: map['shopCategoryName'] != null
           ? map['shopCategoryName'] as String
-          : "",
+          : null,
       serviceDisplays: map['serviceDisplays'] != null
           ? map['serviceDisplays'] as String
-          : "",
+          : null,
     );
   }
 
@@ -72,11 +97,6 @@ class ServiceDataModel {
 
   factory ServiceDataModel.fromJson(Map<String, dynamic> source) =>
       ServiceDataModel.fromMap(source);
-
-  @override
-  String toString() {
-    return 'ServiceDataModel(shopServiceId: $shopServiceId, branchId: $branchId, shopServiceName: $shopServiceName, shopServicePrice: $shopServicePrice, shopServiceThumbnail: $shopServiceThumbnail, shopCategoryId: $shopCategoryId, shopCategoryCode: $shopCategoryCode, shopCategoryName: $shopCategoryName, serviceDisplays: $serviceDisplays)';
-  }
 }
 
 class ServiceCategoryModel {

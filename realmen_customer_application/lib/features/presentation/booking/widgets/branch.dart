@@ -44,6 +44,9 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
             case ChooseBranchBookingSelectedBranchState:
               selectedBranch = (state as ChooseBranchBookingSelectedBranchState)
                   .selectedBranch;
+              selectedServices =
+                  (state as ChooseBranchBookingSelectedBranchState)
+                      .selectedServices;
               Get.back();
 
             case BookingShowServiceState:
@@ -67,74 +70,21 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
               // 1 chon chi nhanh
               ChooseBranchBooking(bloc: widget.bloc),
 
-              // 2 chon ngay
-              selectedBranch != null
-                  ? ChooseDateBooking(bloc: widget.bloc)
-                  : Container(),
-
-              // 3
+              // 2 chon chi nhanh
               selectedBranch != null
                   ? ChooseServiceBooking(
                       bloc: widget.bloc,
                     )
                   : Container(),
-              // TimelineTile(
-              //   // false la hien thanh
-              //   isLast: false,
-              //   beforeLineStyle:
-              //       const LineStyle(color: Colors.black, thickness: 2),
 
+              // 3 chon ngay
+              selectedBranch != null && selectedServices.isNotEmpty
+                  ? ChooseDateBooking(bloc: widget.bloc)
+                  : Container(),
+
+// 4 chon staff
               //   // icon
-              //   indicatorStyle: IndicatorStyle(
-              //     color: Colors.transparent,
-              //     width: 35,
-              //     height: 40,
-              //     padding: const EdgeInsets.only(top: 4, bottom: 4, right: 5),
-              //     indicator: Image.asset('assets/images/logo-no-text.png'),
-              //     indicatorXY: 0.0,
-              //   ),
 
-              //   // content
-              //   endChild: selectedBranch.branchId != null
-              //       ? (selectedBranch.branchServiceList != null &&
-              //               selectedBranch.branchServiceList!.isNotEmpty
-              //           ? ChooseServiceBooking(
-              //               onServiceSelected: updateSelectedService,
-              //               branchServiceList: selectedBranch.branchServiceList!,
-              //               isUpdateBranch: isUpdateBranch)
-              //           : Container(
-              //               height: 150,
-              //               padding: const EdgeInsets.only(top: 10, right: 15),
-              //               constraints: const BoxConstraints(minHeight: 120),
-              //               child: const Column(
-              //                 crossAxisAlignment: CrossAxisAlignment.start,
-              //                 children: [
-              //                   Text(
-              //                     "2. Chọn dịch vụ ",
-              //                     style: TextStyle(fontSize: 20),
-              //                   ),
-              //                   SizedBox(
-              //                     height: 10,
-              //                   ),
-              //                   Center(
-              //                     child: Text("Chi nhánh hiện chưa có dịch vụ."),
-              //                   ),
-              //                   Center(
-              //                     child: Text(
-              //                         "Quý khách hành vui lòng chọn Chi nhánh khác!"),
-              //                   ),
-              //                 ],
-              //               ),
-              //             ))
-              //       : Container(
-              //           height: 150,
-              //           padding: const EdgeInsets.only(top: 10, right: 15),
-              //           constraints: const BoxConstraints(minHeight: 120),
-              //           child: const Text(
-              //             "2. Chọn dịch vụ ",
-              //             style: TextStyle(fontSize: 20),
-              //           )),
-              // ),
               // // button Đặt Lịch
               // selectedBranch.branchId != null && selectedService != []
               //     ? Column(

@@ -49,19 +49,18 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       Emitter<BookingState> emit) async {
     try {
       if (_selectedBranch != event.selectedBranch) {
-        // Nếu state hiện tại không phải BookingDataState, tạo state mới với chi nhánh được chọn
         emit(BookingDataState(selectedBranch: event.selectedBranch));
         _selectedBranch = event.selectedBranch;
         emit(ChooseBranchBookingSelectedBranchState(
-            selectedBranch: _selectedBranch));
+            selectedBranch: _selectedBranch, selectedServices: []));
       } else {
-        // Cập nhật state với chi nhánh mới
         emit(BookingDataState().copyWith(
-          selectedBranch: event.selectedBranch,
-        ));
+            selectedBranch: event.selectedBranch,
+            selectedService: _selectedServices));
         _selectedBranch = event.selectedBranch;
         emit(ChooseBranchBookingSelectedBranchState(
-            selectedBranch: _selectedBranch));
+            selectedBranch: _selectedBranch,
+            selectedServices: _selectedServices));
       }
     } catch (e) {}
   }

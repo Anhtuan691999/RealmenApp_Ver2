@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_if_null_operators
 
-
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,14 +25,16 @@ class _ChooseBranchBookingState extends State<ChooseBranchBooking> {
     return BlocBuilder<BookingBloc, BookingState>(
       bloc: widget.bloc,
       builder: (context, state) {
-        BookingDataState? currentState;
-        if (state is BookingDataState) {
-          currentState = state;
-          if (currentState.selectedBranch != null) {
-            buttonText = currentState.selectedBranch!.branchName.toString();
-          } else {
-            buttonText = 'Tất cả Barber REALMEN';
-          }
+        // BookingDataState? currentState;
+        // if (state is BookingDataState) {
+        //   currentState = state;
+        //   if (currentState.selectedBranch != null) {
+        //     buttonText = currentState.selectedBranch!.branchName.toString();
+        //   }
+        // }
+        if (state is ChooseBranchBookingSelectedBranchState) {
+          buttonText =
+              '${(state as ChooseBranchBookingSelectedBranchState).selectedBranch!.branchName.toString()}-${(state as ChooseBranchBookingSelectedBranchState).selectedBranch!.branchAddress.toString()}';
         }
 
         return TimelineTile(

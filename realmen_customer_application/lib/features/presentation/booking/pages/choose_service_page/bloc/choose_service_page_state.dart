@@ -22,3 +22,5 @@ class ChooseServicePageLoadedSuccessState extends ChooseServicePageState {
 }
 
 class ChooseServicePageNoDataState extends ChooseServicePageState {}
+
+class ChooseServiceSelectedState extends ChooseServicePageState {}
