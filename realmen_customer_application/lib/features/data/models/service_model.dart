@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class ServiceDataModel {
+import 'package:equatable/equatable.dart';
+
+class ServiceDataModel extends Equatable {
   int? branchServiceId;
   int? shopServiceId;
   int? branchId;
@@ -35,6 +37,24 @@ class ServiceDataModel {
     this.serviceDisplays,
     this.shopServicePriceS,
   });
+
+  @override
+  List<Object?> get props => [
+        branchServiceId,
+        shopServiceId,
+        branchId,
+        dailyPlanId,
+        shopServiceName,
+        branchServicePrice,
+        shopServiceThumbnail,
+        estimateDuration,
+        durationUnitCode,
+        durationUnitName,
+        shopCategoryCode,
+        shopCategoryName,
+        serviceDisplays,
+        shopServicePriceS, // Bổ sung thuộc tính này
+      ];
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

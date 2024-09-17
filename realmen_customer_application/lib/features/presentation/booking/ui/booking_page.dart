@@ -104,7 +104,6 @@ class _BookingPageState extends State<BookingPage>
                           ),
                         ),
                         Container(
-                          color: Colors.amber,
                           width: 400,
                           height: 90.h - 50,
                           child: ListView(

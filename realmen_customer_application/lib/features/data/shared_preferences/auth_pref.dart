@@ -14,6 +14,14 @@ class AuthPref {
     return SharedPreferencesHelper.preferences.getString("phone") ?? "";
   }
 
+  static Future<void> setAccountId(String accountId) async {
+    await SharedPreferencesHelper.preferences.setString("accountId", accountId);
+  }
+
+  static String getAccountId() {
+    return SharedPreferencesHelper.preferences.getString("accountId") ?? "";
+  }
+
   static Future<void> setToken(String token) async {
     await SharedPreferencesHelper.preferences.setString("token", token);
   }

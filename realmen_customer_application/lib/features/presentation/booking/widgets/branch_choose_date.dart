@@ -1,48 +1,47 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
-import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_date/bloc/branch_choose_date_bloc.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
-class ChooseDateBooking extends StatefulWidget {
-  final BookingBloc bloc;
-  const ChooseDateBooking({
-    super.key,
+import 'package:realmen_customer_application/features/data/models/service_model.dart';
+import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
+
+class ChooseDateBooking extends StatelessWidget {
+  BookingBloc bloc;
+  final List<ServiceDataModel> selectedServices;
+  final bool isChangeService;
+
+  ChooseDateBooking({
+    Key? key,
     required this.bloc,
-  });
-
-  @override
-  State<ChooseDateBooking> createState() => _ChooseDateBookingState();
-}
-
-class _ChooseDateBookingState extends State<ChooseDateBooking> {
-  final BranchChooseDateBloc _branchChooseDateBloc = BranchChooseDateBloc();
-  @override
-  void initState() {
-    super.initState();
-    _branchChooseDateBloc.add(BranchChooseDateInitialEvent());
-  }
+    required this.selectedServices,
+    required this.isChangeService,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BranchChooseDateBloc, BranchChooseDateState>(
-      bloc: _branchChooseDateBloc,
+    String? dateController;
+    List<Map<String, dynamic>> listDate = [];
+    Map<String, dynamic>? selectedDate;
+    return BlocBuilder<BookingBloc, BookingState>(
+      bloc: bloc,
       builder: (context, state) {
-        String? dateController;
-        String? type;
-        List<Map<String, dynamic>> listDate = [];
-        Map<String, dynamic>? dateSeleted;
-        if (state is LoadDateState) {
-          dateController = state.dateController;
-          dateSeleted = state.dateSeleted;
-          listDate = state.listDate!;
-          type = state.type;
+        if (state is ChooseBranchBookingSelectedServiceState) {
+          bloc.add(
+              BranchChooseDateLoadedEvent(selectedServices: selectedServices));
+        } else if (state is BranchChooseDateLoadDateState) {
+          final BranchChooseDateLoadDateState currentState =
+              state as BranchChooseDateLoadDateState;
+          selectedDate = currentState.dateSeleted;
+          listDate = currentState.listDate!;
+          dateController = listDate.first['id'].toString();
         } else if (state is BranchChooseSelectDateState) {
-          dateController = state.dateController;
-          dateSeleted = state.dateSeleted;
-          type = state.type;
-          // widget.bloc.add(ChooseDateBookingSelectedDateEvent());
+          final BranchChooseSelectDateState currentState =
+              state as BranchChooseSelectDateState;
+          dateController = currentState.dateController!;
+          selectedDate = currentState.dateSeleted;
+          listDate = currentState.listDate!;
         }
         return TimelineTile(
           // false la hien thanh
@@ -68,7 +67,7 @@ class _ChooseDateBookingState extends State<ChooseDateBooking> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    "2. Chọn ngày ",
+                    "3. Chọn ngày ",
                     style: TextStyle(fontSize: 20),
                   ),
                   const SizedBox(
@@ -238,33 +237,9 @@ class _ChooseDateBookingState extends State<ChooseDateBooking> {
                                                   .toList()
                                               : [],
                                           onChanged: (value) {
-                                            // setstate
-                                            // setState(() {
-                                            //   dateController = value as String?;
-                                            //   dateSeleted = listDate!
-                                            //       .where((date) =>
-                                            //           date['id'] == value.toString())
-                                            //       .toList()
-                                            //       .first;
-                                            //   print("onchange: $dateSeleted");
-                                            //   type = dateSeleted!['type'].toString();
-                                            //   type == "Thứ bảy" || type == "Chủ nhật"
-                                            //       ? type = "Cuối tuần"
-                                            //       : type = "Ngày thường";
-                                            //   isCurrentDate = _isCurrentDate(
-                                            //       dateSeleted!['date']);
-                                            //   widget.onDateSelected(dateSeleted);
-                                            //   if (widget.oneToOne) {
-                                            //     widget.choseDateUpdateStylist!(
-                                            //         dateSeleted!['chosenDate']);
-                                            //   } else {
-                                            //     getTimeSlot(
-                                            //         dateSeleted!['chosenDate']);
-                                            //   }
-                                            // });
-
-                                            // timeSlotKey.currentState
-                                            //     ?.rebuildTimeslot();
+                                            bloc
+                                              ..add(BranchChooseSelectDateEvent(
+                                                  value: value));
                                           },
                                           dropdownStyleData: DropdownStyleData(
                                             maxHeight: 200,
@@ -279,8 +254,7 @@ class _ChooseDateBookingState extends State<ChooseDateBooking> {
                                               // radius: const Radius.circular(40),
                                               // thickness: MaterialStateProperty.all(6),
                                               thumbVisibility:
-                                                  WidgetStateProperty.all(
-                                                      true),
+                                                  WidgetStateProperty.all(true),
                                             ),
                                           ),
                                           menuItemStyleData:
@@ -303,7 +277,6 @@ class _ChooseDateBookingState extends State<ChooseDateBooking> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Container(
-                                        margin: const EdgeInsets.only(top: 30),
                                         height: 50,
                                         width: 50,
                                         child:

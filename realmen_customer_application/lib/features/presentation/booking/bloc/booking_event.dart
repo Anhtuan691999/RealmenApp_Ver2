@@ -37,3 +37,17 @@ class ChooseBranchBookingSelectedServiceEvent extends BookingEvent {
 }
 
 class ChooseBranchBookingSelectServiceGetBackEvent extends BookingEvent {}
+
+class BranchChooseSelectDateEvent extends BookingEvent {
+  Object? value;
+  BranchChooseSelectDateEvent({
+    this.value,
+  });
+}
+
+class BranchChooseDateLoadedEvent extends BookingEvent {
+  List<ServiceDataModel> selectedServices;
+  BranchChooseDateLoadedEvent({
+    required this.selectedServices,
+  });
+}

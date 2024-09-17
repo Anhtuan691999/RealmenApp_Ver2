@@ -110,6 +110,8 @@ class ChooseServicePageBloc
   FutureOr<void> _chooseServiceSelectedEvent(ChooseServiceSelectedEvent event,
       Emitter<ChooseServicePageState> emit) async {
     try {
+      emit(LoadingState());
+
       if (_selectedServices.isEmpty) {
         _selectedServices.add(event.selectedService);
       } else {
@@ -129,6 +131,8 @@ class ChooseServicePageBloc
       ChooseServicePageLoadedSuccessEvent event,
       Emitter<ChooseServicePageState> emit) async {
     try {
+      emit(LoadingState());
+
       emit(ChooseServicePageLoadedSuccessState(
           serviceCatagoryList: _serviceCatagoryList,
           selectedServices: _selectedServices));

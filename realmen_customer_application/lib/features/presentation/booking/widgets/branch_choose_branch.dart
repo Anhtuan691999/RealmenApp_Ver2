@@ -68,7 +68,6 @@ class _ChooseBranchBookingState extends State<ChooseBranchBooking> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    print('BookingBloc instance: ${widget.bloc}');
                     widget.bloc.add(BookingShowBranchEvent());
                   },
                   style: ElevatedButton.styleFrom(

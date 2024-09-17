@@ -40,6 +40,8 @@ class BookingDataState extends BookingState {
 
 final class BookingInitial extends BookingState {}
 
+class LoadingState extends BookingState {}
+
 class ShowBookingBranchState extends BookingState {}
 
 class ChooseBranchBookingSelectBranchGetBackState extends BookingState {}
@@ -61,3 +63,34 @@ class ChooseBranchBookingSelectedServiceState extends BookingState {
 }
 
 class ChooseBranchBookingSelectServiceGetBackState extends BookingState {}
+
+class ShowBookingDateState extends BookingState {}
+
+// choose date
+class BranchChooseDateLoadDateState extends BookingState {
+  List<Map<String, dynamic>>? listDate;
+  String? dateController;
+  Map<String, dynamic>? dateSeleted;
+
+  List<ServiceDataModel> selectedServices;
+  BranchChooseDateLoadDateState({
+    this.listDate,
+    this.dateController,
+    this.dateSeleted,
+    required this.selectedServices,
+  });
+}
+
+class BranchChooseSelectDateState extends BookingState {
+  String? dateController;
+  Map<String, dynamic>? dateSeleted;
+  List<ServiceDataModel> selectedServices;
+  List<Map<String, dynamic>>? listDate;
+
+  BranchChooseSelectDateState({
+    this.listDate,
+    this.dateController,
+    required this.selectedServices,
+    this.dateSeleted,
+  });
+}

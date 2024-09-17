@@ -9,7 +9,7 @@ import 'package:realmen_customer_application/features/presentation/booking/bloc/
 import 'package:realmen_customer_application/features/presentation/booking/pages/choose_branch_page/choose_branch_page.dart';
 import 'package:realmen_customer_application/features/presentation/booking/pages/choose_service_page/choose_service_page.dart';
 import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_branch.dart';
-import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_date/branch_choose_date.dart';
+import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_date.dart';
 import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_service.dart';
 
 class BranchOptionBooking extends StatefulWidget {
@@ -30,6 +30,9 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
     super.build(context);
     BranchDataModel? selectedBranch;
     List<ServiceDataModel> selectedServices = [];
+    Map<String, dynamic>? selectedDate;
+    bool isChangeService = false;
+
     return BlocProvider.value(
       value: widget.bloc,
       child: BlocConsumer<BookingBloc, BookingState>(
@@ -57,9 +60,11 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
             case ChooseBranchBookingSelectServiceGetBackState:
               Get.back();
             case ChooseBranchBookingSelectedServiceState:
+              isChangeService = true;
               selectedServices =
                   (state as ChooseBranchBookingSelectedServiceState)
                       .selectedServices;
+
               Get.back();
           }
         },
@@ -79,10 +84,13 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
 
               // 3 chon ngay
               selectedBranch != null && selectedServices.isNotEmpty
-                  ? ChooseDateBooking(bloc: widget.bloc)
+                  ? ChooseDateBooking(
+                      bloc: widget.bloc,
+                      selectedServices: selectedServices,
+                      isChangeService: isChangeService)
                   : Container(),
 
-// 4 chon staff
+              // 4 chon staff
               //   // icon
 
               // // button Đặt Lịch
