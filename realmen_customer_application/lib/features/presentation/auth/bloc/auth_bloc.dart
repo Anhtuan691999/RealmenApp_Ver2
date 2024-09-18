@@ -12,6 +12,7 @@ part 'auth_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
+  String? _phone;
   AuthenticationBloc() : super(AuthenticationInitial()) {
     on<AuthenticationInitialEvent>(_authenticationInitialEvent);
     on<AuthenticationShowCreateOtpEvent>(_authenticationShowCreateOtpEvent);
@@ -58,25 +59,26 @@ class AuthenticationBloc
   FutureOr<void> _authenticationInputPhoneEvent(
       AuthenticationInputPhoneEvent event,
       Emitter<AuthenticationState> emit) async {
-    // emit(AuthenticationLoadingState(isLoading: true));
-    // var results = await AuthRepository().createOtp(event.phone);
-    // var responseMessage = results['message'];
-    // var responseStatus = results['status'];
+    emit(AuthenticationLoadingState(isLoading: true));
+    var results = await AuthRepository().createOtp(event.phone);
+    var responseMessage = results['message'];
+    var responseStatus = results['status'];
 
-    // if (responseStatus) {
-    //   emit(AuthenticationLoadingState(isLoading: false));
-    //   AuthPref.setPhone(event.phone.toString());
-    //   emit(ShowLoginPageState());
-    // } else if (!responseStatus && results['statusCode'] == 404) {
-    //   emit(AuthenticationLoadingState(isLoading: false));
-    //   emit(ShowSnackBarActionState(
-    //       message: responseMessage, status: responseStatus));
-    //   emit(ShowRegisterPageState(phone: event.phone.toString()));
-    // } else {
-    //   emit(AuthenticationLoadingState(isLoading: false));
-    //   emit(ShowSnackBarActionState(
-    //       message: responseMessage, status: responseStatus));
-    // }
+    if (responseStatus) {
+      emit(AuthenticationLoadingState(isLoading: false));
+      _phone = event.phone;
+      AuthPref.setPhone(event.phone.toString());
+      emit(ShowLoginPageState());
+    } else if (!responseStatus && results['statusCode'] == 404) {
+      emit(AuthenticationLoadingState(isLoading: false));
+      emit(ShowSnackBarActionState(
+          message: responseMessage, status: responseStatus));
+      emit(ShowRegisterPageState(phone: event.phone.toString()));
+    } else {
+      emit(AuthenticationLoadingState(isLoading: false));
+      emit(ShowSnackBarActionState(
+          message: responseMessage, status: responseStatus));
+    }
 
     AuthPref.setPhone(event.phone.toString());
     emit(ShowLoginPageState());
@@ -162,27 +164,28 @@ class AuthenticationBloc
   }
 
   FutureOr<void> _authenticationResendOTPEvent(
-      AuthenticationResendOTPEvent event, Emitter<AuthenticationState> emit) {
+      AuthenticationResendOTPEvent event,
+      Emitter<AuthenticationState> emit) async {
     emit(LoadingState());
 
-    // var results = await AuthRepository().createOtp(event.phone);
-    // var responseMessage = results['message'];
-    // var responseStatus = results['status'];
+    var results = await AuthRepository().createOtp(_phone!);
+    var responseMessage = results['message'];
+    var responseStatus = results['status'];
 
-    // if (responseStatus) {
-    //   emit(AuthenticationLoadingState(isLoading: false));
-    //   AuthPref.setPhone(event.phone.toString());
-    //   emit(ShowLoginPageState());
-    // } else if (!responseStatus && results['statusCode'] == 404) {
-    //   emit(AuthenticationLoadingState(isLoading: false));
-    //   emit(ShowSnackBarActionState(
-    //       message: responseMessage, status: responseStatus));
-    //   emit(ShowRegisterPageState(phone: event.phone.toString()));
-    // } else {
-    //   emit(AuthenticationLoadingState(isLoading: false));
-    //   emit(ShowSnackBarActionState(
-    //       message: responseMessage, status: responseStatus));
-    // }
+    if (responseStatus) {
+      emit(AuthenticationLoadingState(isLoading: false));
+      AuthPref.setPhone(_phone!.toString());
+      emit(ShowLoginPageState());
+    } else if (!responseStatus && results['statusCode'] == 404) {
+      emit(AuthenticationLoadingState(isLoading: false));
+      emit(ShowSnackBarActionState(
+          message: responseMessage, status: responseStatus));
+      emit(ShowRegisterPageState(phone: _phone.toString()));
+    } else {
+      emit(AuthenticationLoadingState(isLoading: false));
+      emit(ShowSnackBarActionState(
+          message: responseMessage, status: responseStatus));
+    }
 
     emit(AuthenticationResendOTPState());
   }
