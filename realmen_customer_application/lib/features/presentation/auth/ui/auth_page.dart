@@ -1,5 +1,7 @@
 // ignore_for_file: unused_field
 
+import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,9 +48,11 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
           case AuthPageInvalidPhoneActionState:
             ShowSnackBar.ErrorSnackBar(context, "Số điện thoại không đúng");
             break;
+
           case AuthPageInvalidOtpActionState:
             ShowSnackBar.ErrorSnackBar(context, "Mã xác thực không đúng");
             break;
+
           case ShowSnackBarActionState:
             final snackBarState = state as ShowSnackBarActionState;
             if (snackBarState.status == true) {
@@ -57,6 +61,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               ShowSnackBar.ErrorSnackBar(context, snackBarState.message);
             }
             break;
+
           case AuthenticationLoadingState:
             final currentState = state as AuthenticationLoadingState;
             if (!currentState.isLoading) {
@@ -67,14 +72,17 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               _showDialogHandle = showLoadingDialog(context: context);
             }
             break;
+
           case AuthenticationSuccessState:
             final successState = state as AuthenticationSuccessState;
             print("token:${successState.token}");
             Get.offAllNamed(LandingPage.LandingPageRoute,
                 arguments: {'token': successState.token});
             break;
+
           case ShowLandingPageState:
             Get.offAllNamed(LandingPage.LandingPageRoute);
+            break;
         }
       },
       builder: (context, state) {

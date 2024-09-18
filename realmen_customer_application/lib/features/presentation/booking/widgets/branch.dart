@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:realmen_customer_application/features/data/models/account_model.dart';
 import 'package:realmen_customer_application/features/data/models/branch_model.dart';
 import 'package:realmen_customer_application/features/data/models/service_model.dart';
 import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
@@ -33,6 +34,7 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
     BranchDataModel? selectedBranch;
     List<ServiceDataModel> selectedServices = [];
     Map<String, dynamic>? selectedDate;
+    AccountModel selectedStaff = AccountModel();
 
     return BlocProvider.value(
       value: widget.bloc,
@@ -41,34 +43,49 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
           switch (state.runtimeType) {
             case ShowBookingBranchState:
               Get.to(() => ChooseBranchesPage(bookingBloc: widget.bloc));
-
+              break;
             case ChooseBranchBookingSelectBranchGetBackState:
               Get.back();
+              break;
 
             case ChooseBranchBookingSelectedBranchState:
               selectedBranch = (state as ChooseBranchBookingSelectedBranchState)
                   .selectedBranch;
               selectedServices = (state).selectedServices;
               Get.back();
+              break;
 
             case BookingShowServiceState:
               Get.to(() => ChooseServicesPage(
                   bookingBloc: widget.bloc,
                   branchId: selectedBranch!.branchId!,
                   selectedServices: selectedServices));
+              break;
+
             case ChooseBranchBookingSelectServiceGetBackState:
               Get.back();
+              break;
             case ChooseBranchBookingSelectedServiceState:
               selectedServices =
                   (state as ChooseBranchBookingSelectedServiceState)
                       .selectedServices;
-
               Get.back();
+              break;
+
+            // choose date
             case BranchChooseDateLoadDateState:
               selectedDate =
                   (state as BranchChooseDateLoadDateState).dateSeleted;
+              break;
             case BranchChooseSelectDateState:
               selectedDate = (state as BranchChooseSelectDateState).dateSeleted;
+              break;
+
+            // choose staff
+            case BranchChooseSelectedStaffState:
+              selectedStaff =
+                  (state as BranchChooseSelectedStaffState).selectedStaff;
+              break;
           }
         },
         builder: (context, state) {

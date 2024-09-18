@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'auth_bloc.dart';
 
 sealed class AuthenticationState extends Equatable {
@@ -53,3 +54,18 @@ class AuthPageInvalidPhoneActionState extends AuthenticationActionState {}
 class AuthPageInvalidOtpActionState extends AuthenticationActionState {}
 
 class ShowLandingPageState extends AuthenticationActionState {}
+
+class LoadingState extends AuthenticationActionState {}
+
+class AuthenticationResendOTPState extends AuthenticationActionState {}
+
+class AuthenticationInputPhoneSuccessState extends AuthenticationActionState {}
+
+class CountdownInProgressState extends AuthenticationActionState {
+  final int? countdown;
+  CountdownInProgressState({
+    this.countdown,
+  });
+}
+
+class CountdownFinishedState extends AuthenticationActionState {}

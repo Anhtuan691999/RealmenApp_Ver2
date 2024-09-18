@@ -65,3 +65,11 @@ class AuthenticationInvalidPhoneInLoginEvent extends AuthenticationEvent {}
 
 //8
 class AuthenticationInvalidOtpInLoginEvent extends AuthenticationEvent {}
+
+class AuthenticationResendOTPEvent extends AuthenticationEvent {}
+
+class AuthenticationStartCountdownEvent extends AuthenticationEvent {}
+
+class CountdownTickEvent extends AuthenticationEvent {}
+
+class CountdownCompleteEvent extends AuthenticationEvent {}

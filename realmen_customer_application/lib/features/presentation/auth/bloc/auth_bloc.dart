@@ -24,6 +24,9 @@ class AuthenticationBloc
         _authenticationInvalidPhoneInLoginEvent);
     on<AuthenticationInvalidOtpInLoginEvent>(
         _authenticationInvalidOtpInLoginEvent);
+    on<AuthenticationResendOTPEvent>(_authenticationResendOTPEvent);
+    on<AuthenticationStartCountdownEvent>(_authenticationStartCountdownEvent);
+    on<CountdownTickEvent>(_countdownTickEvent);
   }
 
   //1
@@ -156,5 +159,61 @@ class AuthenticationBloc
       AuthenticationInvalidOtpInLoginEvent event,
       Emitter<AuthenticationState> emit) {
     emit(AuthPageInvalidOtpActionState());
+  }
+
+  FutureOr<void> _authenticationResendOTPEvent(
+      AuthenticationResendOTPEvent event, Emitter<AuthenticationState> emit) {
+    emit(LoadingState());
+
+    // var results = await AuthRepository().createOtp(event.phone);
+    // var responseMessage = results['message'];
+    // var responseStatus = results['status'];
+
+    // if (responseStatus) {
+    //   emit(AuthenticationLoadingState(isLoading: false));
+    //   AuthPref.setPhone(event.phone.toString());
+    //   emit(ShowLoginPageState());
+    // } else if (!responseStatus && results['statusCode'] == 404) {
+    //   emit(AuthenticationLoadingState(isLoading: false));
+    //   emit(ShowSnackBarActionState(
+    //       message: responseMessage, status: responseStatus));
+    //   emit(ShowRegisterPageState(phone: event.phone.toString()));
+    // } else {
+    //   emit(AuthenticationLoadingState(isLoading: false));
+    //   emit(ShowSnackBarActionState(
+    //       message: responseMessage, status: responseStatus));
+    // }
+
+    emit(AuthenticationResendOTPState());
+  }
+
+  Timer? _timer;
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+    return super.close();
+  }
+
+  FutureOr<void> _authenticationStartCountdownEvent(
+      AuthenticationStartCountdownEvent event,
+      Emitter<AuthenticationState> emit) {
+    emit(CountdownInProgressState(countdown: 30));
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      add(CountdownTickEvent());
+    });
+  }
+
+  FutureOr<void> _countdownTickEvent(
+      CountdownTickEvent event, Emitter<AuthenticationState> emit) {
+    if (state is CountdownInProgressState) {
+      final int countdownValue = (state as CountdownInProgressState).countdown!;
+
+      if (countdownValue > 0) {
+        emit(CountdownInProgressState(countdown: countdownValue - 1));
+      } else {
+        _timer?.cancel();
+        emit(CountdownFinishedState());
+      }
+    }
   }
 }

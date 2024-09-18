@@ -82,9 +82,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(20),
                           child: Container(
                             width: 82.w,
-                            height: null,
-                            // constraints:
-                            //     BoxConstraints(minHeight: 75.h, maxHeight: 80.h),
+                            // height: null,
+
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(20),

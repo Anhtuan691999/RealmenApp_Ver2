@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realmen_customer_application/features/data/models/account_model.dart';
 import 'package:realmen_customer_application/features/presentation/booking/widgets/BCS_choose_staff.dart';
+import 'package:realmen_customer_application/features/presentation/booking/widgets/BCS_choose_time_slot.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 import 'package:realmen_customer_application/features/data/models/service_model.dart';
@@ -31,6 +32,8 @@ class _ChooseStaffBookingState extends State<ChooseStaffBooking> {
     'Chọn stylist cho Tất cả dịch vụ',
     'Chọn stylist cho Mỗi dịch vụ'
   ];
+  AccountModel selectedStaff = AccountModel();
+
   @override
   void initState() {
     super.initState();
@@ -51,6 +54,10 @@ class _ChooseStaffBookingState extends State<ChooseStaffBooking> {
               state as BranchChooseStaffLoadedState;
           _accountStylistList = currentState.accountStylistList!;
           _accountMassurList = currentState.accountMassurList!;
+        } else if (state is BranchChooseSelectedStaffState) {
+          BranchChooseSelectedStaffState currentState =
+              state as BranchChooseSelectedStaffState;
+          selectedStaff = currentState.selectedStaff;
         }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -249,27 +256,12 @@ class _ChooseStaffBookingState extends State<ChooseStaffBooking> {
                 : // giữ nguyên cái cũ 1 - N
                 Column(
                     children: [
-                      widget.selectedServices.isEmpty
-                          ? Container()
-                          : BCSChooseStaff(
-                              bloc: widget.bloc,
-                              accountStaffList: _accountStylistList,
-                            ),
-
-                      // ChooseDateAndTimeSlot(
-                      //   onDateSelected: widget.onDateSelected,
-                      //   onTimeSelected: widget.onTimeSelected,
-                      //   stylistSelected: stylistSelected,
-                      //   isChangeStylist: isChangeStylist,
-                      //   accountStaffList: stylistService.isEmpty
-                      //       ? widget.massuerList
-                      //       : widget.accountStaffList,
-                      //   oneToOne: false,
-                      //   // open branch
-                      //   openBranch: widget.openBranch,
-                      //   //close branch
-                      //   closeBranch: widget.closeBranch,
-                      // ),
+                      BCSChooseStaff(
+                        bloc: widget.bloc,
+                        accountStaffList: _accountStylistList,
+                      ),
+                      BCSChooseTimeSlot(
+                          bloc: widget.bloc, selectedStaff: selectedStaff),
                       const SizedBox(height: 20),
                     ],
                   ),
