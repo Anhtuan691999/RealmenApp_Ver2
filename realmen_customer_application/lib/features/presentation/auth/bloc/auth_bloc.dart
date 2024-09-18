@@ -107,7 +107,7 @@ class AuthenticationBloc
     //   emit(ShowSnackBarActionState(
     //       message: responseMessage, status: responseStatus));
     // }
-    // emit(ShowLandingPageState());
+    emit(ShowLandingPageState());
   }
 
   //6
