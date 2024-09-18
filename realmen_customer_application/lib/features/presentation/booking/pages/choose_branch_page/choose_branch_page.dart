@@ -38,6 +38,10 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
     super.initState();
   }
 
+  List<BranchDataModel> branchsList = [];
+  List<BranchDataModel> branchListForAutocomplete = [];
+  String cityController = "TP/Tỉnh";
+  List<String> cities = [];
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ChooseBranchPageBloc, ChooseBranchPageState>(
@@ -48,7 +52,12 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
             const Iterable.empty();
 
         if (state is LoadedBookingBranchListState) {
-          currentState = state;
+          currentState = state as LoadedBookingBranchListState;
+          branchsList = currentState.branchList ?? [];
+          branchListForAutocomplete =
+              currentState.branchListForAutocomplete ?? [];
+          cityController = currentState.cityController ?? "TP/Tỉnh";
+          cities = currentState.cities ?? [];
           focusScopeNode.unfocus();
         }
 
@@ -214,14 +223,11 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
                                         if (textEditingValue.text.isEmpty ||
                                             textEditingValue.text == '') {
                                           return const Iterable.empty();
-                                        } else if (currentState!
-                                            .branchList!.isNotEmpty) {
-                                          var optionsBuilderBranchList = currentState
-                                              .branchListForAutocomplete!
-                                              .where((element) =>
-                                                  removeDiacritics(
-                                                          element
-                                                              .branchName!
+                                        } else if (branchsList.isNotEmpty) {
+                                          var optionsBuilderBranchList =
+                                              branchListForAutocomplete.where(
+                                                  (element) => removeDiacritics(
+                                                          element.branchName!
                                                               .trim())
                                                       .toLowerCase()
                                                       .contains(removeDiacritics(
@@ -442,9 +448,8 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
                                                     ),
                                                   ),
                                                   alignment: Alignment.center,
-                                                  value: currentState!
-                                                      .cityController,
-                                                  items: currentState.cities!
+                                                  value: cityController,
+                                                  items: cities
                                                       .map((city) =>
                                                           DropdownMenuItem<
                                                               String>(
@@ -504,21 +509,19 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
 
                                         // nội dung branch
 
-                                        currentState.branchList != null &&
-                                                currentState
-                                                    .branchList!.isNotEmpty
+                                        branchsList != null &&
+                                                branchsList!.isNotEmpty
                                             ? ListView.builder(
                                                 shrinkWrap: true,
                                                 physics:
                                                     const NeverScrollableScrollPhysics(),
-                                                itemCount: currentState
-                                                    .branchList!.length,
+                                                itemCount: branchsList!.length,
                                                 itemBuilder: (context, index) {
                                                   return Column(
                                                     children: [
                                                       CachedNetworkImage(
-                                                        imageUrl: currentState!
-                                                            .branchList![index]
+                                                        imageUrl: branchsList[
+                                                                index]
                                                             .branchThumbnail!,
                                                         height: 140,
                                                         width: MediaQuery.of(
@@ -558,14 +561,11 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
                                                           runSpacing:
                                                               4.0, // Khoảng cách giữa các dòng theo chiều dọc
                                                           children: [
-                                                            Text(currentState
-                                                                .branchList![
+                                                            Text(branchsList![
                                                                     index]
                                                                 .branchName
                                                                 .toString()),
-                                                            currentState
-                                                                        .branchList![
-                                                                            index]
+                                                            branchsList![index]
                                                                         .distanceKm !=
                                                                     null
                                                                 ? Text.rich(
@@ -593,7 +593,7 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
                                                                         ),
                                                                         TextSpan(
                                                                             text:
-                                                                                currentState.branchList![index].distanceKm,
+                                                                                branchsList![index].distanceKm,
                                                                             style: TextStyle(
                                                                               overflow: TextOverflow.ellipsis,
                                                                               color: Colors.black.withOpacity(0.8),
@@ -609,8 +609,7 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
                                                               const EdgeInsets
                                                                   .only(top: 4),
                                                           child: Text(
-                                                              currentState
-                                                                  .branchList![
+                                                              branchsList![
                                                                       index]
                                                                   .branchAddress
                                                                   .toString()),
@@ -648,8 +647,8 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
                                                               widget.bookingBloc.add(
                                                                   ChooseBranchBookingSelectedBranchEvent(
                                                                       selectedBranch:
-                                                                          currentState!
-                                                                              .branchList![index]));
+                                                                          branchsList![
+                                                                              index]));
                                                             },
                                                             style:
                                                                 ElevatedButton
@@ -685,8 +684,7 @@ class _ChooseBranchesPageState extends State<ChooseBranchesPage> {
                                                         height: 10,
                                                       ),
                                                       (index !=
-                                                              currentState
-                                                                      .branchList!
+                                                              branchsList!
                                                                       .length -
                                                                   1)
                                                           ? const Divider(

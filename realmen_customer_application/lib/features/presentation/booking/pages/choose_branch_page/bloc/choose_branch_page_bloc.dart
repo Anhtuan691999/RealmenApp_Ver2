@@ -198,9 +198,10 @@ class ChooseBranchPageBloc
         branchs = await branchRepository.getBranch(null, currentPage);
         branchsStatus = branchs["status"];
         branchsBody = branchs["body"];
-        totalPage = branchsBody["totalPage"];
-        currentPage = branchsBody["currentPage"];
+
         if (branchsStatus) {
+          totalPage = branchsBody["totalPage"];
+          currentPage = branchsBody["currentPage"];
           var newBranchList = (branchsBody['content'] as List)
               .map((e) => BranchDataModel.fromJson(e as Map<String, dynamic>))
               .toList();
@@ -208,6 +209,7 @@ class ChooseBranchPageBloc
         }
         currentPage++;
       }
+      currentPage = 1;
       if (branchsListAll.isNotEmpty) {
         branchsList = branchsListAll.where((branch) {
           return branch.distanceInKm!.distance! < 20 ? true : false;
@@ -272,7 +274,6 @@ class ChooseBranchPageBloc
   FutureOr<void> _autocompleteOptionsBuilderEvent(
       AutocompleteOptionsBuilderEvent event,
       Emitter<ChooseBranchPageState> emit) {
-  
     emit(LoadedBookingBranchListState(
         branchList: _branchList,
         cities: _cities,
