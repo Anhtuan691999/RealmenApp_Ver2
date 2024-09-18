@@ -10,7 +10,7 @@ sealed class ChooseServicePageState extends Equatable {
 
 final class ChooseServicePageInitial extends ChooseServicePageState {}
 
-final class LoadingState extends ChooseServicePageState {}
+class LoadingState extends ChooseServicePageState {}
 
 class ChooseServicePageLoadingPageState extends ChooseServicePageState {}
 

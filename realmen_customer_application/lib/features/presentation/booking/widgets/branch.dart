@@ -11,6 +11,8 @@ import 'package:realmen_customer_application/features/presentation/booking/pages
 import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_branch.dart';
 import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_date.dart';
 import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_service.dart';
+import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_staff.dart';
+import 'package:timeline_tile/timeline_tile.dart';
 
 class BranchOptionBooking extends StatefulWidget {
   final BookingBloc bloc;
@@ -31,7 +33,6 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
     BranchDataModel? selectedBranch;
     List<ServiceDataModel> selectedServices = [];
     Map<String, dynamic>? selectedDate;
-    bool isChangeService = false;
 
     return BlocProvider.value(
       value: widget.bloc,
@@ -47,9 +48,7 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
             case ChooseBranchBookingSelectedBranchState:
               selectedBranch = (state as ChooseBranchBookingSelectedBranchState)
                   .selectedBranch;
-              selectedServices =
-                  (state as ChooseBranchBookingSelectedBranchState)
-                      .selectedServices;
+              selectedServices = (state).selectedServices;
               Get.back();
 
             case BookingShowServiceState:
@@ -60,95 +59,145 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
             case ChooseBranchBookingSelectServiceGetBackState:
               Get.back();
             case ChooseBranchBookingSelectedServiceState:
-              isChangeService = true;
               selectedServices =
                   (state as ChooseBranchBookingSelectedServiceState)
                       .selectedServices;
 
               Get.back();
+            case BranchChooseDateLoadDateState:
+              selectedDate =
+                  (state as BranchChooseDateLoadDateState).dateSeleted;
+            case BranchChooseSelectDateState:
+              selectedDate = (state as BranchChooseSelectDateState).dateSeleted;
           }
         },
         builder: (context, state) {
           return SingleChildScrollView(
+              physics: const NeverScrollableScrollPhysics(),
               child: Column(
-            children: [
-              // 1 chon chi nhanh
-              ChooseBranchBooking(bloc: widget.bloc),
+                children: [
+                  // 1 chon chi nhanh
+                  ChooseBranchBooking(bloc: widget.bloc),
 
-              // 2 chon chi nhanh
-              selectedBranch != null
-                  ? ChooseServiceBooking(
-                      bloc: widget.bloc,
-                    )
-                  : Container(),
+                  // 2 chon chi nhanh
+                  selectedBranch != null
+                      ? ChooseServiceBooking(
+                          bloc: widget.bloc,
+                        )
+                      : Container(),
 
-              // 3 chon ngay
-              selectedBranch != null && selectedServices.isNotEmpty
-                  ? ChooseDateBooking(
-                      bloc: widget.bloc,
-                      selectedServices: selectedServices,
-                      isChangeService: isChangeService)
-                  : Container(),
+                  // 3 chon ngay
+                  selectedBranch != null && selectedServices.isNotEmpty
+                      ? ChooseDateBooking(
+                          bloc: widget.bloc,
+                          selectedServices: selectedServices,
+                        )
+                      : Container(),
 
-              // 4 chon staff
-              //   // icon
+                  // 4 chon staff
+                  selectedBranch != null &&
+                          selectedServices.isNotEmpty &&
+                          selectedDate != null
+                      ? TimelineTile(
+                          // false la hien thanh
+                          isLast: false,
+                          beforeLineStyle: const LineStyle(
+                              color: Colors.black, thickness: 2),
 
-              // // button Đặt Lịch
-              // selectedBranch.branchId != null && selectedService != []
-              //     ? Column(
-              //         children: [
-              //           Container(
-              //             width: 81.w,
-              //             margin: const EdgeInsets.symmetric(horizontal: 15),
-              //             padding: const EdgeInsets.all(0),
-              //             decoration: BoxDecoration(
-              //               gradient: const LinearGradient(
-              //                   begin: Alignment.topLeft,
-              //                   end: Alignment.bottomRight,
-              //                   colors: [
-              //                     Color(0xff302E2E),
-              //                     Color(0xe6444141),
-              //                     Color(0x8c484646),
-              //                     Color(0x26444141),
-              //                   ]),
-              //               borderRadius: BorderRadius.circular(10),
-              //             ),
-              //             child: ElevatedButton(
-              //               onPressed: () {
-              //                 _onBooking();
-              //               },
-              //               style: ElevatedButton.styleFrom(
-              //                 foregroundColor: Colors.black,
-              //                 backgroundColor: Colors.black12,
-              //                 shape: RoundedRectangleBorder(
-              //                   borderRadius: BorderRadius.circular(10.0),
-              //                 ),
-              //                 minimumSize: const Size(200, 50),
-              //                 padding: const EdgeInsets.all(0),
-              //                 shadowColor: Colors.transparent,
-              //               ),
-              //               child: const Text(
-              //                 'Đặt Lịch',
-              //                 style: TextStyle(
-              //                     fontSize: 24,
-              //                     color: Colors.white,
-              //                     letterSpacing: 1.5,
-              //                     fontWeight: FontWeight.w700),
-              //               ),
-              //             ),
-              //           ),
-              //           const Center(
-              //             child: Text("Cắt xong trả tiền, hủy lịch không sao"),
-              //           )
-              //         ],
-              //       )
-              //     : Container(),
+                          // icon
+                          indicatorStyle: IndicatorStyle(
+                            color: Colors.transparent,
+                            width: 35,
+                            height: 40,
+                            padding: const EdgeInsets.only(
+                                top: 4, bottom: 4, right: 5),
+                            indicator:
+                                Image.asset('assets/images/logo-no-text.png'),
+                            indicatorXY: 0.0,
+                          ),
+                          endChild: Container(
+                              // height: 150,
+                              padding:
+                                  const EdgeInsets.only(top: 10, right: 15),
+                              constraints: const BoxConstraints(minHeight: 120),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "4. Chọn nhân viên & giờ hẹn ",
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  ChooseStaffBooking(
+                                    bloc: widget.bloc,
+                                    selectedServices: selectedServices,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                ],
+                              )),
+                        )
+                      : Container(),
 
-              const SizedBox(
-                height: 20,
-              ),
-            ],
-          ));
+                  // // button Đặt Lịch
+                  // selectedBranch.branchId != null && selectedService != []
+                  //     ? Column(
+                  //         children: [
+                  //           Container(
+                  //             width: 81.w,
+                  //             margin: const EdgeInsets.symmetric(horizontal: 15),
+                  //             padding: const EdgeInsets.all(0),
+                  //             decoration: BoxDecoration(
+                  //               gradient: const LinearGradient(
+                  //                   begin: Alignment.topLeft,
+                  //                   end: Alignment.bottomRight,
+                  //                   colors: [
+                  //                     Color(0xff302E2E),
+                  //                     Color(0xe6444141),
+                  //                     Color(0x8c484646),
+                  //                     Color(0x26444141),
+                  //                   ]),
+                  //               borderRadius: BorderRadius.circular(10),
+                  //             ),
+                  //             child: ElevatedButton(
+                  //               onPressed: () {
+                  //                 _onBooking();
+                  //               },
+                  //               style: ElevatedButton.styleFrom(
+                  //                 foregroundColor: Colors.black,
+                  //                 backgroundColor: Colors.black12,
+                  //                 shape: RoundedRectangleBorder(
+                  //                   borderRadius: BorderRadius.circular(10.0),
+                  //                 ),
+                  //                 minimumSize: const Size(200, 50),
+                  //                 padding: const EdgeInsets.all(0),
+                  //                 shadowColor: Colors.transparent,
+                  //               ),
+                  //               child: const Text(
+                  //                 'Đặt Lịch',
+                  //                 style: TextStyle(
+                  //                     fontSize: 24,
+                  //                     color: Colors.white,
+                  //                     letterSpacing: 1.5,
+                  //                     fontWeight: FontWeight.w700),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //           const Center(
+                  //             child: Text("Cắt xong trả tiền, hủy lịch không sao"),
+                  //           )
+                  //         ],
+                  //       )
+                  //     : Container(),
+
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ));
         },
       ),
     );

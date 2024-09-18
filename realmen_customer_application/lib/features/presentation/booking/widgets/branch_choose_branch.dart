@@ -34,7 +34,7 @@ class _ChooseBranchBookingState extends State<ChooseBranchBooking> {
         // }
         if (state is ChooseBranchBookingSelectedBranchState) {
           buttonText =
-              '${(state as ChooseBranchBookingSelectedBranchState).selectedBranch!.branchName.toString()}-${(state as ChooseBranchBookingSelectedBranchState).selectedBranch!.branchAddress.toString()}';
+              '${(state).selectedBranch!.branchName.toString()}-${(state).selectedBranch!.branchAddress.toString()}';
         }
 
         return TimelineTile(

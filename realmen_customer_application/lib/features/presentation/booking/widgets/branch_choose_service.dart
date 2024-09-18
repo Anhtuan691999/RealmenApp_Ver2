@@ -27,7 +27,7 @@ class _ChooseServiceBookingState extends State<ChooseServiceBooking> {
       bloc: widget.bloc,
       builder: (context, state) {
         if (state is ChooseBranchBookingSelectedServiceState) {
-          final currentState = state as ChooseBranchBookingSelectedServiceState;
+          final currentState = state;
           bool hasSelectedServices = currentState.selectedServices.isNotEmpty;
           servicesList = currentState.selectedServices;
           if (hasSelectedServices) {

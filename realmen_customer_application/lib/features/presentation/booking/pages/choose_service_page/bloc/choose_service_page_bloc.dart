@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:async';
 import 'dart:math';
 
@@ -113,7 +115,12 @@ class ChooseServicePageBloc
       emit(LoadingState());
 
       if (_selectedServices.isEmpty) {
-        _selectedServices.add(event.selectedService);
+        try {
+          _selectedServices = [];
+          _selectedServices.add(event.selectedService as ServiceDataModel);
+        } catch (e) {
+          // TODO
+        }
       } else {
         if (_selectedServices.any((service) =>
             service.branchServiceId == event.selectedService.branchServiceId)) {

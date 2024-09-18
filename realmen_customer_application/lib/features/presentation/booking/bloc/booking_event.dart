@@ -51,3 +51,14 @@ class BranchChooseDateLoadedEvent extends BookingEvent {
     required this.selectedServices,
   });
 }
+
+class BranchChooseStaffLoadedEvent extends BookingEvent {}
+
+class BranchChooseSelectStaffEvent extends BookingEvent {
+  AccountModel selectedStaff;
+  BranchChooseSelectStaffEvent({
+    required this.selectedStaff,
+  });
+}
+
+class BranchChooseSelectDefaultStaffEvent extends BookingEvent {}

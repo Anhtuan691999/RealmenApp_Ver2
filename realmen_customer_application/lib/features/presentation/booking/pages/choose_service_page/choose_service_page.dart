@@ -142,13 +142,13 @@ class _ChooseServicesPageState extends State<ChooseServicesPage> {
                                                                 widget.branchId,
                                                             selectedServices:
                                                                 selectedServices)),
-                                                child: Column(
+                                                child: const Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.center,
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: [
-                                                    const Text(
+                                                    Text(
                                                       "Không tìm thấy Dịch vụ.",
                                                       textAlign:
                                                           TextAlign.center,
@@ -157,7 +157,7 @@ class _ChooseServicesPageState extends State<ChooseServicesPage> {
                                                         color: Colors.black,
                                                       ),
                                                     ),
-                                                    const Text(
+                                                    Text(
                                                       "Vui lòng thử lại.",
                                                       textAlign:
                                                           TextAlign.center,
@@ -486,8 +486,8 @@ class _ChooseServicesPageState extends State<ChooseServicesPage> {
                                             right: 20.0,
                                             child: Container(
                                               height: 50,
-                                              margin:
-                                                  EdgeInsets.only(bottom: 5),
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 5),
                                               child: ElevatedButton(
                                                 onPressed: () {
                                                   widget.bookingBloc.add(

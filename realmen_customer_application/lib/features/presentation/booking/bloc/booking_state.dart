@@ -94,3 +94,21 @@ class BranchChooseSelectDateState extends BookingState {
     this.dateSeleted,
   });
 }
+
+class BranchChooseStaffLoadedState extends BookingState {
+  List<AccountModel>? accountStylistList;
+  List<AccountModel>? accountMassurList;
+  BranchChooseStaffLoadedState({
+    required this.accountMassurList,
+    required this.accountStylistList,
+  });
+}
+
+class BranchChooseSelectedStaffState extends BookingState {
+  AccountModel selectedStaff;
+  bool isDefaultSelected;
+  BranchChooseSelectedStaffState({
+    required this.selectedStaff,
+    required this.isDefaultSelected,
+  });
+}

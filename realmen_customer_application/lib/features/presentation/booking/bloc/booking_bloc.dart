@@ -1,10 +1,16 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:realmen_customer_application/core/utils/utf8_encoding.dart';
+import 'package:realmen_customer_application/features/data/models/account_model.dart';
 import 'package:realmen_customer_application/features/data/models/branch_model.dart';
 import 'package:realmen_customer_application/features/data/models/service_model.dart';
+import 'package:realmen_customer_application/features/domain/repository/AccountRepo/account_repository.dart';
+import 'package:realmen_customer_application/features/domain/repository/ServiceRepo/service_repository.dart';
 
 part 'booking_event.dart';
 part 'booking_state.dart';
@@ -12,15 +18,21 @@ part 'booking_state.dart';
 class BookingBloc extends Bloc<BookingEvent, BookingState> {
   BranchDataModel? _selectedBranch;
   List<ServiceDataModel> _selectedServices = [];
-  // AccountInfoModel? _selectedStylist;
-  // AccountInfoModel? _selectedMassur;
   dynamic _selectedTime;
   List<Map<String, dynamic>>? _listDate = [];
   String? _dateController;
   Map<String, dynamic>? _selectedDate;
+  List<AccountModel> _selectedStylist = [];
+  List<AccountModel> _selectedMassur = [];
+  List<AccountModel> _accountStylistList = [];
+  List<AccountModel> _accountMassurList = [];
+  AccountModel _selectedStaff = AccountModel();
+  bool _isDefaultSelected = true;
 
   BookingBloc() : super(BookingInitial()) {
     on<BookingInitialEvent>(_bookingInitialEvent);
+
+    // choose branch
     on<BookingShowBranchEvent>(_bookingShowBranchEvent);
     on<ChooseBranchBookingSelectBranchGetBackEvent>(
         _chooseBranchBookingSelectBranchGetBackEvent);
@@ -31,9 +43,16 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         _chooseBranchBookingSelectServiceGetBackEvent);
     on<ChooseBranchBookingSelectedServiceEvent>(
         _chooseBranchBookingSelectedServiceEvent);
+
     // choose date
     on<BranchChooseDateLoadedEvent>(_branchChooseDateLoadedEvent);
     on<BranchChooseSelectDateEvent>(_branchChooseSelectDateEvent);
+
+    // choose staff
+    on<BranchChooseStaffLoadedEvent>(_branchChooseStaffLoadedEvent);
+    on<BranchChooseSelectStaffEvent>(_branchChooseSelectStaffEvent);
+    on<BranchChooseSelectDefaultStaffEvent>(
+        _branchChooseSelectDefaultStaffEvent);
   }
 
   FutureOr<void> _bookingInitialEvent(
@@ -62,7 +81,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         emit(BookingDataState(selectedBranch: event.selectedBranch));
         _selectedBranch = event.selectedBranch;
         emit(ChooseBranchBookingSelectedBranchState(
-            selectedBranch: _selectedBranch, selectedServices: []));
+            selectedBranch: _selectedBranch, selectedServices: const []));
       } else {
         emit(BookingDataState().copyWith(
             selectedBranch: event.selectedBranch,
@@ -168,5 +187,94 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       selectedServices: _selectedServices,
       listDate: _listDate,
     ));
+  }
+
+  List<String> urlStylistList = [
+    "3.png",
+    "5.jpg",
+  ];
+  List<String> urlMassurList = [
+    "massage.jpg",
+  ];
+  FutureOr<void> _branchChooseStaffLoadedEvent(
+      BranchChooseStaffLoadedEvent event, Emitter<BookingState> emit) async {
+    emit(LoadingState());
+    final IAccountRepository serviceRepository = AccountRepository();
+    final storage = FirebaseStorage.instance;
+    List<AccountModel> accountsList = [];
+    try {
+      _accountStylistList = [];
+      _accountMassurList = [];
+      var account = await serviceRepository.getAccountList(
+          _selectedBranch!.branchId, "OPERATOR_STAFF", null);
+      var accountStatus = account["status"];
+      var accountBody = account["body"];
+      if (accountStatus) {
+        accountsList = (accountBody['content'] as List)
+            .map((e) => AccountModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+
+        for (AccountModel account in accountsList) {
+          account.firstName = Utf8Encoding().decode(account.firstName!);
+
+          try {
+            var reference = storage.ref(account.thumbnail);
+            account.thumbnail = await reference.getDownloadURL();
+          } catch (e) {
+            try {
+              account.thumbnail = 'assets/image/${account.thumbnail}';
+            } catch (e) {
+              final random = Random();
+              if (account.professionalTypeCode == 'STYLIST') {
+                var randomUrl = random.nextInt(urlStylistList.length);
+                account.thumbnail = 'assets/image/${urlStylistList[randomUrl]}';
+              } else {
+                var randomUrl = random.nextInt(urlMassurList.length);
+                account.thumbnail = 'assets/image/${urlMassurList[randomUrl]}';
+              }
+            }
+          }
+          if (account.professionalTypeCode == 'STYLIST') {
+            _accountStylistList.add(account);
+          } else {
+            _accountMassurList.add(account);
+          }
+        }
+        emit(BranchChooseStaffLoadedState(
+            accountMassurList: _accountMassurList,
+            accountStylistList: _accountStylistList));
+      }
+    } catch (e) {}
+  }
+
+  FutureOr<void> _branchChooseSelectStaffEvent(
+      BranchChooseSelectStaffEvent event, Emitter<BookingState> emit) async {
+    emit(LoadingState());
+    try {
+      if (event.selectedStaff.accountId == _selectedStaff.accountId) {
+        _selectedStaff = AccountModel();
+        _isDefaultSelected = true;
+      } else {
+        _selectedStaff = event.selectedStaff;
+        _isDefaultSelected = false;
+      }
+      emit(BranchChooseSelectedStaffState(
+          selectedStaff: _selectedStaff,
+          isDefaultSelected: _isDefaultSelected));
+    } catch (e) {}
+  }
+
+  FutureOr<void> _branchChooseSelectDefaultStaffEvent(
+      BranchChooseSelectDefaultStaffEvent event,
+      Emitter<BookingState> emit) async {
+    emit(LoadingState());
+    try {
+      _selectedStaff = AccountModel();
+      _isDefaultSelected = true;
+
+      emit(BranchChooseSelectedStaffState(
+          selectedStaff: _selectedStaff,
+          isDefaultSelected: _isDefaultSelected));
+    } catch (e) {}
   }
 }

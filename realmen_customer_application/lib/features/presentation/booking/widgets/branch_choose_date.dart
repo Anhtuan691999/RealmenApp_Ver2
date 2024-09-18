@@ -7,38 +7,39 @@ import 'package:timeline_tile/timeline_tile.dart';
 import 'package:realmen_customer_application/features/data/models/service_model.dart';
 import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
 
-class ChooseDateBooking extends StatelessWidget {
-  BookingBloc bloc;
+class ChooseDateBooking extends StatefulWidget {
+  final BookingBloc bloc;
   final List<ServiceDataModel> selectedServices;
-  final bool isChangeService;
 
-  ChooseDateBooking({
-    Key? key,
+  const ChooseDateBooking({
+    super.key,
     required this.bloc,
     required this.selectedServices,
-    required this.isChangeService,
-  }) : super(key: key);
+  });
 
   @override
+  State<ChooseDateBooking> createState() => _ChooseDateBookingState();
+}
+
+class _ChooseDateBookingState extends State<ChooseDateBooking> {
+  String? dateController;
+  List<Map<String, dynamic>> listDate = [];
+  Map<String, dynamic>? selectedDate;
+  @override
   Widget build(BuildContext context) {
-    String? dateController;
-    List<Map<String, dynamic>> listDate = [];
-    Map<String, dynamic>? selectedDate;
     return BlocBuilder<BookingBloc, BookingState>(
-      bloc: bloc,
+      bloc: widget.bloc,
       builder: (context, state) {
         if (state is ChooseBranchBookingSelectedServiceState) {
-          bloc.add(
-              BranchChooseDateLoadedEvent(selectedServices: selectedServices));
+          widget.bloc.add(BranchChooseDateLoadedEvent(
+              selectedServices: widget.selectedServices));
         } else if (state is BranchChooseDateLoadDateState) {
-          final BranchChooseDateLoadDateState currentState =
-              state as BranchChooseDateLoadDateState;
+          final BranchChooseDateLoadDateState currentState = state;
           selectedDate = currentState.dateSeleted;
           listDate = currentState.listDate!;
           dateController = listDate.first['id'].toString();
         } else if (state is BranchChooseSelectDateState) {
-          final BranchChooseSelectDateState currentState =
-              state as BranchChooseSelectDateState;
+          final BranchChooseSelectDateState currentState = state;
           dateController = currentState.dateController!;
           selectedDate = currentState.dateSeleted;
           listDate = currentState.listDate!;
@@ -60,7 +61,7 @@ class ChooseDateBooking extends StatelessWidget {
 
           // content
           endChild: Container(
-              height: 150,
+              height: 100,
               padding: const EdgeInsets.only(top: 10, right: 15),
               constraints: const BoxConstraints(minHeight: 120),
               child: Column(
@@ -237,9 +238,9 @@ class ChooseDateBooking extends StatelessWidget {
                                                   .toList()
                                               : [],
                                           onChanged: (value) {
-                                            bloc
-                                              ..add(BranchChooseSelectDateEvent(
-                                                  value: value));
+                                            widget.bloc.add(
+                                                BranchChooseSelectDateEvent(
+                                                    value: value));
                                           },
                                           dropdownStyleData: DropdownStyleData(
                                             maxHeight: 200,
@@ -276,7 +277,7 @@ class ChooseDateBooking extends StatelessWidget {
                                         CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 50,
                                         width: 50,
                                         child:
