@@ -6,7 +6,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:realmen_customer_application/features/data/models/account_model.dart';
-import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/booking/bloc/choose_branch_booking/booking_bloc.dart';
 
 class BCSChooseTimeSlot extends StatefulWidget {
   final BookingBloc bloc;

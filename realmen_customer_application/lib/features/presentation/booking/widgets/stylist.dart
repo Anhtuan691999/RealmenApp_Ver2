@@ -1,11 +1,11 @@
 // ignore_for_file: avoid_print, must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
-
+import 'package:realmen_customer_application/features/presentation/booking/bloc/choose_branch_booking/booking_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/booking/bloc/choose_stylist_booking/choose_stylist_booking_bloc.dart';
 
 class StylistOptionBooking extends StatefulWidget {
-  final BookingBloc bloc;
+  final ChooseStylistBookingBloc bloc;
   Function? callback;
   StylistOptionBooking(this.callback, {super.key, required this.bloc});
 
@@ -180,5 +180,4 @@ class _StylistOptionBookingState extends State<StylistOptionBooking>
       ],
     ));
   }
-
 }

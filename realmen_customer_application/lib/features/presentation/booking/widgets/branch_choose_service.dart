@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realmen_customer_application/features/data/models/service_model.dart';
-import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/booking/bloc/choose_branch_booking/booking_bloc.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class ChooseServiceBooking extends StatefulWidget {

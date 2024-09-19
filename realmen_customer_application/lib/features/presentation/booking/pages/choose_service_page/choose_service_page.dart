@@ -6,7 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/booking/bloc/choose_branch_booking/booking_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:realmen_customer_application/features/data/models/service_model.dart';

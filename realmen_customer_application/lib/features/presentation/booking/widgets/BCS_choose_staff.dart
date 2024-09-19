@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:realmen_customer_application/features/data/models/account_model.dart';
-import 'package:realmen_customer_application/features/presentation/booking/bloc/booking_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/booking/bloc/choose_branch_booking/booking_bloc.dart';
 
 class BCSChooseStaff extends StatefulWidget {
   final List<AccountModel> accountStaffList;
