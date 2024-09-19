@@ -21,7 +21,7 @@ class AuthRepository extends ApiEndpoints implements IAuthRepository {
     try {
       Uri uri = Uri.parse("$AuthenticationUrl/send-otp?phone=$phone");
       final client = http.Client();
-      final response = await client.post(
+      final response = await client.get(
         uri,
         headers: {
           "Access-Control-Allow-Origin": "*",

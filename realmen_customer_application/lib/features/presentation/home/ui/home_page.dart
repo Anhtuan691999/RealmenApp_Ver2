@@ -5,6 +5,7 @@ import 'package:custom_rounded_rectangle_border/custom_rounded_rectangle_border.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:realmen_customer_application/features/data/shared_preferences/auth_pref.dart';
 import 'package:realmen_customer_application/features/presentation/home/bloc/home_page_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -30,12 +31,28 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final HomePageBloc homePageBloc = HomePageBloc();
   String time = "sáng";
-  String name = "default";
+  String name = "";
 
   @override
   void initState() {
     homePageBloc.add(HomePageInitialEvent());
     super.initState();
+    name = AuthPref.getNameCus();
+    time = getTimeOfDay();
+  }
+
+  String getTimeOfDay() {
+    final now = DateTime.now();
+    if (now.hour >= 0 && now.hour < 12) {
+      return "sáng";
+    } else if (now.hour >= 12 && now.hour < 15) {
+      return "trưa";
+    } else if (now.hour >= 15 && now.hour < 19) {
+      return "chiều";
+    } else if (now.hour >= 19) {
+      return "tối";
+    }
+    return "";
   }
 
   @override

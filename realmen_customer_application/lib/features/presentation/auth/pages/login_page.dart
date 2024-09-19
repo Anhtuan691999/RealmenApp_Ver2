@@ -28,9 +28,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     String phone = AuthPref.getPhone();
     TextEditingController otpController = TextEditingController();
-    bool _buttonEnabled = false;
-    int _countdown = 30;
-    late Timer _timer;
+    bool buttonEnabled = false;
+    int countdown = 0;
 
     final defaultPinTheme = PinTheme(
       width: 56,
@@ -59,13 +58,13 @@ class _LoginPageState extends State<LoginPage> {
         builder: (context, state) {
           if (state is AuthenticationResendOTPState) {
             widget.bloc.add(AuthenticationStartCountdownEvent());
-          } else if (state is AuthenticationInputPhoneSuccessState) {
+          } else if (state is ShowLoginPageState) {
             widget.bloc.add(AuthenticationStartCountdownEvent());
           } else if (state is CountdownInProgressState) {
-            _countdown = (state as CountdownInProgressState).countdown!;
-            _buttonEnabled = false;
+            countdown = (state as CountdownInProgressState).countdown!.toInt();
+            buttonEnabled = false;
           } else if (state is CountdownFinishedState) {
-            _buttonEnabled = true;
+            buttonEnabled = true;
           }
           return Scaffold(
             body: SingleChildScrollView(
@@ -157,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                                           children: [
                                             TextButton(
                                               onPressed: () {
-                                                _buttonEnabled
+                                                buttonEnabled
                                                     ? widget.bloc.add(
                                                         AuthenticationInputPhoneEvent(
                                                             phone: phone))
@@ -180,9 +179,9 @@ class _LoginPageState extends State<LoginPage> {
                                               width: 10,
                                             ),
                                             Text(
-                                              _countdown == 0
+                                              countdown == 0
                                                   ? ""
-                                                  : '${_countdown}s',
+                                                  : '${countdown}s',
                                               style:
                                                   const TextStyle(fontSize: 18),
                                             ),

@@ -72,4 +72,28 @@ class AuthPref {
       return result;
     }
   }
+
+  static Future<void> setNameCus(String nameCus) async {
+    await SharedPreferencesHelper.preferences.setString("nameCus", nameCus);
+  }
+
+  static String getNameCus() {
+    return SharedPreferencesHelper.preferences.getString("nameCus") ?? "";
+  }
+
+  static Future<void> setRole(String role) async {
+    await SharedPreferencesHelper.preferences.setString("role", role);
+  }
+
+  static String getRole() {
+    return SharedPreferencesHelper.preferences.getString("role") ?? "";
+  }
+
+  static Future<void> setCusId(int cusId) async {
+    await SharedPreferencesHelper.preferences.setInt("cusId", cusId);
+  }
+
+  static int getCusId() {
+    return SharedPreferencesHelper.preferences.getInt("cusId") ?? 0;
+  }
 }

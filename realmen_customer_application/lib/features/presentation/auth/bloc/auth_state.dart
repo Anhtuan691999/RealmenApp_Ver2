@@ -62,7 +62,7 @@ class AuthenticationResendOTPState extends AuthenticationActionState {}
 class AuthenticationInputPhoneSuccessState extends AuthenticationActionState {}
 
 class CountdownInProgressState extends AuthenticationActionState {
-  final int? countdown;
+  final double? countdown;
   CountdownInProgressState({
     this.countdown,
   });

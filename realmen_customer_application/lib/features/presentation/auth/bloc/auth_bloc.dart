@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:realmen_customer_application/core/utils/utf8_encoding.dart';
 import 'package:realmen_customer_application/features/data/models/account_model.dart';
 import 'package:realmen_customer_application/features/data/shared_preferences/auth_pref.dart';
 
@@ -59,27 +60,28 @@ class AuthenticationBloc
   FutureOr<void> _authenticationInputPhoneEvent(
       AuthenticationInputPhoneEvent event,
       Emitter<AuthenticationState> emit) async {
-    emit(AuthenticationLoadingState(isLoading: true));
-    var results = await AuthRepository().createOtp(event.phone);
-    var responseMessage = results['message'];
-    var responseStatus = results['status'];
+    // emit(AuthenticationLoadingState(isLoading: true));
+    // var results = await AuthRepository().createOtp(event.phone);
+    // var responseMessage = results['message'];
+    // var responseStatus = results['status'];
 
-    if (responseStatus) {
-      emit(AuthenticationLoadingState(isLoading: false));
-      _phone = event.phone;
-      AuthPref.setPhone(event.phone.toString());
-      emit(ShowLoginPageState());
-    } else if (!responseStatus && results['statusCode'] == 404) {
-      emit(AuthenticationLoadingState(isLoading: false));
-      emit(ShowSnackBarActionState(
-          message: responseMessage, status: responseStatus));
-      emit(ShowRegisterPageState(phone: event.phone.toString()));
-    } else {
-      emit(AuthenticationLoadingState(isLoading: false));
-      emit(ShowSnackBarActionState(
-          message: responseMessage, status: responseStatus));
-    }
+    // if (responseStatus) {
+    //   emit(AuthenticationLoadingState(isLoading: false));
+    //   _phone = event.phone;
+    //   AuthPref.setPhone(event.phone.toString());
+    //   emit(ShowLoginPageState());
+    // } else if (!responseStatus && results['statusCode'] == 404) {
+    //   emit(AuthenticationLoadingState(isLoading: false));
+    //   emit(ShowSnackBarActionState(
+    //       message: responseMessage, status: responseStatus));
+    //   emit(ShowRegisterPageState(phone: event.phone.toString()));
+    // } else {
+    //   emit(AuthenticationLoadingState(isLoading: false));
+    //   emit(ShowSnackBarActionState(
+    //       message: responseMessage, status: responseStatus));
+    // }
 
+    //no api
     AuthPref.setPhone(event.phone.toString());
     emit(ShowLoginPageState());
   }
@@ -88,26 +90,44 @@ class AuthenticationBloc
   late String rawToken;
   FutureOr<void> _authenticationLoginEvent(
       AuthenticationLoginEvent event, Emitter<AuthenticationState> emit) async {
-    // emit(AuthenticationLoadingState(isLoading: true));
-    // var results = await AuthRepository().login(event.phone, event.otp);
-    // var responseMessage = results['message'];
-    // var responseStatus = results['status'];
-    // var responseBody = results['body'];
-    // if (responseStatus) {
-    //   emit(AuthenticationLoadingState(isLoading: false));
-    //   rawToken = responseBody['value']['accessToken'];
-    //   // save info acc
-    //   AuthPref.setToken(rawToken);
+    emit(AuthenticationLoadingState(isLoading: true));
+    try {
+      var results = await AuthRepository().login(event.phone, event.otp);
+      var responseMessage = results['message'];
+      var responseStatus = results['status'];
+      var responseBody = results['body'];
+      if (responseStatus) {
+        var role = responseBody['value']['roleCode'];
+        if (role == 'CUSTOMER') {
+          emit(AuthenticationLoadingState(isLoading: false));
+          rawToken = responseBody['value']['accessToken'];
+          var nameCus = responseBody['value']['lastName'];
+          nameCus = Utf8Encoding().decode(nameCus);
+          var cusId = responseBody['value']['accountId'];
+          // save info acc
+          AuthPref.setToken(rawToken);
+          AuthPref.setNameCus(nameCus);
+          AuthPref.setRole(role);
+          AuthPref.setCusId(cusId);
 
-    //   emit(ShowSnackBarActionState(
-    //       message: "Đăng nhập thành công", status: responseStatus));
-    //   emit(AuthenticationSuccessState(token: rawToken));
-    // } else {
-    //   emit(AuthenticationLoadingState(isLoading: false));
-    //   emit(ShowSnackBarActionState(
-    //       message: responseMessage, status: responseStatus));
-    // }
-    emit(ShowLandingPageState());
+          emit(ShowSnackBarActionState(
+              message: "Đăng nhập thành công", status: responseStatus));
+          emit(AuthenticationSuccessState(token: rawToken));
+          emit(ShowLandingPageState());
+        } else {
+          emit(AuthenticationLoadingState(isLoading: false));
+          emit(ShowSnackBarActionState(
+              message: "Xin đăng nhập bằng tài khoản khách hàng",
+              status: false));
+        }
+      } else {
+        emit(AuthenticationLoadingState(isLoading: false));
+        emit(ShowSnackBarActionState(
+            message: responseMessage, status: responseStatus));
+      }
+    } on Exception catch (e) {
+      // TODO
+    }
   }
 
   //6
@@ -200,8 +220,8 @@ class AuthenticationBloc
   FutureOr<void> _authenticationStartCountdownEvent(
       AuthenticationStartCountdownEvent event,
       Emitter<AuthenticationState> emit) {
-    emit(CountdownInProgressState(countdown: 30));
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    emit(CountdownInProgressState(countdown: 20));
+    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
       add(CountdownTickEvent());
     });
   }
@@ -209,10 +229,12 @@ class AuthenticationBloc
   FutureOr<void> _countdownTickEvent(
       CountdownTickEvent event, Emitter<AuthenticationState> emit) {
     if (state is CountdownInProgressState) {
-      final int countdownValue = (state as CountdownInProgressState).countdown!;
-
+      final double countdownValue =
+          (state as CountdownInProgressState).countdown!;
+      emit(LoadingState());
       if (countdownValue > 0) {
-        emit(CountdownInProgressState(countdown: countdownValue - 1));
+        const Duration(seconds: 10);
+        emit(CountdownInProgressState(countdown: countdownValue - 0.5));
       } else {
         _timer?.cancel();
         emit(CountdownFinishedState());

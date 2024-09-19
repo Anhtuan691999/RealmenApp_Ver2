@@ -280,10 +280,10 @@ class _BCSChooseTimeSlotState extends State<BCSChooseTimeSlot> {
   void initState() {
     //
     // getDate();
-    dateController = listDate?.first['id'].toString();
-    dateSeleted = listDate?.first;
-    type = listDate!.first['type'].toString();
-    // getTimeSlot(dateSeleted!['chosenDate']);
+    // dateController = listDate?.first['id'].toString();
+    // dateSeleted = listDate?.first;
+    // type = listDate!.first['type'].toString();
+    // // getTimeSlot(dateSeleted!['chosenDate']);
 
     // widget.onDateSelected(dateController);
     super.initState();
