@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:equatable/equatable.dart';
+import 'package:realmen_customer_application/features/data/models/branch_model.dart';
 
 class AccountModel extends Equatable {
   int? accountId;
@@ -19,6 +20,9 @@ class AccountModel extends Equatable {
   String? accountStatusCode;
   String? accountStatusName;
 
+  // bổ sung
+  BranchDataModel? branch;
+
   AccountModel({
     this.accountId,
     this.branchId,
@@ -36,6 +40,7 @@ class AccountModel extends Equatable {
     this.genderName,
     this.accountStatusCode,
     this.accountStatusName,
+    this.branch,
   });
 
   // Sử dụng Equatable

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:realmen_customer_application/features/presentation/booking/bloc/choose_branch_booking/booking_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/booking/bloc/choose_stylist_booking/choose_stylist_booking_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:realmen_customer_application/features/data/models/service_model.dart';
@@ -14,8 +15,10 @@ import 'package:realmen_customer_application/features/presentation/booking/pages
 
 class ChooseServicesPage extends StatefulWidget {
   final int branchId;
-  final BookingBloc bookingBloc;
+  final BookingBloc? CBbookingBloc;
+  final ChooseStylistBookingBloc? CSbookingBloc;
   List<ServiceDataModel> selectedServices;
+  final String tabChooseBooking;
 
   @override
   _ChooseServicesPageState createState() => _ChooseServicesPageState();
@@ -26,8 +29,10 @@ class ChooseServicesPage extends StatefulWidget {
   ChooseServicesPage({
     super.key,
     required this.branchId,
-    required this.bookingBloc,
+    this.CBbookingBloc,
+    this.CSbookingBloc,
     required this.selectedServices,
+    required this.tabChooseBooking,
   });
 }
 
@@ -44,7 +49,13 @@ class _ChooseServicesPageState extends State<ChooseServicesPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        widget.bookingBloc.add(ChooseBranchBookingSelectBranchGetBackEvent());
+        if (widget.tabChooseBooking == "Branch") {
+          widget.CBbookingBloc!
+              .add(ChooseBranchBookingSelectBranchGetBackEvent());
+        } else {
+          widget.CSbookingBloc!.add(CSBSelectServiceGetBackEvent());
+        }
+
         return false;
       },
       child: Scaffold(
@@ -91,8 +102,14 @@ class _ChooseServicesPageState extends State<ChooseServicesPage> {
                                         icon: const Icon(
                                             Icons.keyboard_arrow_left),
                                         onPressed: () {
-                                          widget.bookingBloc.add(
-                                              ChooseBranchBookingSelectServiceGetBackEvent());
+                                          if (widget.tabChooseBooking ==
+                                              "Branch") {
+                                            widget.CBbookingBloc!.add(
+                                                ChooseBranchBookingSelectServiceGetBackEvent());
+                                          } else {
+                                            widget.CSbookingBloc!.add(
+                                                CSBSelectServiceGetBackEvent());
+                                          }
                                         },
                                       ),
                                     ),
@@ -490,10 +507,18 @@ class _ChooseServicesPageState extends State<ChooseServicesPage> {
                                                   bottom: 5),
                                               child: ElevatedButton(
                                                 onPressed: () {
-                                                  widget.bookingBloc.add(
-                                                      ChooseBranchBookingSelectedServiceEvent(
-                                                          selectedServices:
-                                                              selectedServices));
+                                                  if (widget.tabChooseBooking ==
+                                                      "Branch") {
+                                                    widget.CBbookingBloc!.add(
+                                                        ChooseBranchBookingSelectedServiceEvent(
+                                                            selectedServices:
+                                                                selectedServices));
+                                                  } else {
+                                                    widget.CSbookingBloc!.add(
+                                                        CSBSelectedServiceEvent(
+                                                            selectedServices:
+                                                                selectedServices));
+                                                  }
                                                 },
                                                 style: ButtonStyle(
                                                   backgroundColor:

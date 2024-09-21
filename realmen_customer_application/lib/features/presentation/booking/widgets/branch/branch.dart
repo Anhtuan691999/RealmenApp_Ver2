@@ -9,10 +9,10 @@ import 'package:realmen_customer_application/features/data/models/service_model.
 import 'package:realmen_customer_application/features/presentation/booking/bloc/choose_branch_booking/booking_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/booking/pages/choose_branch_page/choose_branch_page.dart';
 import 'package:realmen_customer_application/features/presentation/booking/pages/choose_service_page/choose_service_page.dart';
-import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_branch.dart';
-import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_date.dart';
-import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_service.dart';
-import 'package:realmen_customer_application/features/presentation/booking/widgets/branch_choose_staff.dart';
+import 'package:realmen_customer_application/features/presentation/booking/widgets/branch/branch_choose_branch.dart';
+import 'package:realmen_customer_application/features/presentation/booking/widgets/branch/branch_choose_date.dart';
+import 'package:realmen_customer_application/features/presentation/booking/widgets/branch/branch_choose_service.dart';
+import 'package:realmen_customer_application/features/presentation/booking/widgets/branch/branch_choose_staff.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class BranchOptionBooking extends StatefulWidget {
@@ -35,6 +35,7 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
     List<ServiceDataModel> selectedServices = [];
     Map<String, dynamic>? selectedDate;
     AccountModel selectedStaff = AccountModel();
+    String tabChooseBooking = "Branch";
 
     return BlocConsumer<BookingBloc, BookingState>(
       bloc: widget.bloc,
@@ -54,11 +55,13 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
             Get.back();
             break;
 
+          // choose service
           case BookingShowServiceState:
             Get.to(() => ChooseServicesPage(
-                bookingBloc: widget.bloc,
+                CBbookingBloc: widget.bloc,
                 branchId: selectedBranch!.branchId!,
-                selectedServices: selectedServices));
+                selectedServices: selectedServices,
+                tabChooseBooking: tabChooseBooking));
             break;
 
           case ChooseBranchBookingSelectServiceGetBackState:

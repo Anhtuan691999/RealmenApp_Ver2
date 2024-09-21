@@ -1,32 +1,38 @@
-// ignore_for_file: must_be_immutable, no_leading_underscores_for_local_identifiers
-
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realmen_customer_application/features/data/models/service_model.dart';
-import 'package:realmen_customer_application/features/presentation/booking/bloc/choose_branch_booking/booking_bloc.dart';
+
+import 'package:realmen_customer_application/features/presentation/booking/bloc/choose_stylist_booking/choose_stylist_booking_bloc.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
-class ChooseServiceBooking extends StatefulWidget {
-  final BookingBloc bloc;
-  const ChooseServiceBooking({
-    super.key,
+class CSChooseServiceBooking extends StatefulWidget {
+  final ChooseStylistBookingBloc bloc;
+
+  const CSChooseServiceBooking({
+    Key? key,
     required this.bloc,
-  });
+  }) : super(key: key);
 
   @override
-  State<ChooseServiceBooking> createState() => _ChooseServiceBookingState();
+  State<CSChooseServiceBooking> createState() => _CSChooseServiceBookingState();
 }
 
-class _ChooseServiceBookingState extends State<ChooseServiceBooking> {
+class _CSChooseServiceBookingState extends State<CSChooseServiceBooking> {
   List<ServiceDataModel>? servicesList = [];
   String buttonText = 'Xem tất cả danh sách dịch vụ';
   List<Widget> textContainers = [];
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BookingBloc, BookingState>(
+    return BlocBuilder<ChooseStylistBookingBloc, ChooseStylistBookingState>(
       bloc: widget.bloc,
       builder: (context, state) {
-        if (state is ChooseBranchBookingSelectedServiceState) {
+        if (state is CSBSelectServiceState) {
           final currentState = state;
           bool hasSelectedServices = currentState.selectedServices.isNotEmpty;
           servicesList = currentState.selectedServices;
@@ -45,9 +51,6 @@ class _ChooseServiceBookingState extends State<ChooseServiceBooking> {
                 ),
               );
             }).toList();
-            // Update the button text
-
-            // widget.bloc.add(ChooseBranchBookingSelectServiceGetBackEvent());
           } else {
             textContainers = [];
           }
@@ -78,7 +81,7 @@ class _ChooseServiceBookingState extends State<ChooseServiceBooking> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "2. Chọn dịch vụ ",
+                  "3. Chọn dịch vụ ",
                   style: TextStyle(fontSize: 20),
                 ),
                 const SizedBox(
@@ -86,30 +89,7 @@ class _ChooseServiceBookingState extends State<ChooseServiceBooking> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    widget.bloc.add(BookingShowServiceEvent());
-                    // if (!_isDisposed && mounted) {
-                    //   List<BranchServiceModel> _servicesList =
-                    //       List<BranchServiceModel>.from(servicesList!);
-                    //   List<BranchServiceModel>? selectedServices =
-                    //       await Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => ChooseServiceBookingScreen(
-                    //         selectedServices: _servicesList,
-                    //         branchServiceList: widget.branchServiceList,
-                    //       ),
-                    //     ),
-                    //   );
-
-                    //   // Handle the selected services here
-                    //   if (selectedServices != null) {
-                    //     setState(() {
-                    //       _getTextContainers(selectedServices);
-                    //       servicesList = selectedServices;
-                    //     });
-                    //     widget.onServiceSelected(selectedServices);
-                    //   }
-                    // }
+                    widget.bloc.add(CSBShowServiceEvent());
                   },
                   style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.grey,
@@ -169,36 +149,4 @@ class _ChooseServiceBookingState extends State<ChooseServiceBooking> {
       },
     );
   }
-
-// giữ
-
-  @override // giữ
-  void initState() {
-    super.initState();
-  }
-
-//   _getTextContainers(List<BranchServiceModel> selectedServices) {
-// // Update your UI or perform other actions with selectedServices
-//     hasSelectedServices = selectedServices.isNotEmpty;
-//     if (hasSelectedServices) {
-//       textContainers = selectedServices.map((service) {
-//         return Container(
-//           margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-//           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-//           decoration: BoxDecoration(
-//             border: Border.all(color: Colors.black),
-//             borderRadius: BorderRadius.circular(10),
-//           ),
-//           child: Text(
-//             utf8.decode(service.serviceName.toString().runes.toList()),
-//             style: const TextStyle(fontSize: 12, color: Colors.black),
-//           ),
-//         );
-//       }).toList();
-//     }
-//     // Update the button text
-//     buttonText = hasSelectedServices
-//         ? 'Đã chọn ${selectedServices.length} dịch vụ'
-//         : 'Xem tất cả danh sách dịch vụ';
-//   }
 }

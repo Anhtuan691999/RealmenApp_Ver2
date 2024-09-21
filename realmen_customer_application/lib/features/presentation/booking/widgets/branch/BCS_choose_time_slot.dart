@@ -256,13 +256,14 @@ class _BCSChooseTimeSlotState extends State<BCSChooseTimeSlot> {
               const SizedBox(
                 height: 20,
               ),
-              Center(
-                child: Text(
-                    "Thợ cắt ${widget.selectedStaff.firstName!.substring(widget.selectedStaff!.firstName!.lastIndexOf(" ") + 1)} ${widget.selectedStaff!.lastName!} hiện chưa có lịch làm!"),
-              ),
-              const Center(
-                child: Text("Anh vui lòng chọn thợ cắt khác"),
-              )
+              widget.selectedStaff.accountId != null
+                  ? Center(
+                      child: Text(
+                          "Thợ cắt ${widget.selectedStaff.firstName!.substring(widget.selectedStaff!.firstName!.lastIndexOf(" ") + 1)} ${widget.selectedStaff!.lastName!} hiện chưa có lịch làm!"),
+                    )
+                  : const Center(
+                      child: Text("Anh vui lòng chọn thợ cắt khác"),
+                    )
             ],
           );
   }

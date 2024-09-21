@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:realmen_customer_application/features/presentation/booking/bloc/choose_branch_booking/booking_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/booking/bloc/choose_stylist_booking/choose_stylist_booking_bloc.dart';
-import 'package:realmen_customer_application/features/presentation/booking/widgets/branch.dart';
-import 'package:realmen_customer_application/features/presentation/booking/widgets/stylist.dart';
+import 'package:realmen_customer_application/features/presentation/booking/widgets/branch/branch.dart';
+import 'package:realmen_customer_application/features/presentation/booking/widgets/service/stylist.dart';
 import 'package:realmen_customer_application/features/presentation/booking/widgets/tab_bar_delegate.dart';
 
 import 'package:sizer/sizer.dart';

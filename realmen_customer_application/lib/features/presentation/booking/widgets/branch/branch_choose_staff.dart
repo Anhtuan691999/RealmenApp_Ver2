@@ -3,8 +3,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realmen_customer_application/features/data/models/account_model.dart';
-import 'package:realmen_customer_application/features/presentation/booking/widgets/BCS_choose_staff.dart';
-import 'package:realmen_customer_application/features/presentation/booking/widgets/BCS_choose_time_slot.dart';
+import 'package:realmen_customer_application/features/presentation/booking/widgets/branch/BCS_choose_staff.dart';
+import 'package:realmen_customer_application/features/presentation/booking/widgets/branch/BCS_choose_time_slot.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 import 'package:realmen_customer_application/features/data/models/service_model.dart';

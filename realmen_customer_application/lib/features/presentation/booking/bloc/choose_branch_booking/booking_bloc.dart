@@ -38,6 +38,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         _chooseBranchBookingSelectBranchGetBackEvent);
     on<ChooseBranchBookingSelectedBranchEvent>(
         _chooseBranchBookingSelectedBranchEvent);
+
     on<BookingShowServiceEvent>(_bookingShowServiceEvent);
     on<ChooseBranchBookingSelectServiceGetBackEvent>(
         _chooseBranchBookingSelectServiceGetBackEvent);
