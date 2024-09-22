@@ -80,8 +80,7 @@ class _StylistOptionBookingState extends State<StylistOptionBooking>
             break;
           case CSBSelectServiceState:
             selectedServices =
-                (state as ChooseBranchBookingSelectedServiceState)
-                    .selectedServices;
+                (state as CSBSelectServiceState).selectedServices;
             Get.back();
             break;
         }
