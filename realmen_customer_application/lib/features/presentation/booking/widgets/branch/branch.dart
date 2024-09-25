@@ -35,9 +35,9 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
     BranchDataModel? selectedBranch;
     List<ServiceDataModel> selectedServices = [];
-
     Map<String, dynamic>? selectedDate;
     DailyPlanAccountModel selectedStaff = DailyPlanAccountModel();
     String tabChooseBooking = "Branch";

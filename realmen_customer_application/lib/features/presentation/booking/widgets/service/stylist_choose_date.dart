@@ -188,7 +188,7 @@ class _CSChooseDateBookingState extends State<CSChooseDateBooking> {
                                                                         style:
                                                                             TextStyle(
                                                                           fontSize:
-                                                                              14,
+                                                                              13,
                                                                           fontWeight:
                                                                               FontWeight.w700,
                                                                           color:
@@ -218,7 +218,7 @@ class _CSChooseDateBookingState extends State<CSChooseDateBooking> {
                                                                         style:
                                                                             TextStyle(
                                                                           fontSize:
-                                                                              14,
+                                                                              13,
                                                                           fontWeight:
                                                                               FontWeight.w700,
                                                                           color:

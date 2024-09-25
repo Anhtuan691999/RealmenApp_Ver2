@@ -109,7 +109,7 @@ class AuthenticationBloc
           AuthPref.setNameCus(nameCus);
           AuthPref.setRole(role);
           AuthPref.setCusId(cusId);
-
+          close();
           emit(ShowSnackBarActionState(
               message: "Đăng nhập thành công", status: responseStatus));
           emit(AuthenticationSuccessState(token: rawToken));

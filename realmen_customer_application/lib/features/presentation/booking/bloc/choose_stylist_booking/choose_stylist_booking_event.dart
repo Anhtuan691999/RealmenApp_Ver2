@@ -44,3 +44,15 @@ class CSBSelectedServiceEvent extends ChooseStylistBookingEvent {
 }
 
 class CSBSelectServiceGetBackEvent extends ChooseStylistBookingEvent {}
+
+// choose time slot
+class CSBonTimeSlotSelectedEvent extends ChooseStylistBookingEvent {
+  String timeSlot;
+  CSBonTimeSlotSelectedEvent({
+    required this.timeSlot,
+  });
+}
+
+class CSBGetTimeSlotEvent extends ChooseStylistBookingEvent {}
+
+class CSBBookingSubmitEvent extends ChooseStylistBookingEvent {}
