@@ -191,7 +191,7 @@ class _ChooseDateBookingState extends State<ChooseDateBooking> {
                                                                         style:
                                                                             TextStyle(
                                                                           fontSize:
-                                                                              14,
+                                                                              13,
                                                                           fontWeight:
                                                                               FontWeight.w700,
                                                                           color:
@@ -221,7 +221,7 @@ class _ChooseDateBookingState extends State<ChooseDateBooking> {
                                                                         style:
                                                                             TextStyle(
                                                                           fontSize:
-                                                                              14,
+                                                                              13,
                                                                           fontWeight:
                                                                               FontWeight.w700,
                                                                           color:

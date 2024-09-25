@@ -231,7 +231,10 @@ class _BookingPageState extends State<BookingPage>
                       ),
                       SliverFillRemaining(
                         child: Container(
-                          // height: 400,
+                          color: Colors.amber,
+                          // constraints:
+                          // BoxConstraints(minHeight: 100, maxHeight: 1000),
+                          // height: 800,
                           child: TabBarView(
                             controller: _tabController,
                             physics: const NeverScrollableScrollPhysics(),

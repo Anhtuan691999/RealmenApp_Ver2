@@ -124,6 +124,8 @@ class BranchChooseTimeSlotLoadedState extends BookingState {
   });
 }
 
+class ShowBookingTemporaryState extends BookingState {}
+
 class BranchChooseSelectedTimeSlotState extends BookingState {
   String selectedTimeSlot;
   List<TimeSlotCardModel> timeSlotCards;

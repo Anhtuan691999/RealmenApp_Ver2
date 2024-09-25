@@ -17,4 +17,7 @@ class ApiEndpoints {
 
   //$ Daily Plan API $//
   final String DailyPlanUrl = "$domainUrl/mobile/daily-plan";
+
+  //$ Booking API $//
+  final String BookingUrl = "$domainUrl/mobile/booking";
 }

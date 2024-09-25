@@ -6,11 +6,13 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:realmen_customer_application/core/utils/utf8_encoding.dart';
+import 'package:realmen_customer_application/features/data/models/booking_model.dart';
 import 'package:realmen_customer_application/features/data/models/branch_model.dart';
 import 'package:realmen_customer_application/features/data/models/daily_plan_account_model.dart';
 import 'package:realmen_customer_application/features/data/models/daily_plan_model.dart';
 import 'package:realmen_customer_application/features/data/models/service_model.dart';
 import 'package:realmen_customer_application/features/data/models/working_slot_model.dart';
+import 'package:realmen_customer_application/features/domain/repository/BookingRepo/booking_repository.dart';
 import 'package:realmen_customer_application/features/domain/repository/DailyPlanRepo/daily_plan_repository.dart';
 
 part 'booking_event.dart';
@@ -66,6 +68,9 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     // timeslot
     on<GetTimeSlotEvent>(_getTimeSlotEvent);
     on<onTimeSlotSelectedEvent>(_onTimeSlotSelectedEvent);
+
+    // booking submit
+    on<BookingSubmitEvent>(_bookingSubmitEvent);
   }
 
   FutureOr<void> _bookingInitialEvent(
@@ -547,6 +552,47 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
 
       emit(BranchChooseSelectedTimeSlotState(
           selectedTimeSlot: _selectedTimeSlot, timeSlotCards: timeSlotCards));
+    } catch (e) {}
+  }
+
+  FutureOr<void> _bookingSubmitEvent(
+      BookingSubmitEvent event, Emitter<BookingState> emit) async {
+    emit(LoadingState());
+    final IBookingRepository bookingRepository = BookingRepository();
+
+    try {
+      List<BookingServiceModel> bookingServices = [];
+
+      String beginAt = "${_selectedDate!['chosenDate']}T${_selectedTimeSlot}}";
+      if (_selectedServicesStylist.isNotEmpty) {
+        for (ServiceDataModel selectedServiceStylist
+            in _selectedServicesStylist) {
+          BookingServiceModel bookingServiceModel = BookingServiceModel(
+              serviceId: selectedServiceStylist.shopServiceId!,
+              staffId: _selectedStaff.accountId!,
+              beginAt: beginAt);
+          bookingServices.add(bookingServiceModel);
+        }
+      }
+      if (_selectedServicesMassur.isNotEmpty) {
+        for (ServiceDataModel selectedServicesMassur
+            in _selectedServicesMassur) {
+          BookingServiceModel bookingServiceModel = BookingServiceModel(
+              serviceId: selectedServicesMassur.shopServiceId!,
+              staffId: 0,
+              beginAt: beginAt);
+          bookingServices.add(bookingServiceModel);
+        }
+      }
+      BookingModel bookingSubmit = BookingModel(
+          branchId: _selectedBranch!.branchId!,
+          bookingServices: bookingServices);
+      var bookings = await bookingRepository.submitBooking(bookingSubmit);
+      var bookingsStatus = bookings["status"];
+      var bookingsBody = bookings["body"];
+      if (bookingsStatus) {
+        emit(ShowBookingTemporaryState());
+      }
     } catch (e) {}
   }
 }

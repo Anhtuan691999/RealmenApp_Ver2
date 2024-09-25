@@ -76,3 +76,5 @@ class onTimeSlotSelectedEvent extends BookingEvent {
 }
 
 class GetTimeSlotEvent extends BookingEvent {}
+
+class BookingSubmitEvent extends BookingEvent {}

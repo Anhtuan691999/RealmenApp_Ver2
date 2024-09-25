@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:realmen_customer_application/features/data/shared_preferences/shared_preferences.dart';
 import 'package:realmen_customer_application/features/presentation/auth/bloc/auth_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/booking/bloc/choose_branch_booking/booking_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/booking/pages/booking_haircut_temporary_page/bloc/booking_haircut_temporary_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/booking/pages/choose_branch_page/bloc/choose_branch_page_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/home/bloc/home_page_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/pages/landing_page/bloc/landing_page_bloc.dart';
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => HomePageBloc()),
           BlocProvider(create: (_) => BookingBloc()),
           BlocProvider(create: (_) => ChooseBranchPageBloc()),
+          BlocProvider(create: (_) => BookingHaircutTemporaryBloc()),
         ],
         child: GetMaterialApp(
           localizationsDelegates: const [
