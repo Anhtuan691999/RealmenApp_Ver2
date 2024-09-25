@@ -23,6 +23,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   List<ServiceDataModel> _selectedServicesMassur = [];
   List<Map<String, dynamic>> _listDate = [];
   List<DailyPlanModel> _dailyPlan = [];
+  DailyPlanModel _selectedDailyPlan = DailyPlanModel();
   String? _dateController;
   Map<String, dynamic>? _selectedDate;
   List<DailyPlanAccountModel> _accountStylistList = [];
@@ -30,9 +31,11 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   DailyPlanAccountModel _selectedStaff = DailyPlanAccountModel();
   bool _isDefaultSelected = true;
   int _selectedDailyPlanId = 0;
+  String _shiftCode = "";
 
   // timeSlot
   String _selectedTimeSlot = '';
+  List<TimeSlotCardModel> timeSlotCards = [];
 
   BookingBloc() : super(BookingInitial()) {
     on<BookingInitialEvent>(_bookingInitialEvent);
@@ -175,7 +178,8 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     final storage = FirebaseStorage.instance;
     _accountStylistList = [];
     _accountMassurList = [];
-
+    _selectedDailyPlan = DailyPlanModel();
+    _shiftCode = '';
     try {
       DateTime now = DateTime.now();
       DateTime from = now.add(const Duration(days: 2));
@@ -298,6 +302,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       _selectedDailyPlanId = _selectedDate?['dailyPlanId'];
       for (DailyPlanModel dailyPlan in _dailyPlan) {
         if (dailyPlan.dailyPlanId == _selectedDailyPlanId) {
+          _selectedDailyPlan = dailyPlan;
           for (var account in dailyPlan.dailyPlanAccounts!) {
             if (account.professionalTypeCode == 'STYLIST') {
               _accountStylistList.add(account);
@@ -305,6 +310,17 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
               _accountMassurList.add(account);
             }
           }
+        }
+      }
+      for (DailyPlanAccountModel account
+          in _selectedDailyPlan.dailyPlanAccounts!) {
+        if (account.shiftCode == "MORNING_SHIFT" && _shiftCode == "") {
+          _shiftCode = "MORNING_SHIFT";
+        } else if (account.shiftCode == "NIGHT_SHIFT" && _shiftCode == "") {
+          _shiftCode = "NIGHT_SHIFT";
+        } else {
+          _shiftCode = "ALL";
+          break;
         }
       }
       emit(BranchChooseDateLoadDateState(
@@ -318,6 +334,8 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   FutureOr<void> _branchChooseSelectDateEvent(
       BranchChooseSelectDateEvent event, Emitter<BookingState> emit) async {
     emit(LoadingState());
+    _selectedStaff = DailyPlanAccountModel();
+    _isDefaultSelected = true;
     _dateController = event.value as String?;
     _selectedDate = _listDate!
         .where((date) => date['id'] == event.value.toString())
@@ -326,6 +344,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     _selectedDailyPlanId = _selectedDate?['dailyPlanId'];
     for (DailyPlanModel dailyPlan in _dailyPlan) {
       if (dailyPlan.dailyPlanId == _selectedDailyPlanId) {
+        _accountStylistList = [];
         for (var account in dailyPlan.dailyPlanAccounts!) {
           if (account.professionalTypeCode == 'STYLIST') {
             _accountStylistList.add(account);
@@ -396,7 +415,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       GetTimeSlotEvent event, Emitter<BookingState> emit) async {
     // emit(LoadingState());
     try {
-      List<TimeSlotCardModel> timeSlotCards = [];
+      timeSlotCards = [];
 
       List<String> timeSlots = generateTimeSlots();
 
@@ -438,20 +457,49 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
             isSelectable = false;
           }
         }
-        // kiểm tra giờ mở cửa của branch
-        // if (timeSlot.compareTo(openBranch) >= 0 &&
-        //     timeSlot.compareTo(closeBranch) < 0) {
-        //   // không thay đổi
-        //   isSelectable;
-        // } else {
-        //   // buộc false
-        //   isSelectable = false;
-        // }
+        // kiểm tra ca lam
+        String to = '';
+        String from = '';
+        if (_selectedStaff.accountId != null) {
+          if (_selectedStaff.shiftCode == "MORNING_SHIFT") {
+            to = '07:00';
+            from = '15:00';
+          } else if (_selectedStaff.shiftCode == "NIGHT_SHIFT") {
+            to = '15:00';
+            from = '23:00';
+          }
+
+          if (timeSlot.compareTo(to) >= 0 && timeSlot.compareTo(from) < 0) {
+            // không thay đổi
+            isSelectable;
+          } else {
+            // buộc false
+            isSelectable = false;
+          }
+        } else {
+          if (_shiftCode == "MORNING_SHIFT") {
+            to = '07:00';
+            from = '15:00';
+          } else if (_shiftCode == "NIGHT_SHIFT") {
+            to = '15:00';
+            from = '23:00';
+          }
+          if (_shiftCode != "ALL") {
+            if (timeSlot.compareTo(to) >= 0 && timeSlot.compareTo(from) < 0) {
+              // không thay đổi
+              isSelectable;
+            } else {
+              // buộc false
+              isSelectable = false;
+            }
+          }
+        }
 
         TimeSlotCardModel timeSlotCard = TimeSlotCardModel(
           timeSlot: timeSlot,
           // isSelected: isSelected,
           isSelectable: isSelectable,
+          type: _selectedDate!['type'],
         );
         timeSlotCards.add(timeSlotCard);
       }
@@ -462,7 +510,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
 
   List<String> generateTimeSlots() {
     List<String> timeSlots = [];
-    for (int hour = 7; hour <= 23; hour++) {
+    for (int hour = 7; hour < 23; hour++) {
       for (int minute = 0; minute < 60; minute += 30) {
         final formattedHour = hour.toString().padLeft(2, '0');
         final formattedMinute = minute.toString().padLeft(2, '0');
@@ -496,6 +544,9 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       } else {
         _selectedTimeSlot = event.timeSlot;
       }
+
+      emit(BranchChooseSelectedTimeSlotState(
+          selectedTimeSlot: _selectedTimeSlot, timeSlotCards: timeSlotCards));
     } catch (e) {}
   }
 }

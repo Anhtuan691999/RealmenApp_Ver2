@@ -33,6 +33,11 @@ class _BCSChooseStaffState extends State<BCSChooseStaff> {
         if (state is BranchChooseSelectedStaffState) {
           selectedStaff = state.selectedStaff;
           isDefaultSelected = state.isDefaultSelected;
+        } else if (state is BranchChooseStaffLoadedState) {
+          BranchChooseStaffLoadedState currentState =
+              state as BranchChooseStaffLoadedState;
+          isDefaultSelected = true;
+          selectedStaff = DailyPlanAccountModel();
         }
         return ExpansionTile(
           shape: const Border(bottom: BorderSide.none),

@@ -34,58 +34,69 @@ class _BCSChooseTimeSlotState extends State<BCSChooseTimeSlot> {
     super.initState();
   }
 
-  Widget TimeSlotCard(bool isSelectable, String timeSlot) {
-    bool isSelected = false;
-    // isSelected = timeSlotCard == widget.selectedTimeSlot;
-    final backgroundColor =
-        // isSelected
-        //     ? (dateSeleted!['type'] == "Ngày thường"
-        //         ? const Color(0xff207A20)
-        //         : const Color(0xff964444))
-        //     :
-        (isSelectable ? Colors.white : Colors.grey);
-    final textColor = isSelected ? Colors.white : Colors.black;
-
-    return GestureDetector(
-      onTap: () {
-        if (isSelectable) {
-          // widget.onSelected(widget.timeSlot);
-        }
-      },
-      child: Container(
-        // height: 20.0,
-        // width: 40.0,
-        decoration: BoxDecoration(
-          border:
-              isSelectable ? Border.all(color: Colors.black, width: 1.0) : null,
-          borderRadius: BorderRadius.circular(5.0),
-          color: backgroundColor,
-        ),
-        child: Center(
-          child: Text(
-            timeSlot,
-            style: TextStyle(fontSize: 23, color: textColor),
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    Widget TimeSlotCard(TimeSlotCardModel timeSlotCard) {
+      bool isSelected = false;
+      isSelected = timeSlotCard.timeSlot == _selectedTimeSlot;
+      var backgroundColor = isSelected
+          ? (timeSlotCard.type == "Ngày thường"
+              ? const Color(0xff207A20)
+              : const Color(0xff964444))
+          : (timeSlotCard.isSelectable ? Colors.white : Colors.grey);
+      var textColor = isSelected ? Colors.white : Colors.black;
+
+      return GestureDetector(
+        onTap: () {
+          if (timeSlotCard.isSelectable) {
+            widget.bloc
+                .add(onTimeSlotSelectedEvent(timeSlot: timeSlotCard.timeSlot));
+          }
+        },
+        child: Container(
+          // height: 20.0,
+          // width: 40.0,
+          decoration: BoxDecoration(
+            border: timeSlotCard.isSelectable
+                ? Border.all(color: Colors.black, width: 1.0)
+                : null,
+            borderRadius: BorderRadius.circular(5.0),
+            color: backgroundColor,
+          ),
+          child: Center(
+            child: Text(
+              timeSlotCard.timeSlot,
+              style: TextStyle(fontSize: 23, color: textColor),
+            ),
+          ),
+        ),
+      );
+    }
+
     return BlocBuilder<BookingBloc, BookingState>(
       bloc: widget.bloc,
       builder: (context, state) {
         if (state is BranchChooseStaffLoadedState) {
           widget.bloc.add(GetTimeSlotEvent());
         } else if (state is BranchChooseTimeSlotLoadedState) {
+          timeSlotCards = [];
           for (TimeSlotCardModel timeSlot
               in (state as BranchChooseTimeSlotLoadedState).timeSlotCards) {
-            timeSlotCards
-                .add(TimeSlotCard(timeSlot.isSelectable, timeSlot.timeSlot));
+            timeSlotCards.add(TimeSlotCard(timeSlot));
             _selectedTimeSlot = '';
           }
+        } else if (state is BranchChooseSelectedTimeSlotState) {
+          timeSlotCards = [];
+          _selectedTimeSlot =
+              (state as BranchChooseSelectedTimeSlotState).selectedTimeSlot;
+          for (TimeSlotCardModel timeSlot
+              in (state as BranchChooseSelectedTimeSlotState).timeSlotCards) {
+            timeSlotCards.add(TimeSlotCard(timeSlot));
+          }
+        } else if (state is BranchChooseSelectedStaffState) {
+          widget.bloc.add(GetTimeSlotEvent());
         }
+
         // listDate!.isNotEmpty
         //     ?
         return Column(

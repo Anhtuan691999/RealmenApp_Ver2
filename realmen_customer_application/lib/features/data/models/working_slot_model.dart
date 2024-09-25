@@ -57,9 +57,11 @@ class WorkingSlotModel extends Equatable {
 class TimeSlotCardModel extends Equatable {
   bool isSelectable;
   String timeSlot;
+  String type;
   TimeSlotCardModel({
     required this.isSelectable,
     required this.timeSlot,
+    required this.type,
   });
 
   @override

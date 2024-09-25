@@ -168,7 +168,7 @@ class _CSChooseDateBookingState extends State<CSChooseDateBooking> {
                                                             item.value['type'] ==
                                                                     "Ngày thường"
                                                                 ? Container(
-                                                                    width: 100,
+                                                                    width: 95,
                                                                     padding: const EdgeInsets
                                                                         .symmetric(
                                                                         horizontal:

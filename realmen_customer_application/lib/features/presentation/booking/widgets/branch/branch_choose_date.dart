@@ -171,7 +171,7 @@ class _ChooseDateBookingState extends State<ChooseDateBooking> {
                                                             item.value['type'] ==
                                                                     "Ngày thường"
                                                                 ? Container(
-                                                                    width: 100,
+                                                                    width: 95,
                                                                     padding: const EdgeInsets
                                                                         .symmetric(
                                                                         horizontal:
@@ -201,7 +201,7 @@ class _ChooseDateBookingState extends State<ChooseDateBooking> {
                                                                     ),
                                                                   )
                                                                 : Container(
-                                                                    width: 100,
+                                                                    width: 95,
                                                                     padding: const EdgeInsets
                                                                         .symmetric(
                                                                         horizontal:

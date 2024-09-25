@@ -123,3 +123,13 @@ class BranchChooseTimeSlotLoadedState extends BookingState {
     required this.timeSlotCards,
   });
 }
+
+class BranchChooseSelectedTimeSlotState extends BookingState {
+  String selectedTimeSlot;
+  List<TimeSlotCardModel> timeSlotCards;
+
+  BranchChooseSelectedTimeSlotState({
+    required this.selectedTimeSlot,
+    required this.timeSlotCards,
+  });
+}
