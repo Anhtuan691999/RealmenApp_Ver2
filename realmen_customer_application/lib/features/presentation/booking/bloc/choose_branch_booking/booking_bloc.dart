@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:realmen_customer_application/core/utils/utf8_encoding.dart';
 import 'package:realmen_customer_application/features/data/models/booking_model.dart';
@@ -129,12 +130,17 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     emit(LoadingState());
 
     try {
+      _selectedServicesStylist = [];
+      _selectedServicesMassur = [];
       _selectedServices = event.selectedServices;
-      if (event.selectedServices.any((e) => e.shopCategoryCode == "HAIRCUT")) {
-        _selectedServicesStylist = event.selectedServices;
-      } else {
-        _selectedServicesMassur = event.selectedServices;
+      for (ServiceDataModel element in event.selectedServices) {
+        if (element.shopCategoryCode == "HAIRCUT") {
+          _selectedServicesStylist.add(element);
+        } else {
+          _selectedServicesMassur.add(element);
+        }
       }
+
       emit(ChooseBranchBookingSelectedServiceState(
           selectedServices: _selectedServices,
           selectedServicesStylist: _selectedServicesStylist,
@@ -562,37 +568,45 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
 
     try {
       List<BookingServiceModel> bookingServices = [];
-
-      String beginAt = "${_selectedDate!['chosenDate']}T${_selectedTimeSlot}}";
-      if (_selectedServicesStylist.isNotEmpty) {
-        for (ServiceDataModel selectedServiceStylist
-            in _selectedServicesStylist) {
-          BookingServiceModel bookingServiceModel = BookingServiceModel(
-              serviceId: selectedServiceStylist.shopServiceId!,
-              staffId: _selectedStaff.accountId!,
-              beginAt: beginAt);
-          bookingServices.add(bookingServiceModel);
+      if (_selectedDate == null) {
+        emit(ShowSnackBarActionState(message: "Xin chọn ngày", status: false));
+      } else if (_selectedTimeSlot == null) {
+        emit(ShowSnackBarActionState(message: "Xin chọn giờ", status: false));
+      } else {
+        String beginAt = "${_selectedDate!['chosenDate']}T${_selectedTimeSlot}";
+        if (_selectedServicesStylist.isNotEmpty) {
+          int staffId =
+              _selectedStaff.accountId == null ? 0 : _selectedStaff.accountId!;
+          for (ServiceDataModel selectedServiceStylist
+              in _selectedServicesStylist) {
+            BookingServiceModel bookingServiceModel = BookingServiceModel(
+                serviceId: selectedServiceStylist.shopServiceId!,
+                staffId: staffId,
+                beginAtReq: beginAt);
+            bookingServices.add(bookingServiceModel);
+          }
+        }
+        if (_selectedServicesMassur.isNotEmpty) {
+          for (ServiceDataModel selectedServicesMassur
+              in _selectedServicesMassur) {
+            BookingServiceModel bookingServiceModel = BookingServiceModel(
+                serviceId: selectedServicesMassur.shopServiceId!,
+                staffId: 0,
+                beginAtReq: beginAt);
+            bookingServices.add(bookingServiceModel);
+          }
+        }
+        BookingModel bookingSubmit = BookingModel(
+            branchId: _selectedBranch!.branchId!,
+            bookingServices: bookingServices);
+        var bookings = await bookingRepository.submitBooking(bookingSubmit);
+        var bookingsStatus = bookings["status"];
+        var bookingsBody = bookings["body"];
+        if (bookingsStatus) {
+          emit(ShowBookingTemporaryState());
         }
       }
-      if (_selectedServicesMassur.isNotEmpty) {
-        for (ServiceDataModel selectedServicesMassur
-            in _selectedServicesMassur) {
-          BookingServiceModel bookingServiceModel = BookingServiceModel(
-              serviceId: selectedServicesMassur.shopServiceId!,
-              staffId: 0,
-              beginAt: beginAt);
-          bookingServices.add(bookingServiceModel);
-        }
-      }
-      BookingModel bookingSubmit = BookingModel(
-          branchId: _selectedBranch!.branchId!,
-          bookingServices: bookingServices);
-      var bookings = await bookingRepository.submitBooking(bookingSubmit);
-      var bookingsStatus = bookings["status"];
-      var bookingsBody = bookings["body"];
-      if (bookingsStatus) {
-        emit(ShowBookingTemporaryState());
-      }
+      emit(ShowBookingTemporaryState());
     } catch (e) {}
   }
 }

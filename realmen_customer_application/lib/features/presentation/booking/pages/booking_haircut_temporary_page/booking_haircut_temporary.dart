@@ -114,48 +114,49 @@ class _BookingHaircutTemporaryState extends State<BookingHaircutTemporary> {
                                   ),
                                 ),
                               ),
-                              isLoading
-                                  ? Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 30),
-                                          height: 50,
-                                          width: 50,
-                                          child:
-                                              const CircularProgressIndicator(),
-                                        )
-                                      ],
-                                    )
-                                  : Column(
-                                      children: [
-                                        _buildInfoUser(
-                                            widget.selectedBranch,
-                                            widget.selectedStaff,
-                                            widget.selectedDate,
-                                            widget.selectedTimeSlot),
-                                        _buildService(widget.selectedServices),
-                                        const Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 10),
-                                          child: Divider(
-                                            color: Colors.black,
-                                            height: 2,
-                                            thickness: 1,
-                                          ),
-                                        ),
-                                        // _buildButton(),
-                                        _buildTotalMoney(),
-                                        _buildButton(),
-                                        const SizedBox(
-                                          height: 10,
-                                        )
-                                      ],
+                              // isLoading
+                              //     ? Column(
+                              //         crossAxisAlignment:
+                              //             CrossAxisAlignment.center,
+                              //         mainAxisAlignment:
+                              //             MainAxisAlignment.center,
+                              //         children: [
+                              //           Container(
+                              //             margin:
+                              //                 const EdgeInsets.only(top: 30),
+                              //             height: 50,
+                              //             width: 50,
+                              //             child:
+                              //                 const CircularProgressIndicator(),
+                              //           )
+                              //         ],
+                              //       )
+                              //     :
+                              Column(
+                                children: [
+                                  _buildInfoUser(
+                                      widget.selectedBranch,
+                                      widget.selectedStaff,
+                                      widget.selectedDate,
+                                      widget.selectedTimeSlot),
+                                  _buildService(widget.selectedServices),
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 10),
+                                    child: Divider(
+                                      color: Colors.black,
+                                      height: 2,
+                                      thickness: 1,
                                     ),
+                                  ),
+                                  // _buildButton(),
+                                  _buildTotalMoney(),
+                                  _buildButton(),
+                                  const SizedBox(
+                                    height: 10,
+                                  )
+                                ],
+                              ),
                             ],
                           ),
                         ),
@@ -171,8 +172,8 @@ class _BookingHaircutTemporaryState extends State<BookingHaircutTemporary> {
     );
   }
 
-  Widget _buildInfoUser(
-      dynamic branch, dynamic stylist, dynamic date, dynamic time) {
+  Widget _buildInfoUser(BranchDataModel branch, DailyPlanAccountModel stylist,
+      dynamic date, String time) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Column(
@@ -193,7 +194,7 @@ class _BookingHaircutTemporaryState extends State<BookingHaircutTemporary> {
                 ),
               ),
               Text(
-                date ?? " ",
+                date['date'] ?? " ",
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                     color: Colors.black,
@@ -250,10 +251,7 @@ class _BookingHaircutTemporaryState extends State<BookingHaircutTemporary> {
                 width: 220,
                 child: Text(
                   stylist != null && stylist.accountId != null
-                      ? utf8.decode(("${stylist.firstName} ${stylist.lastName}")
-                          .toString()
-                          .runes
-                          .toList())
+                      ? "${stylist.fullName}"
                       : "REALMEN sẽ chọn giúp anh",
                   textAlign: TextAlign.left,
                   maxLines: 1,
@@ -286,7 +284,7 @@ class _BookingHaircutTemporaryState extends State<BookingHaircutTemporary> {
               SizedBox(
                 width: 220,
                 child: Text(
-                  utf8.decode(branch.address.toString().runes.toList()),
+                  branch.branchAddress.toString(),
                   maxLines: 3,
                   textAlign: TextAlign.left,
                   style: const TextStyle(
@@ -448,7 +446,7 @@ class _BookingHaircutTemporaryState extends State<BookingHaircutTemporary> {
               ),
               // SizedBox(width: 140),
               Text(
-                formatter.format(total),
+                "${formatter.format(total)} VNĐ",
                 style: const TextStyle(
                   fontSize: 17,
                 ),

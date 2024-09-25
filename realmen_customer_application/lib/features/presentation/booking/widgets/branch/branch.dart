@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:realmen_customer_application/core/widgets/snackbar/snackbar.dart';
 import 'package:realmen_customer_application/features/data/models/account_model.dart';
 import 'package:realmen_customer_application/features/data/models/branch_model.dart';
 import 'package:realmen_customer_application/features/data/models/daily_plan_account_model.dart';
@@ -87,12 +88,15 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
             break;
           case BranchChooseSelectDateState:
             selectedDate = (state as BranchChooseSelectDateState).dateSeleted;
+            selectedTimeSlot = '';
+
             break;
 
           // choose staff
           case BranchChooseSelectedStaffState:
             selectedStaff =
                 (state as BranchChooseSelectedStaffState).selectedStaff;
+            selectedTimeSlot = '';
             break;
 
           case BranchChooseSelectedTimeSlotState:
@@ -108,11 +112,19 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
                 selectedStaff: selectedStaff,
                 selectedTimeSlot: selectedTimeSlot));
             break;
+          case ShowSnackBarActionState:
+            final snackBarState = state as ShowSnackBarActionState;
+            if (snackBarState.status == true) {
+              ShowSnackBar.SuccessSnackBar(context, snackBarState.message);
+            } else {
+              ShowSnackBar.ErrorSnackBar(context, snackBarState.message);
+            }
+            break;
         }
       },
       builder: (context, state) {
         return SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               children: [
                 // 1 chon chi nhanh
@@ -295,7 +307,7 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
                             ),
                             child: ElevatedButton(
                               onPressed: () {
-                                // _onBooking();
+                                widget.bloc.add(BookingSubmitEvent());
                               },
                               style: ElevatedButton.styleFrom(
                                 foregroundColor: Colors.black,

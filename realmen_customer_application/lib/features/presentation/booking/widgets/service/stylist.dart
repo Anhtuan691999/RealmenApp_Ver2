@@ -87,110 +87,111 @@ class _StylistOptionBookingState extends State<StylistOptionBooking>
       },
       builder: (context, state) {
         return SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
             child: Column(
-          children: [
-            // 1 chon stylist
-            CSChooseStylistBooking(bloc: widget.bloc),
+              children: [
+                // 1 chon stylist
+                CSChooseStylistBooking(bloc: widget.bloc),
 
-            // 2 chon lịch
-            selectedStylist != null
-                ? CSChooseDateBooking(bloc: widget.bloc)
-                : Container(),
+                // 2 chon lịch
+                selectedStylist != null
+                    ? CSChooseDateBooking(bloc: widget.bloc)
+                    : Container(),
 
-            // 3 chon service
-            selectedStylist != null && selectedDate != null
-                ? CSChooseServiceBooking(bloc: widget.bloc)
-                : Container(),
+                // 3 chon service
+                selectedStylist != null && selectedDate != null
+                    ? CSChooseServiceBooking(bloc: widget.bloc)
+                    : Container(),
 
-            // TimelineTile(
-            //   // false la hien thanh
+                // TimelineTile(
+                //   // false la hien thanh
 
-            //   isLast: false,
-            //   beforeLineStyle: const LineStyle(color: Colors.black, thickness: 2),
+                //   isLast: false,
+                //   beforeLineStyle: const LineStyle(color: Colors.black, thickness: 2),
 
-            //   // icon
-            //   indicatorStyle: IndicatorStyle(
-            //     color: Colors.transparent,
-            //     width: 35,
-            //     height: 40,
-            //     padding: const EdgeInsets.only(top: 4, bottom: 4, right: 5),
-            //     indicator: Image.asset('assets/images/logo-no-text.png'),
-            //     indicatorXY: 0.0,
-            //   ),
+                //   // icon
+                //   indicatorStyle: IndicatorStyle(
+                //     color: Colors.transparent,
+                //     width: 35,
+                //     height: 40,
+                //     padding: const EdgeInsets.only(top: 4, bottom: 4, right: 5),
+                //     indicator: Image.asset('assets/images/logo-no-text.png'),
+                //     indicatorXY: 0.0,
+                //   ),
 
-            //   // content
-            //   endChild: selectedBranch.branchId != null &&
-            //           selectedService.isNotEmpty &&
-            //           selectedBranch.branchServiceList != null &&
-            //           selectedBranch.branchServiceList!.isNotEmpty
-            //       ? ChooseTimeSlot(
-            //           onDateSelected: updateSelectedDate,
-            //           onTimeSelected: updateSelectedTime,
-            //           selectedStylist: selectedStylist,
-            //           openBranch: selectedBranch.open!,
-            //           closeBranch: selectedBranch.close!,
-            //         )
-            //       : Container(
-            //           height: 150,
-            //           padding: const EdgeInsets.only(top: 10, right: 15),
-            //           constraints: const BoxConstraints(minHeight: 120),
-            //           child: const Text(
-            //             "3. Chọn ngày, giờ ",
-            //             style: TextStyle(fontSize: 20),
-            //           )),
-            // ),
-            // // button Đặt Lịch
-            // selectedBranch.branchId != null &&
-            //         selectedStylist.accountId != null &&
-            //         selectedService.isNotEmpty &&
-            //         selectedService != []
-            //     ? Container(
-            //         width: 81.w,
-            //         margin: const EdgeInsets.symmetric(horizontal: 15),
-            //         padding: const EdgeInsets.all(0),
-            //         decoration: BoxDecoration(
-            //           gradient: const LinearGradient(
-            //               begin: Alignment.topLeft,
-            //               end: Alignment.bottomRight,
-            //               colors: [
-            //                 Color(0xff302E2E),
-            //                 Color(0xe6444141),
-            //                 Color(0x8c484646),
-            //                 Color(0x26444141),
-            //               ]),
-            //           borderRadius: BorderRadius.circular(10),
-            //         ),
-            //         child: ElevatedButton(
-            //           onPressed: () {
-            //             _onBooking();
-            //           },
-            //           style: ElevatedButton.styleFrom(
-            //             foregroundColor: Colors.black,
-            //             backgroundColor: Colors.black12,
-            //             shape: RoundedRectangleBorder(
-            //               borderRadius: BorderRadius.circular(10.0),
-            //             ),
-            //             minimumSize: const Size(200, 50),
-            //             padding: const EdgeInsets.all(0),
-            //             shadowColor: Colors.transparent,
-            //           ),
-            //           child: const Text(
-            //             'Đặt Lịch',
-            //             style: TextStyle(
-            //                 fontSize: 24,
-            //                 color: Colors.white,
-            //                 letterSpacing: 1.5,
-            //                 fontWeight: FontWeight.w700),
-            //           ),
-            //         ),
-            //       )
-            //     : Container(),
+                //   // content
+                //   endChild: selectedBranch.branchId != null &&
+                //           selectedService.isNotEmpty &&
+                //           selectedBranch.branchServiceList != null &&
+                //           selectedBranch.branchServiceList!.isNotEmpty
+                //       ? ChooseTimeSlot(
+                //           onDateSelected: updateSelectedDate,
+                //           onTimeSelected: updateSelectedTime,
+                //           selectedStylist: selectedStylist,
+                //           openBranch: selectedBranch.open!,
+                //           closeBranch: selectedBranch.close!,
+                //         )
+                //       : Container(
+                //           height: 150,
+                //           padding: const EdgeInsets.only(top: 10, right: 15),
+                //           constraints: const BoxConstraints(minHeight: 120),
+                //           child: const Text(
+                //             "3. Chọn ngày, giờ ",
+                //             style: TextStyle(fontSize: 20),
+                //           )),
+                // ),
+                // // button Đặt Lịch
+                // selectedBranch.branchId != null &&
+                //         selectedStylist.accountId != null &&
+                //         selectedService.isNotEmpty &&
+                //         selectedService != []
+                //     ? Container(
+                //         width: 81.w,
+                //         margin: const EdgeInsets.symmetric(horizontal: 15),
+                //         padding: const EdgeInsets.all(0),
+                //         decoration: BoxDecoration(
+                //           gradient: const LinearGradient(
+                //               begin: Alignment.topLeft,
+                //               end: Alignment.bottomRight,
+                //               colors: [
+                //                 Color(0xff302E2E),
+                //                 Color(0xe6444141),
+                //                 Color(0x8c484646),
+                //                 Color(0x26444141),
+                //               ]),
+                //           borderRadius: BorderRadius.circular(10),
+                //         ),
+                //         child: ElevatedButton(
+                //           onPressed: () {
+                //             _onBooking();
+                //           },
+                //           style: ElevatedButton.styleFrom(
+                //             foregroundColor: Colors.black,
+                //             backgroundColor: Colors.black12,
+                //             shape: RoundedRectangleBorder(
+                //               borderRadius: BorderRadius.circular(10.0),
+                //             ),
+                //             minimumSize: const Size(200, 50),
+                //             padding: const EdgeInsets.all(0),
+                //             shadowColor: Colors.transparent,
+                //           ),
+                //           child: const Text(
+                //             'Đặt Lịch',
+                //             style: TextStyle(
+                //                 fontSize: 24,
+                //                 color: Colors.white,
+                //                 letterSpacing: 1.5,
+                //                 fontWeight: FontWeight.w700),
+                //           ),
+                //         ),
+                //       )
+                //     : Container(),
 
-            // const SizedBox(
-            //   height: 20,
-            // )
-          ],
-        ));
+                // const SizedBox(
+                //   height: 20,
+                // )
+              ],
+            ));
       },
     );
   }

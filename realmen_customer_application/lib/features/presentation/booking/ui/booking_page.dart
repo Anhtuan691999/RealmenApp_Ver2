@@ -237,7 +237,7 @@ class _BookingPageState extends State<BookingPage>
                           // height: 800,
                           child: TabBarView(
                             controller: _tabController,
-                            physics: const NeverScrollableScrollPhysics(),
+                            physics: const AlwaysScrollableScrollPhysics(),
                             children: [
                               BlocProvider.value(
                                 value: CBBookingBloc,

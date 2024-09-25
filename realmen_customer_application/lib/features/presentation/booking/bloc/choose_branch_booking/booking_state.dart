@@ -135,3 +135,10 @@ class BranchChooseSelectedTimeSlotState extends BookingState {
     required this.timeSlotCards,
   });
 }
+
+class ShowSnackBarActionState extends BookingState {
+  final String message;
+  final bool status;
+
+  ShowSnackBarActionState({required this.status, required this.message});
+}

@@ -62,105 +62,107 @@ class _ChooseStaffBookingState extends State<ChooseStaffBooking> {
               state as BranchChooseSelectedStaffState;
           selectedStaff = currentState.selectedStaff;
         }
+        print("selectedServicesStylist  ${selectedServicesStylist.length}");
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            selectedServicesStylist.length >= 2
-                ? ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: Container(
-                      height: 40,
-                      padding: const EdgeInsets.only(
-                          left: 10, right: 0, top: 1, bottom: 1),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1,
-                          style: BorderStyle.solid,
-                        ),
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white,
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black26,
-                            offset: Offset(0, 1.5),
-                            blurRadius: 1,
-                            spreadRadius: 0,
-                          ),
-                        ],
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton2<String>(
-                          isExpanded: true,
-                          hint: Text(
-                            'Chọn stylist cho Tất cả dịch vụ',
-                            style: TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context).hintColor,
-                            ),
-                          ),
-                          alignment: Alignment.center,
-                          value: staffOtpController,
-                          items: options != [] && options.isNotEmpty
-                              ? options
-                                  .map((option) => DropdownMenuItem<String>(
-                                        value: option,
-                                        child: Text(
-                                          option,
-                                          style: const TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.black,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                      ))
-                                  .toList()
-                              : [],
-                          onChanged: (option) => {}
-                          // setState(() {
-                          //   optionController = option!;
-                          //   print(optionController);
-                          //   setData();
-                          //   if (optionController ==
-                          //       'Chọn stylist cho Tất cả dịch vụ') {
-                          //     widget.onUpdateOption(false);
-                          //   } else {
-                          //     widget.onUpdateOption(true);
-                          //   }
-                          //   isChangeOptional = true;
-                          //   // getBranches(option, false);
-                          // })
-                          ,
-                          dropdownStyleData: DropdownStyleData(
-                            maxHeight: 200,
-                            width: 325,
-                            padding: const EdgeInsets.all(0),
-                            decoration: BoxDecoration(
-                              // borderRadius: BorderRadius.circular(14),
-                              color: Colors.grey.shade200,
-                            ),
-                            offset: const Offset(-10, -6),
-                            scrollbarTheme: ScrollbarThemeData(
-                              // radius: const Radius.circular(40),
-                              // thickness: MaterialStateProperty.all(6),
-                              thumbVisibility: MaterialStateProperty.all(true),
-                            ),
-                          ),
-                          menuItemStyleData: const MenuItemStyleData(
-                            height: 40,
-                            padding: EdgeInsets.only(left: 35, right: 24),
-                          ),
-                          buttonStyleData: const ButtonStyleData(
-                            padding: EdgeInsets.all(0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                : Container(),
+            // selectedServicesStylist.length >= 2
+            //     ? ClipRRect(
+            //         borderRadius: BorderRadius.circular(5),
+            //         child: Container(
+            //           height: 40,
+            //           padding: const EdgeInsets.only(
+            //               left: 10, right: 0, top: 1, bottom: 1),
+            //           decoration: BoxDecoration(
+            //             border: Border.all(
+            //               color: Colors.grey,
+            //               width: 1,
+            //               style: BorderStyle.solid,
+            //             ),
+            //             borderRadius: BorderRadius.circular(5),
+            //             color: Colors.white,
+            //             boxShadow: const [
+            //               BoxShadow(
+            //                 color: Colors.black26,
+            //                 offset: Offset(0, 1.5),
+            //                 blurRadius: 1,
+            //                 spreadRadius: 0,
+            //               ),
+            //             ],
+            //           ),
+            //           child: DropdownButtonHideUnderline(
+            //             child: DropdownButton2<String>(
+            //               isExpanded: true,
+            //               hint: Text(
+            //                 'Chọn stylist cho Tất cả dịch vụ',
+            //                 style: TextStyle(
+            //                   overflow: TextOverflow.ellipsis,
+            //                   fontSize: 15,
+            //                   fontWeight: FontWeight.w400,
+            //                   color: Theme.of(context).hintColor,
+            //                 ),
+            //               ),
+            //               alignment: Alignment.center,
+            //               value: staffOtpController,
+            //               items: options != [] && options.isNotEmpty
+            //                   ? options
+            //                       .map((option) => DropdownMenuItem<String>(
+            //                             value: option,
+            //                             child: Text(
+            //                               option,
+            //                               style: const TextStyle(
+            //                                 fontSize: 15,
+            //                                 fontWeight: FontWeight.w400,
+            //                                 color: Colors.black,
+            //                                 overflow: TextOverflow.ellipsis,
+            //                               ),
+            //                             ),
+            //                           ))
+            //                       .toList()
+            //                   : [],
+            //               onChanged: (option) => {}
+            //               // setState(() {
+            //               //   optionController = option!;
+            //               //   print(optionController);
+            //               //   setData();
+            //               //   if (optionController ==
+            //               //       'Chọn stylist cho Tất cả dịch vụ') {
+            //               //     widget.onUpdateOption(false);
+            //               //   } else {
+            //               //     widget.onUpdateOption(true);
+            //               //   }
+            //               //   isChangeOptional = true;
+            //               //   // getBranches(option, false);
+            //               // })
+            //               ,
+            //               dropdownStyleData: DropdownStyleData(
+            //                 maxHeight: 200,
+            //                 width: 325,
+            //                 padding: const EdgeInsets.all(0),
+            //                 decoration: BoxDecoration(
+            //                   // borderRadius: BorderRadius.circular(14),
+            //                   color: Colors.grey.shade200,
+            //                 ),
+            //                 offset: const Offset(-10, -6),
+            //                 scrollbarTheme: ScrollbarThemeData(
+            //                   // radius: const Radius.circular(40),
+            //                   // thickness: MaterialStateProperty.all(6),
+            //                   thumbVisibility: MaterialStateProperty.all(true),
+            //                 ),
+            //               ),
+            //               menuItemStyleData: const MenuItemStyleData(
+            //                 height: 40,
+            //                 padding: EdgeInsets.only(left: 35, right: 24),
+            //               ),
+            //               buttonStyleData: const ButtonStyleData(
+            //                 padding: EdgeInsets.all(0),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       )
+            //     : Container(),
             // Column(
             //   crossAxisAlignment: CrossAxisAlignment.center,
             //   mainAxisAlignment: MainAxisAlignment.center,

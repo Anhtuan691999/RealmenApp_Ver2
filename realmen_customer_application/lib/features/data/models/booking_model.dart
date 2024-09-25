@@ -7,11 +7,11 @@ import 'package:equatable/equatable.dart';
 class BookingServiceModel extends Equatable {
   int serviceId;
   int staffId;
-  String beginAt;
+  String beginAtReq;
   BookingServiceModel({
     required this.serviceId,
     required this.staffId,
-    required this.beginAt,
+    required this.beginAtReq,
   });
 
   @override
@@ -22,7 +22,7 @@ class BookingServiceModel extends Equatable {
     return <String, dynamic>{
       'serviceId': serviceId,
       'staffId': staffId,
-      'beginAt': beginAt,
+      'beginAtReq': beginAtReq,
     };
   }
 
@@ -30,7 +30,7 @@ class BookingServiceModel extends Equatable {
     return BookingServiceModel(
       serviceId: map['serviceId'] as int,
       staffId: map['staffId'] as int,
-      beginAt: map['beginAt'] as String,
+      beginAtReq: map['beginAtReq'] as String,
     );
   }
 
