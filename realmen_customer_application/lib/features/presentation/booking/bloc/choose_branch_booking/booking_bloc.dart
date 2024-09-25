@@ -6,11 +6,12 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:realmen_customer_application/core/utils/utf8_encoding.dart';
-import 'package:realmen_customer_application/features/data/models/account_model.dart';
 import 'package:realmen_customer_application/features/data/models/branch_model.dart';
+import 'package:realmen_customer_application/features/data/models/daily_plan_account_model.dart';
+import 'package:realmen_customer_application/features/data/models/daily_plan_model.dart';
 import 'package:realmen_customer_application/features/data/models/service_model.dart';
-import 'package:realmen_customer_application/features/domain/repository/AccountRepo/account_repository.dart';
-import 'package:realmen_customer_application/features/domain/repository/ServiceRepo/service_repository.dart';
+import 'package:realmen_customer_application/features/data/models/working_slot_model.dart';
+import 'package:realmen_customer_application/features/domain/repository/DailyPlanRepo/daily_plan_repository.dart';
 
 part 'booking_event.dart';
 part 'booking_state.dart';
@@ -18,16 +19,20 @@ part 'booking_state.dart';
 class BookingBloc extends Bloc<BookingEvent, BookingState> {
   BranchDataModel? _selectedBranch;
   List<ServiceDataModel> _selectedServices = [];
-  dynamic _selectedTime;
-  List<Map<String, dynamic>>? _listDate = [];
+  List<ServiceDataModel> _selectedServicesStylist = [];
+  List<ServiceDataModel> _selectedServicesMassur = [];
+  List<Map<String, dynamic>> _listDate = [];
+  List<DailyPlanModel> _dailyPlan = [];
   String? _dateController;
   Map<String, dynamic>? _selectedDate;
-  List<AccountModel> _selectedStylist = [];
-  List<AccountModel> _selectedMassur = [];
-  List<AccountModel> _accountStylistList = [];
-  List<AccountModel> _accountMassurList = [];
-  AccountModel _selectedStaff = AccountModel();
+  List<DailyPlanAccountModel> _accountStylistList = [];
+  List<DailyPlanAccountModel> _accountMassurList = [];
+  DailyPlanAccountModel _selectedStaff = DailyPlanAccountModel();
   bool _isDefaultSelected = true;
+  int _selectedDailyPlanId = 0;
+
+  // timeSlot
+  String _selectedTimeSlot = '';
 
   BookingBloc() : super(BookingInitial()) {
     on<BookingInitialEvent>(_bookingInitialEvent);
@@ -54,6 +59,10 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<BranchChooseSelectStaffEvent>(_branchChooseSelectStaffEvent);
     on<BranchChooseSelectDefaultStaffEvent>(
         _branchChooseSelectDefaultStaffEvent);
+
+    // timeslot
+    on<GetTimeSlotEvent>(_getTimeSlotEvent);
+    on<onTimeSlotSelectedEvent>(_onTimeSlotSelectedEvent);
   }
 
   FutureOr<void> _bookingInitialEvent(
@@ -82,15 +91,19 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         emit(BookingDataState(selectedBranch: event.selectedBranch));
         _selectedBranch = event.selectedBranch;
         emit(ChooseBranchBookingSelectedBranchState(
-            selectedBranch: _selectedBranch, selectedServices: const []));
+            selectedBranch: _selectedBranch));
       } else {
-        emit(BookingDataState().copyWith(
+        emit(BookingDataState(
             selectedBranch: event.selectedBranch,
-            selectedService: _selectedServices));
+            selectedService: _selectedServices,
+            selectedServicesStylist: _selectedServicesStylist,
+            selectedServicesMassur: _selectedServicesMassur));
         _selectedBranch = event.selectedBranch;
         emit(ChooseBranchBookingSelectedBranchState(
             selectedBranch: _selectedBranch,
-            selectedServices: _selectedServices));
+            selectedServices: _selectedServices,
+            selectedServicesStylist: _selectedServicesStylist,
+            selectedServicesMassur: _selectedServicesMassur));
       }
     } catch (e) {}
   }
@@ -109,10 +122,20 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
 
     try {
       _selectedServices = event.selectedServices;
+      if (event.selectedServices.any((e) => e.shopCategoryCode == "HAIRCUT")) {
+        _selectedServicesStylist = event.selectedServices;
+      } else {
+        _selectedServicesMassur = event.selectedServices;
+      }
       emit(ChooseBranchBookingSelectedServiceState(
-          selectedServices: _selectedServices));
+          selectedServices: _selectedServices,
+          selectedServicesStylist: _selectedServicesStylist,
+          selectedServicesMassur: _selectedServicesMassur));
     } catch (e) {
-      emit(ChooseBranchBookingSelectedServiceState(selectedServices: const []));
+      emit(ChooseBranchBookingSelectedServiceState(
+          selectedServices: const [],
+          selectedServicesStylist: const [],
+          selectedServicesMassur: const []));
     }
   }
 
@@ -146,25 +169,144 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   FutureOr<void> _branchChooseDateLoadedEvent(
       BranchChooseDateLoadedEvent event, Emitter<BookingState> emit) async {
     emit(LoadingState());
+    final IDailyPlanRepository dailyPlanRepository = DailyPlanRepository();
+    var dailyPlansStatus;
+    var dailyPlansBody;
+    final storage = FirebaseStorage.instance;
+    _accountStylistList = [];
+    _accountMassurList = [];
 
     try {
       DateTime now = DateTime.now();
+      DateTime from = now.add(const Duration(days: 2));
+      List<DailyPlanModel> dailyPlanList = [];
       _listDate = [];
+      _dailyPlan = [];
+      int branchId = _selectedBranch != null ? _selectedBranch!.branchId! : 0;
 
-      for (int i = 0; i <= 2; i++) {
-        _listDate?.add({
-          'id': i.toString(),
-          'date': formatDate(now.add(Duration(days: i)))['date'],
-          'type': formatDate(now.add(Duration(days: i)))['type'],
-          'chosenDate':
-              "${formatDate(now.add(Duration(days: i)))['chosenDate']}",
-        });
+      // get dailyPlans time range
+      var dailyPlans = await dailyPlanRepository.getDailyPlan(
+          now, from, branchId, null, null);
+      dailyPlansStatus = dailyPlans["status"];
+      dailyPlansBody = dailyPlans["body"];
+      if (dailyPlansStatus) {
+        dailyPlanList = (dailyPlansBody['values'] as List)
+            .map((e) => DailyPlanModel.fromJson(e as Map<String, dynamic>))
+            .toList();
       }
-      _dateController = _listDate?.first['id'].toString();
-      _selectedDate = _listDate!
+      if (dailyPlansStatus) {
+        int maxWeeklyPlanId = dailyPlanList
+            .map((e) => e.weeklyPlanId as int)
+            .reduce((value, element) => value > element ? value : element);
+        dailyPlanList = dailyPlanList
+            .where((e) => e.weeklyPlanId == maxWeeklyPlanId)
+            .toList();
+        for (int i = 0; i < dailyPlanList.length; i++) {
+          if (dailyPlanList[i].dailyPlanStatusCode == "PROCESSING") {
+            _dailyPlan.add(dailyPlanList[i]);
+            DateTime date = DateTime.parse(dailyPlanList[i].date!);
+            bool check = _listDate.any((_date) =>
+                _date['chosenDate'] == formatDate(date)['chosenDate']);
+            if (_listDate.isEmpty || !check) {
+              _listDate.add({
+                'id': i.toString(),
+                'date': formatDate(date)['date'],
+                'type': formatDate(date)['type'],
+                'chosenDate': "${formatDate(date)['chosenDate']}",
+                'dailyPlanId': dailyPlanList[i].dailyPlanId
+              });
+            }
+          }
+        }
+        for (DailyPlanModel dailyPlan in _dailyPlan) {
+          // get dailyPlanAccounts & dailyPlanServices
+          try {
+            var dailyPlanById = await dailyPlanRepository
+                .getDailyPlanById(dailyPlan.dailyPlanId!);
+            var dailyPlansStatus = dailyPlanById["status"];
+            var dailyPlansBody = dailyPlanById["body"];
+            if (dailyPlansStatus) {
+              //dailyPlanAccounts
+              dailyPlan.dailyPlanAccounts =
+                  DailyPlanModel.fromJson(dailyPlansBody['value'])
+                      .dailyPlanAccounts;
+              dailyPlan.dailyPlanAccounts = dailyPlan.dailyPlanAccounts!
+                  .where((e) => e.accountStatusCode == 'ACTIVE')
+                  .toList();
+
+//dailyPlanServices
+              dailyPlan.dailyPlanServices =
+                  DailyPlanModel.fromJson(dailyPlansBody['value'])
+                      .dailyPlanServices;
+
+              // get workingSlots - time slot
+              for (DailyPlanAccountModel account
+                  in dailyPlan.dailyPlanAccounts!) {
+                // set data
+
+                account.fullName = Utf8Encoding().decode(account.fullName!);
+                List<String> nameParts = account.fullName!.split(' ');
+                if (nameParts.length >= 2) {
+                  account.nickName =
+                      '${nameParts[nameParts.length - 2]} ${nameParts[nameParts.length - 1]}';
+                } else {
+                  account.nickName = account.fullName;
+                }
+                try {
+                  var reference = storage.ref(account.thumbnail);
+                  account.thumbnail = await reference.getDownloadURL();
+                } catch (e) {
+                  try {
+                    account.thumbnail = 'assets/image/${account.thumbnail}';
+                  } catch (e) {
+                    final random = Random();
+                    if (account.professionalTypeCode == 'STYLIST') {
+                      var randomUrl = random.nextInt(urlStylistList.length);
+                      account.thumbnail =
+                          'assets/image/${urlStylistList[randomUrl]}';
+                    } else {
+                      var randomUrl = random.nextInt(urlMassurList.length);
+                      account.thumbnail =
+                          'assets/image/${urlMassurList[randomUrl]}';
+                    }
+                  }
+                }
+
+                // call timeslot
+                try {
+                  var workingSlots = await dailyPlanRepository
+                      .getShiftPlan(account.dailyPlanAccountId!);
+                  var workingSlotsStatus = workingSlots["status"];
+                  var workingSlotsBody = workingSlots["body"];
+                  if (workingSlotsStatus) {
+                    account.workingSlots = DailyPlanAccountModel.fromJson(
+                            workingSlotsBody['value'])
+                        .workingSlots;
+                  }
+                } catch (e) {}
+              }
+            }
+          } catch (e) {}
+        }
+      }
+
+      _dateController = _listDate.first['id'].toString();
+      _selectedDate = _listDate
           .where((date) => date['id'] == _dateController.toString())
           .toList()
           .first;
+      _selectedDailyPlanId = _selectedDate?['dailyPlanId'];
+      for (DailyPlanModel dailyPlan in _dailyPlan) {
+        if (dailyPlan.dailyPlanId == _selectedDailyPlanId) {
+          for (var account in dailyPlan.dailyPlanAccounts!) {
+            if (account.professionalTypeCode == 'STYLIST') {
+              _accountStylistList.add(account);
+            } else {
+              _accountMassurList.add(account);
+            }
+          }
+        }
+      }
       emit(BranchChooseDateLoadDateState(
           dateController: _dateController,
           dateSeleted: _selectedDate,
@@ -181,7 +323,18 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         .where((date) => date['id'] == event.value.toString())
         .toList()
         .first;
-
+    _selectedDailyPlanId = _selectedDate?['dailyPlanId'];
+    for (DailyPlanModel dailyPlan in _dailyPlan) {
+      if (dailyPlan.dailyPlanId == _selectedDailyPlanId) {
+        for (var account in dailyPlan.dailyPlanAccounts!) {
+          if (account.professionalTypeCode == 'STYLIST') {
+            _accountStylistList.add(account);
+          } else {
+            _accountMassurList.add(account);
+          }
+        }
+      }
+    }
     emit(BranchChooseSelectDateState(
       dateSeleted: _selectedDate,
       dateController: _dateController,
@@ -197,55 +350,14 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   List<String> urlMassurList = [
     "massage.jpg",
   ];
+
   FutureOr<void> _branchChooseStaffLoadedEvent(
       BranchChooseStaffLoadedEvent event, Emitter<BookingState> emit) async {
-    emit(LoadingState());
-    final IAccountRepository serviceRepository = AccountRepository();
-    final storage = FirebaseStorage.instance;
-    List<AccountModel> accountsList = [];
-    try {
-      _accountStylistList = [];
-      _accountMassurList = [];
-      var account = await serviceRepository.getAccountList(
-          _selectedBranch!.branchId, "OPERATOR_STAFF", null);
-      var accountStatus = account["status"];
-      var accountBody = account["body"];
-      if (accountStatus) {
-        accountsList = (accountBody['content'] as List)
-            .map((e) => AccountModel.fromJson(e as Map<String, dynamic>))
-            .toList();
-
-        for (AccountModel account in accountsList) {
-          account.firstName = Utf8Encoding().decode(account.firstName!);
-
-          try {
-            var reference = storage.ref(account.thumbnail);
-            account.thumbnail = await reference.getDownloadURL();
-          } catch (e) {
-            try {
-              account.thumbnail = 'assets/image/${account.thumbnail}';
-            } catch (e) {
-              final random = Random();
-              if (account.professionalTypeCode == 'STYLIST') {
-                var randomUrl = random.nextInt(urlStylistList.length);
-                account.thumbnail = 'assets/image/${urlStylistList[randomUrl]}';
-              } else {
-                var randomUrl = random.nextInt(urlMassurList.length);
-                account.thumbnail = 'assets/image/${urlMassurList[randomUrl]}';
-              }
-            }
-          }
-          if (account.professionalTypeCode == 'STYLIST') {
-            _accountStylistList.add(account);
-          } else {
-            _accountMassurList.add(account);
-          }
-        }
-        emit(BranchChooseStaffLoadedState(
-            accountMassurList: _accountMassurList,
-            accountStylistList: _accountStylistList));
-      }
-    } catch (e) {}
+    emit(BranchChooseStaffLoadedState(
+        accountMassurList: _accountMassurList,
+        accountStylistList: _accountStylistList,
+        selectedServicesStylist: _selectedServicesStylist,
+        selectedServicesMassur: _selectedServicesMassur));
   }
 
   FutureOr<void> _branchChooseSelectStaffEvent(
@@ -253,7 +365,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     emit(LoadingState());
     try {
       if (event.selectedStaff.accountId == _selectedStaff.accountId) {
-        _selectedStaff = AccountModel();
+        _selectedStaff = DailyPlanAccountModel();
         _isDefaultSelected = true;
       } else {
         _selectedStaff = event.selectedStaff;
@@ -270,12 +382,120 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       Emitter<BookingState> emit) async {
     emit(LoadingState());
     try {
-      _selectedStaff = AccountModel();
+      _selectedStaff = DailyPlanAccountModel();
       _isDefaultSelected = true;
 
       emit(BranchChooseSelectedStaffState(
           selectedStaff: _selectedStaff,
           isDefaultSelected: _isDefaultSelected));
+    } catch (e) {}
+  }
+
+  // time slot
+  FutureOr<void> _getTimeSlotEvent(
+      GetTimeSlotEvent event, Emitter<BookingState> emit) async {
+    // emit(LoadingState());
+    try {
+      List<TimeSlotCardModel> timeSlotCards = [];
+
+      List<String> timeSlots = generateTimeSlots();
+
+      // kiểm tra ngày hôm nay
+      final now = DateTime.now();
+      final formatter = DateFormat('HH:mm');
+      final currentTime = formatter.format(now);
+
+      for (var timeSlot in timeSlots) {
+        final isSelected = timeSlot == _selectedTimeSlot;
+
+        // kiểm tra được chọn hay không
+        // TRUE = avalible
+        bool isSelectable = false;
+        // kiểm tra timeslot vs thời gian rãnh của stylist
+        if (_selectedStaff.accountId != null) {
+          bool checkTimeSlotStylist = (_selectedStaff.workingSlots!.any((e) {
+            try {
+              if ("$timeSlot:00" == e.from && e.bookingCount! < 4) {
+                return true;
+              }
+              return false;
+            } on Exception catch (e) {
+              return false;
+            }
+          }));
+          isSelectable = checkTimeSlotStylist;
+        } else {
+          isSelectable = true;
+        }
+
+        // kiểm tra ngày hôm nay
+        bool isCurrentDate = _isCurrentDate();
+        if (isCurrentDate) {
+          if (timeSlot.compareTo(currentTime) >= 0) {
+            isSelectable; // kh thay đổi
+          } else {
+            // buộc false
+            isSelectable = false;
+          }
+        }
+        // kiểm tra giờ mở cửa của branch
+        // if (timeSlot.compareTo(openBranch) >= 0 &&
+        //     timeSlot.compareTo(closeBranch) < 0) {
+        //   // không thay đổi
+        //   isSelectable;
+        // } else {
+        //   // buộc false
+        //   isSelectable = false;
+        // }
+
+        TimeSlotCardModel timeSlotCard = TimeSlotCardModel(
+          timeSlot: timeSlot,
+          // isSelected: isSelected,
+          isSelectable: isSelectable,
+        );
+        timeSlotCards.add(timeSlotCard);
+      }
+      _selectedTimeSlot = '';
+      emit(BranchChooseTimeSlotLoadedState(timeSlotCards: timeSlotCards));
+    } catch (e) {}
+  }
+
+  List<String> generateTimeSlots() {
+    List<String> timeSlots = [];
+    for (int hour = 7; hour <= 23; hour++) {
+      for (int minute = 0; minute < 60; minute += 30) {
+        final formattedHour = hour.toString().padLeft(2, '0');
+        final formattedMinute = minute.toString().padLeft(2, '0');
+        timeSlots.add('$formattedHour:$formattedMinute');
+      }
+    }
+    return timeSlots;
+  }
+
+  bool _isCurrentDate() {
+    DateTime now = DateTime.now();
+    String? dateNow = formatDate(now.add(const Duration(days: 0)))['date'];
+    try {
+      if (_selectedDate!['date'].toString() == dateNow) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  FutureOr<void> _onTimeSlotSelectedEvent(
+      onTimeSlotSelectedEvent event, Emitter<BookingState> emit) async {
+    emit(LoadingState());
+    try {
+      if (event.timeSlot == _selectedTimeSlot) {
+        // Deselect the time slot if it's already selected
+        _selectedTimeSlot = '';
+      } else {
+        _selectedTimeSlot = event.timeSlot;
+      }
     } catch (e) {}
   }
 }

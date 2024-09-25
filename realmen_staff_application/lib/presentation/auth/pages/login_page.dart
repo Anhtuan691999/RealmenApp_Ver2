@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                                         child: TextFormField(
                                           autofocus: false,
                                           controller: phoneController,
-                                          keyboardType: TextInputType.phone,
+                                          keyboardType: TextInputType.text,
                                           inputFormatters: [
                                             LengthLimitingTextInputFormatter(
                                                 11),
@@ -192,6 +192,7 @@ class _LoginPageState extends State<LoginPage> {
                                           controller: passwordController,
                                           keyboardType: TextInputType.text,
                                           focusNode: _focusNodePassword,
+                                          obscureText: true,
                                           onFieldSubmitted: (value) =>
                                               _focusNodePassword.unfocus(),
                                           onTapOutside: (event) =>

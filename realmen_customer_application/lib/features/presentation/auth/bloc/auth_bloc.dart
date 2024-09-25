@@ -60,30 +60,30 @@ class AuthenticationBloc
   FutureOr<void> _authenticationInputPhoneEvent(
       AuthenticationInputPhoneEvent event,
       Emitter<AuthenticationState> emit) async {
-    emit(AuthenticationLoadingState(isLoading: true));
-    var results = await AuthRepository().createOtp(event.phone);
-    var responseMessage = results['message'];
-    var responseStatus = results['status'];
+    // emit(AuthenticationLoadingState(isLoading: true));
+    // var results = await AuthRepository().createOtp(event.phone);
+    // var responseMessage = results['message'];
+    // var responseStatus = results['status'];
 
-    if (responseStatus) {
-      emit(AuthenticationLoadingState(isLoading: false));
-      _phone = event.phone;
-      AuthPref.setPhone(event.phone.toString());
-      emit(ShowLoginPageState());
-    } else if (!responseStatus && results['statusCode'] == 404) {
-      emit(AuthenticationLoadingState(isLoading: false));
-      emit(ShowSnackBarActionState(
-          message: responseMessage, status: responseStatus));
-      emit(ShowRegisterPageState(phone: event.phone.toString()));
-    } else {
-      emit(AuthenticationLoadingState(isLoading: false));
-      emit(ShowSnackBarActionState(
-          message: responseMessage, status: responseStatus));
-    }
+    // if (responseStatus) {
+    //   emit(AuthenticationLoadingState(isLoading: false));
+    //   _phone = event.phone;
+    //   AuthPref.setPhone(event.phone.toString());
+    //   emit(ShowLoginPageState());
+    // } else if (!responseStatus && results['statusCode'] == 404) {
+    //   emit(AuthenticationLoadingState(isLoading: false));
+    //   emit(ShowSnackBarActionState(
+    //       message: responseMessage, status: responseStatus));
+    //   emit(ShowRegisterPageState(phone: event.phone.toString()));
+    // } else {
+    //   emit(AuthenticationLoadingState(isLoading: false));
+    //   emit(ShowSnackBarActionState(
+    //       message: responseMessage, status: responseStatus));
+    // }
 
     //no api
-    // AuthPref.setPhone(event.phone.toString());
-    // emit(ShowLoginPageState());
+    AuthPref.setPhone(event.phone.toString());
+    emit(ShowLoginPageState());
   }
 
   //5
@@ -221,7 +221,7 @@ class AuthenticationBloc
       AuthenticationStartCountdownEvent event,
       Emitter<AuthenticationState> emit) {
     emit(CountdownInProgressState(countdown: 20));
-    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       add(CountdownTickEvent());
     });
   }
@@ -233,7 +233,7 @@ class AuthenticationBloc
           (state as CountdownInProgressState).countdown!;
       emit(LoadingState());
       if (countdownValue > 0) {
-        const Duration(seconds: 10);
+        const Duration(seconds: 1);
         emit(CountdownInProgressState(countdown: countdownValue - 0.5));
       } else {
         _timer?.cancel();

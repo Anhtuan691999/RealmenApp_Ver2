@@ -129,7 +129,7 @@ class ChooseBranchPageBloc
           branch.open = branch.open!.substring(0, 2);
           branch.close = branch.close!.substring(0, 2);
           try {
-            var reference = storage.ref(branch.branchThumbnail);
+            var reference = storage.ref('branch/${branch.branchThumbnail}');
             branch.branchThumbnail = await reference.getDownloadURL();
           } catch (e) {
             try {

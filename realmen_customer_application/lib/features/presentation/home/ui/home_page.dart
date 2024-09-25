@@ -159,8 +159,7 @@ class _HomePageState extends State<HomePage> {
                                         backgroundColor: Colors.white,
                                         child: ClipOval(
                                           child: CachedNetworkImage(
-                                            imageUrl:
-                                                "assets/images/default.png",
+                                            imageUrl: "assets/images/Quang.jpg",
                                             fit: BoxFit.cover,
                                             width: 120,
                                             height: 120,

@@ -5,10 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:realmen_customer_application/features/data/models/account_model.dart';
+import 'package:realmen_customer_application/features/data/models/daily_plan_account_model.dart';
 import 'package:realmen_customer_application/features/presentation/booking/bloc/choose_branch_booking/booking_bloc.dart';
 
 class BCSChooseStaff extends StatefulWidget {
-  final List<AccountModel> accountStaffList;
+  final List<DailyPlanAccountModel> accountStaffList;
   final BookingBloc bloc;
   const BCSChooseStaff({
     super.key,
@@ -21,7 +22,7 @@ class BCSChooseStaff extends StatefulWidget {
 }
 
 class _BCSChooseStaffState extends State<BCSChooseStaff> {
-  AccountModel selectedStaff = AccountModel();
+  DailyPlanAccountModel selectedStaff = DailyPlanAccountModel();
   bool isDefaultSelected = true;
 
   @override
@@ -45,7 +46,7 @@ class _BCSChooseStaffState extends State<BCSChooseStaff> {
               const SizedBox(width: 10),
               Text(
                 selectedStaff.accountId != null
-                    ? "${selectedStaff!.firstName!.substring(selectedStaff!.firstName!.lastIndexOf(" ") + 1)} ${selectedStaff!.lastName!}"
+                    ? "${selectedStaff.fullName}"
                     : "Chọn Stylist",
                 style: const TextStyle(
                     fontSize: 16,
@@ -304,7 +305,7 @@ class _BCSChooseStaffState extends State<BCSChooseStaff> {
                                                     const BoxConstraints(
                                                         maxWidth: 76),
                                                 child: Text(
-                                                  "${stylist.firstName!.substring(stylist.firstName!.lastIndexOf(" ") + 1)} ${stylist.lastName!}",
+                                                  "${stylist.fullName}",
                                                   maxLines: 2,
                                                   textAlign: TextAlign.center,
                                                   style: const TextStyle(
@@ -326,131 +327,6 @@ class _BCSChooseStaffState extends State<BCSChooseStaff> {
                           : Container(),
                     ],
                   ),
-                  selectedStaff?.accountId != null
-                      ? Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Colors.black,
-                                width: 1,
-                                style: BorderStyle.solid),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: "Stylist: ",
-                                        style: GoogleFonts.quicksand(
-                                          textStyle: const TextStyle(
-                                              fontSize: 17,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text:
-                                            "${selectedStaff!.firstName!} ${selectedStaff!.lastName!}",
-
-                                        //  "Cắt",
-                                        // utf8.decode(_selectedStylist!.name
-                                        //     .toString()
-                                        //     .runes
-                                        //     .toList()),
-                                        style: GoogleFonts.quicksand(
-                                          textStyle: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: "Đánh giá: ",
-                                        style: GoogleFonts.quicksand(
-                                          textStyle: const TextStyle(
-                                              fontSize: 17,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: "",
-                                        style: GoogleFonts.quicksand(
-                                          textStyle: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    TextButton(
-                                      onPressed: () {},
-                                      style: const ButtonStyle(
-                                          padding: MaterialStatePropertyAll(
-                                              EdgeInsets.zero)),
-                                      child: const Text(
-                                        "",
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-
-                                // Hình ảnh sản phẩm cắt
-                                // _selectedStylist.images != null
-                                //     ? SizedBox(
-                                //         height: 120,
-                                //         child: ListView.builder(
-                                //             scrollDirection: Axis.horizontal,
-                                //             itemCount:
-                                //                 _selectedStylist.images!.length,
-                                //             itemBuilder: (context, index) {
-                                //               return Row(
-                                //                 children: [
-                                //                   Container(
-                                //                     width: 105,
-                                //                     height: 75,
-                                //                     margin: const EdgeInsets.only(
-                                //                         left: 0, right: 5),
-                                //                     child: Image.asset(
-                                //                       _selectedStylist
-                                //                           .images![index],
-                                //                       fit: BoxFit.cover,
-                                //                     ),
-                                //                   ),
-                                //                 ],
-                                //               );
-                                //             }),
-                                //       )
-                                //     : Container(),
-                              ],
-                            ),
-                          ),
-                        )
-                      : Container(),
                 ],
               ),
             ),

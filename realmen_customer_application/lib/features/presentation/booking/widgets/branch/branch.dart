@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:realmen_customer_application/features/data/models/account_model.dart';
 import 'package:realmen_customer_application/features/data/models/branch_model.dart';
+import 'package:realmen_customer_application/features/data/models/daily_plan_account_model.dart';
 import 'package:realmen_customer_application/features/data/models/service_model.dart';
 import 'package:realmen_customer_application/features/presentation/booking/bloc/choose_branch_booking/booking_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/booking/pages/choose_branch_page/choose_branch_page.dart';
@@ -33,8 +34,9 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
     super.build(context);
     BranchDataModel? selectedBranch;
     List<ServiceDataModel> selectedServices = [];
+
     Map<String, dynamic>? selectedDate;
-    AccountModel selectedStaff = AccountModel();
+    DailyPlanAccountModel selectedStaff = DailyPlanAccountModel();
     String tabChooseBooking = "Branch";
 
     return BlocConsumer<BookingBloc, BookingState>(
@@ -51,7 +53,9 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
           case ChooseBranchBookingSelectedBranchState:
             selectedBranch = (state as ChooseBranchBookingSelectedBranchState)
                 .selectedBranch;
-            selectedServices = (state).selectedServices;
+            selectedServices = (state as ChooseBranchBookingSelectedBranchState)
+                    .selectedServices ??
+                [];
             Get.back();
             break;
 
@@ -149,7 +153,6 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
                                 ),
                                 ChooseStaffBooking(
                                   bloc: widget.bloc,
-                                  selectedServices: selectedServices,
                                 ),
                                 const SizedBox(
                                   height: 10,

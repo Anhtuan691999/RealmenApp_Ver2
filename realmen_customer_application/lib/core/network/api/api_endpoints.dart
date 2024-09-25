@@ -14,4 +14,7 @@ class ApiEndpoints {
 
   //$ Service API $//
   final String ServiceUrl = "$domainUrl/mobile/shop-service";
+
+  //$ Daily Plan API $//
+  final String DailyPlanUrl = "$domainUrl/mobile/daily-plan";
 }

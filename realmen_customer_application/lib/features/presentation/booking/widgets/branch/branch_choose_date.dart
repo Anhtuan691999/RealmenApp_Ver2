@@ -120,7 +120,7 @@ class _ChooseDateBookingState extends State<ChooseDateBooking> {
                                           isExpanded: true,
                                           alignment: Alignment.center,
                                           value: dateController,
-                                          items: listDate != null
+                                          items: listDate.isNotEmpty
                                               ? listDate
                                                   .asMap()
                                                   .entries

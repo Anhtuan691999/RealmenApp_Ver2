@@ -52,13 +52,27 @@ class BranchChooseDateLoadedEvent extends BookingEvent {
   });
 }
 
+//staff
+
 class BranchChooseStaffLoadedEvent extends BookingEvent {}
 
 class BranchChooseSelectStaffEvent extends BookingEvent {
-  AccountModel selectedStaff;
+  DailyPlanAccountModel selectedStaff;
   BranchChooseSelectStaffEvent({
     required this.selectedStaff,
   });
 }
 
 class BranchChooseSelectDefaultStaffEvent extends BookingEvent {}
+
+class BranchChooseSelectOptAllOrSingleModeEvent extends BookingEvent {}
+
+// time slot
+class onTimeSlotSelectedEvent extends BookingEvent {
+  String timeSlot;
+  onTimeSlotSelectedEvent({
+    required this.timeSlot,
+  });
+}
+
+class GetTimeSlotEvent extends BookingEvent {}

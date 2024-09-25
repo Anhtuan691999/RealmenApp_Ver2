@@ -12,6 +12,8 @@ sealed class BookingState extends Equatable {
 class BookingDataState extends BookingState {
   BranchDataModel? selectedBranch;
   List<ServiceDataModel>? selectedService;
+  List<ServiceDataModel>? selectedServicesStylist;
+  List<ServiceDataModel>? selectedServicesMassur;
   // AccountInfoModel? selectedStylist;
   // AccountInfoModel? selectedMassur;
   dynamic selectedDate;
@@ -21,21 +23,9 @@ class BookingDataState extends BookingState {
     this.selectedService,
     this.selectedDate,
     this.selectedTime,
+    this.selectedServicesStylist,
+    this.selectedServicesMassur,
   });
-
-  BookingDataState copyWith({
-    BranchDataModel? selectedBranch,
-    List<ServiceDataModel>? selectedService,
-    dynamic selectedDate,
-    dynamic selectedTime,
-  }) {
-    return BookingDataState(
-      selectedBranch: selectedBranch ?? this.selectedBranch,
-      selectedService: selectedService ?? this.selectedService,
-      selectedDate: selectedDate ?? this.selectedDate,
-      selectedTime: selectedTime ?? this.selectedTime,
-    );
-  }
 }
 
 final class BookingInitial extends BookingState {}
@@ -48,17 +38,27 @@ class ChooseBranchBookingSelectBranchGetBackState extends BookingState {}
 
 class ChooseBranchBookingSelectedBranchState extends BookingState {
   BranchDataModel? selectedBranch;
-  List<ServiceDataModel> selectedServices;
-  ChooseBranchBookingSelectedBranchState(
-      {this.selectedBranch, required this.selectedServices});
+  List<ServiceDataModel>? selectedServices;
+  List<ServiceDataModel>? selectedServicesStylist;
+  List<ServiceDataModel>? selectedServicesMassur;
+  ChooseBranchBookingSelectedBranchState({
+    this.selectedBranch,
+    this.selectedServices,
+    this.selectedServicesStylist,
+    this.selectedServicesMassur,
+  });
 }
 
 class BookingShowServiceState extends BookingState {}
 
 class ChooseBranchBookingSelectedServiceState extends BookingState {
   List<ServiceDataModel> selectedServices;
+  List<ServiceDataModel> selectedServicesStylist;
+  List<ServiceDataModel> selectedServicesMassur;
   ChooseBranchBookingSelectedServiceState({
     required this.selectedServices,
+    required this.selectedServicesStylist,
+    required this.selectedServicesMassur,
   });
 }
 
@@ -96,19 +96,30 @@ class BranchChooseSelectDateState extends BookingState {
 }
 
 class BranchChooseStaffLoadedState extends BookingState {
-  List<AccountModel>? accountStylistList;
-  List<AccountModel>? accountMassurList;
+  List<DailyPlanAccountModel>? accountStylistList;
+  List<DailyPlanAccountModel>? accountMassurList;
+  List<ServiceDataModel> selectedServicesStylist;
+  List<ServiceDataModel> selectedServicesMassur;
   BranchChooseStaffLoadedState({
-    required this.accountMassurList,
     required this.accountStylistList,
+    required this.accountMassurList,
+    required this.selectedServicesStylist,
+    required this.selectedServicesMassur,
   });
 }
 
 class BranchChooseSelectedStaffState extends BookingState {
-  AccountModel selectedStaff;
+  DailyPlanAccountModel selectedStaff;
   bool isDefaultSelected;
   BranchChooseSelectedStaffState({
     required this.selectedStaff,
     required this.isDefaultSelected,
+  });
+}
+
+class BranchChooseTimeSlotLoadedState extends BookingState {
+  List<TimeSlotCardModel> timeSlotCards;
+  BranchChooseTimeSlotLoadedState({
+    required this.timeSlotCards,
   });
 }

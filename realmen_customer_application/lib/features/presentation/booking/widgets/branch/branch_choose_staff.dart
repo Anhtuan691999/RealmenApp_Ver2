@@ -3,6 +3,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realmen_customer_application/features/data/models/account_model.dart';
+import 'package:realmen_customer_application/features/data/models/daily_plan_account_model.dart';
 import 'package:realmen_customer_application/features/presentation/booking/widgets/branch/BCS_choose_staff.dart';
 import 'package:realmen_customer_application/features/presentation/booking/widgets/branch/BCS_choose_time_slot.dart';
 import 'package:timeline_tile/timeline_tile.dart';
@@ -12,12 +13,10 @@ import 'package:realmen_customer_application/features/presentation/booking/bloc/
 
 class ChooseStaffBooking extends StatefulWidget {
   final BookingBloc bloc;
-  final List<ServiceDataModel> selectedServices;
 
   const ChooseStaffBooking({
     super.key,
     required this.bloc,
-    required this.selectedServices,
   });
 
   @override
@@ -26,13 +25,15 @@ class ChooseStaffBooking extends StatefulWidget {
 
 class _ChooseStaffBookingState extends State<ChooseStaffBooking> {
   String? staffOtpController;
-  List<AccountModel> _accountStylistList = [];
-  List<AccountModel> _accountMassurList = [];
+  List<DailyPlanAccountModel> _accountStylistList = [];
+  List<DailyPlanAccountModel> _accountMassurList = [];
+  List<ServiceDataModel> selectedServicesStylist = [];
+  List<ServiceDataModel> selectedServicesMassur = [];
   List<String> options = [
     'Chọn stylist cho Tất cả dịch vụ',
     'Chọn stylist cho Mỗi dịch vụ'
   ];
-  AccountModel selectedStaff = AccountModel();
+  DailyPlanAccountModel selectedStaff = DailyPlanAccountModel();
 
   @override
   void initState() {
@@ -45,15 +46,17 @@ class _ChooseStaffBookingState extends State<ChooseStaffBooking> {
     return BlocBuilder<BookingBloc, BookingState>(
       bloc: widget.bloc,
       builder: (context, state) {
-        if (state is BranchChooseSelectDateState) {
+        if (state is BranchChooseDateLoadDateState) {
           widget.bloc.add(BranchChooseStaffLoadedEvent());
-        } else if (state is BranchChooseDateLoadDateState) {
+        } else if (state is BranchChooseSelectDateState) {
           widget.bloc.add(BranchChooseStaffLoadedEvent());
         } else if (state is BranchChooseStaffLoadedState) {
           BranchChooseStaffLoadedState currentState =
               state as BranchChooseStaffLoadedState;
           _accountStylistList = currentState.accountStylistList!;
           _accountMassurList = currentState.accountMassurList!;
+          selectedServicesStylist = currentState.selectedServicesStylist;
+          selectedServicesMassur = currentState.selectedServicesMassur;
         } else if (state is BranchChooseSelectedStaffState) {
           BranchChooseSelectedStaffState currentState =
               state as BranchChooseSelectedStaffState;
@@ -62,7 +65,7 @@ class _ChooseStaffBookingState extends State<ChooseStaffBooking> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            widget.selectedServices.length >= 2
+            selectedServicesStylist.length >= 2
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(5),
                     child: Container(
