@@ -80,7 +80,7 @@ class branchShopNearYou extends StatelessWidget {
                               ),
                             ),
                             errorWidget: (context, url, error) => Image.asset(
-                              "assets/images/barber1.jpg",
+                              "assets/images/branch.png",
                               height: 160,
                               width: MediaQuery.of(context).size.width / 1.3,
                               fit: BoxFit.cover,
@@ -167,7 +167,8 @@ class branchShopNearYou extends StatelessWidget {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   ConstrainedBox(
-                                    constraints: const BoxConstraints(minWidth: 120),
+                                    constraints:
+                                        const BoxConstraints(minWidth: 120),
                                     child: Container(
                                       height: 40,
                                       padding: const EdgeInsets.all(5),

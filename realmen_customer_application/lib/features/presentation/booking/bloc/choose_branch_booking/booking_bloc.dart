@@ -376,6 +376,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   List<String> urlStylistList = [
     "3.png",
     "5.jpg",
+    "stylist.png",
   ];
   List<String> urlMassurList = [
     "massage.jpg",

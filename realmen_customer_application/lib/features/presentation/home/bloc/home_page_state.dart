@@ -12,12 +12,12 @@ class HomePageLoadingState extends HomePageState {}
 
 class HomePageLoadedSuccessState extends HomePageState {
   final List<BranchDataModel> loadedBranchsList;
-  // final List<StylistDataModel> loadedStylistsList;
+  final List<AccountModel> loadedStylistsList;
   final List<ServiceDataModel> loadedServicesList;
 
   HomePageLoadedSuccessState({
     required this.loadedBranchsList,
-    // required this.loadedStylistsList,
+    required this.loadedStylistsList,
     required this.loadedServicesList,
   });
 }

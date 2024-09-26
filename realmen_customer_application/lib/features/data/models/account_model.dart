@@ -22,6 +22,7 @@ class AccountModel extends Equatable {
 
   // bổ sung
   BranchDataModel? branch;
+  String? nickName;
 
   AccountModel({
     this.accountId,
@@ -41,6 +42,7 @@ class AccountModel extends Equatable {
     this.accountStatusCode,
     this.accountStatusName,
     this.branch,
+    this.nickName,
   });
 
   // Sử dụng Equatable

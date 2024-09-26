@@ -5,9 +5,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
+import 'package:realmen_customer_application/core/utils/check_asset_image.dart';
 import 'package:realmen_customer_application/core/utils/utf8_encoding.dart';
+import 'package:realmen_customer_application/features/data/models/account_model.dart';
 import 'package:realmen_customer_application/features/data/models/branch_model.dart';
 import 'package:realmen_customer_application/features/data/models/service_model.dart';
+import 'package:realmen_customer_application/features/domain/repository/AccountRepo/account_repository.dart';
 import 'package:realmen_customer_application/features/domain/repository/BranchRepo/branch_repository.dart';
 import 'package:realmen_customer_application/features/domain/repository/ServiceRepo/service_repository.dart';
 
@@ -26,13 +29,17 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
     final storage = FirebaseStorage.instance;
     final IBranchRepository branchRepository = BranchRepository();
     final IServiceRepository serviceRepository = ServiceRepository();
+    final IAccountRepository stylistRepository = AccountRepository();
+
     NumberFormat numberFormat = NumberFormat('#,##0');
+
     // Branch Data
     var branchs = await branchRepository.getBranch(null, null);
     var branchStatus = branchs["status"];
     var branchBody = branchs["body"];
     List<BranchDataModel> branchList = [];
     Map<String, dynamic> services;
+
     // Service Data
     try {
       services = await serviceRepository.getAllServices(1);
@@ -42,6 +49,14 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
     var serviceStatus = services["status"];
     var serviceBody = services["body"];
     List<ServiceDataModel> serviceList = [];
+
+    // Stylist Data
+
+    var stylists =
+        await stylistRepository.getAccountList(null, "OPERATOR_STAFF", null);
+    var stylistsStatus = stylists["status"];
+    var stylistsBody = stylists["body"];
+    List<AccountModel> stylistList = [];
 
     // Branch data
     if (branchStatus) {
@@ -53,16 +68,21 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
         "barber1.jpg",
         "barber2.jpg",
         "barber3.jpg",
+        "branch.png",
       ];
       for (var branch in branchList) {
         try {
           var reference = storage.ref(branch.branchThumbnail);
           branch.branchThumbnail = await reference.getDownloadURL();
         } catch (e) {
-          final random = Random();
-          var randomUrl = random.nextInt(urlList.length);
-          var reference = storage.ref('branch/${urlList[randomUrl]}');
-          branch.branchThumbnail = await reference.getDownloadURL();
+          if (await CheckIfAssetImageExists.checkIfAssetImageExists(
+              'assets/images/${branch.branchThumbnail}')) {
+            branch.branchThumbnail = 'assets/images/${branch.branchThumbnail}';
+          } else {
+            final random = Random();
+            var randomUrl = random.nextInt(urlList.length);
+            branch.branchThumbnail = 'assets/images/${urlList[randomUrl]}';
+          }
         }
 
         if (branch.distanceInKm!.distance! >= 1) {
@@ -74,27 +94,81 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
         branch.open = branch.open!.substring(0, 2);
         branch.close = branch.close!.substring(0, 2);
       }
+    }
+    // Service data
+    if (serviceStatus) {
+      serviceList = (serviceBody['content'] as List)
+          .map((e) => ServiceDataModel.fromJson(e as Map<String, dynamic>))
+          .toList();
 
-      // Service data
-      if (serviceStatus) {
-        serviceList = (serviceBody['content'] as List)
-            .map((e) => ServiceDataModel.fromJson(e as Map<String, dynamic>))
-            .toList();
-
-        List<String> urlList = ["6.jpg", "massage3.jpg", "massage1.jpg"];
-        for (var service in serviceList) {
-          try {
-            var reference = storage.ref(service.shopServiceThumbnail);
-            service.shopServiceThumbnail = await reference.getDownloadURL();
-          } catch (e) {
+      List<String> urlList = [
+        "6.jpg",
+        "massage3.jpg",
+        "massage1.jpg",
+        "stylist.png"
+      ];
+      for (var service in serviceList) {
+        try {
+          var reference = storage.ref(service.shopServiceThumbnail);
+          service.shopServiceThumbnail = await reference.getDownloadURL();
+        } catch (e) {
+          if (await CheckIfAssetImageExists.checkIfAssetImageExists(
+              'assets/images/${service.shopServiceThumbnail}')) {
+            service.shopServiceThumbnail =
+                'assets/images/${service.shopServiceThumbnail}';
+          } else {
             final random = Random();
             var randomUrl = random.nextInt(urlList.length);
-            var reference = storage.ref('service/${urlList[randomUrl]}');
-            service.shopServiceThumbnail = await reference.getDownloadURL();
+            service.shopServiceThumbnail =
+                'assets/images/${urlList[randomUrl]}';
           }
-          service.shopServicePriceS = service.branchServicePrice! >= 0
-              ? "${numberFormat.format(service.branchServicePrice)} VNĐ"
-              : "0 VNĐ";
+        }
+        service.shopServicePriceS = service.branchServicePrice! >= 0
+            ? "${numberFormat.format(service.branchServicePrice)} VNĐ"
+            : "0 VNĐ";
+      }
+    }
+
+    // Stylist data
+    if (stylistsStatus) {
+      stylistList = (stylistsBody['content'] as List)
+          .map((e) => AccountModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+      stylistList = stylistList
+          .where((e) => e.professionalTypeCode == "STYLIST")
+          .toList();
+      List<String> urlList = [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "stylist.png",
+      ];
+      for (var stylist in stylistList) {
+        if (stylist.professionalTypeCode == "STYLIST") {
+          stylist.firstName = Utf8Encoding().decode(stylist.firstName!);
+          stylist.lastName = Utf8Encoding().decode(stylist.lastName!);
+          String fullName = stylist.firstName! + " " + stylist.lastName!;
+          List<String> nameParts = fullName.split(' ');
+          if (nameParts.length >= 2) {
+            stylist.nickName =
+                '${nameParts[nameParts.length - 2]} ${nameParts[nameParts.length - 1]}';
+          } else {
+            stylist.nickName = fullName;
+          }
+          try {
+            var reference = storage.ref(stylist.thumbnail);
+            stylist.thumbnail = await reference.getDownloadURL();
+          } catch (e) {
+            if (await CheckIfAssetImageExists.checkIfAssetImageExists(
+                'assets/images/${stylist.thumbnail}')) {
+              stylist.thumbnail = 'assets/images/${stylist.thumbnail}';
+            } else {
+              final random = Random();
+              var randomUrl = random.nextInt(urlList.length);
+              stylist.thumbnail = 'assets/images/${urlList[randomUrl]}';
+            }
+          }
         }
       }
     }
@@ -102,7 +176,9 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
     if (branchStatus || serviceStatus) {
       await Future.delayed(const Duration(seconds: 2));
       emit(HomePageLoadedSuccessState(
-          loadedBranchsList: branchList, loadedServicesList: serviceList));
+          loadedBranchsList: branchList,
+          loadedServicesList: serviceList,
+          loadedStylistsList: stylistList));
     }
   }
 

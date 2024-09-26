@@ -115,6 +115,7 @@ class ChooseBranchPageBloc
           "barber1.jpg",
           "barber2.jpg",
           "barber3.jpg",
+          "branch.png",
         ];
         for (var branch in branchsList) {
           branch.branchName = Utf8Encoding().decode(branch.branchName!);
@@ -191,6 +192,7 @@ class ChooseBranchPageBloc
       "barber1.jpg",
       "barber2.jpg",
       "barber3.jpg",
+      "branch.png",
     ];
 
     try {

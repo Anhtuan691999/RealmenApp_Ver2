@@ -30,16 +30,18 @@ class ChooseStylistPageBloc
     "2.jpg",
     "3.jpg",
     "4.jpg",
+    "stylist.png",
   ];
   List<String> urlBranchList = [
     "barber1.jpg",
     "barber2.jpg",
     "barber3.jpg",
+    "branch.png",
   ];
   FutureOr<void> _CSPLoadedEvent(
       CSPLoadedEvent event, Emitter<ChooseStylistPageState> emit) async {
     emit(CSPLoadingState());
-    final AccountRepository stylistRepository = AccountRepository();
+    final IAccountRepository stylistRepository = AccountRepository();
     final storage = FirebaseStorage.instance;
 
     List<AccountModel> stylistList = [];
@@ -49,6 +51,7 @@ class ChooseStylistPageBloc
           await stylistRepository.getAccountList(null, "OPERATOR_STAFF", null);
       var stylistsStatus = stylists["status"];
       var stylistsBody = stylists["body"];
+
       if (stylistsStatus) {
         _stylistList = [];
         stylistList = (stylistsBody['content'] as List)

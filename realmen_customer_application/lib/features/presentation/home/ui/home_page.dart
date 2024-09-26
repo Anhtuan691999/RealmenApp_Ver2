@@ -225,10 +225,10 @@ class _HomePageState extends State<HomePage> {
                                 child: GridView.count(
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
-                                  crossAxisCount: 4,
+                                  crossAxisCount: 3,
                                   crossAxisSpacing: 20,
                                   mainAxisSpacing: 15,
-                                  childAspectRatio: 3.6 / 5,
+                                  childAspectRatio: 3.5 / 3.2,
                                   children: [
                                     cardHolder(
                                       'Đặt lịch',
@@ -320,22 +320,22 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       ),
                                     ),
-                                    cardHolder(
-                                      'Ưu Đãi',
-                                      CommunityMaterialIcons
-                                          .ticket_percent_outline,
-                                      const Color(0xffE3E3E3),
-                                      () {},
-                                    ),
-                                    cardHolder(
-                                      'Realmen Member',
-                                      CommunityMaterialIcons.crown,
-                                      const Color(0xffE3E3E3),
-                                      () {
-                                        // Get.toNamed(
-                                        //     MembershipScreen.MembershipScreenRoute);
-                                      },
-                                    ),
+                                    // cardHolder(
+                                    //   'Ưu Đãi',
+                                    //   CommunityMaterialIcons
+                                    //       .ticket_percent_outline,
+                                    //   const Color(0xffE3E3E3),
+                                    //   () {},
+                                    // ),
+                                    // cardHolder(
+                                    //   'Realmen Member',
+                                    //   CommunityMaterialIcons.crown,
+                                    //   const Color(0xffE3E3E3),
+                                    //   () {
+                                    //     // Get.toNamed(
+                                    //     //     MembershipScreen.MembershipScreenRoute);
+                                    //   },
+                                    // ),
                                     cardHolder(
                                       'Lịch sử đặt lịch',
                                       Icons.history,
@@ -394,7 +394,11 @@ class _HomePageState extends State<HomePage> {
                                               const SizedBox(
                                                 height: 30,
                                               ),
-                                              const barberTop(),
+                                              barberTop(
+                                                widget.callback,
+                                                stylistList: successState
+                                                    .loadedStylistsList,
+                                              ),
                                               const SizedBox(
                                                 height: 30,
                                               ),

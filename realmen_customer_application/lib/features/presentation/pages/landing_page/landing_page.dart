@@ -34,7 +34,7 @@ class _LandingPageState extends State<LandingPage> {
 
   late final HomePage homePage;
   late final ServicePricePage servicePricePage;
-  late final PromotionPage promotionPage;
+  // late final PromotionPage promotionPage;
   late final BookingPage bookingPage;
   late final ProfilePage profilePage;
 
@@ -76,7 +76,7 @@ class _LandingPageState extends State<LandingPage> {
       HomePage(setPage),
       const ServicePricePage(),
       BookingPage(setPage),
-      const PromotionPage(),
+      // const PromotionPage(),
       ProfilePage(setPage),
     ];
     return BlocConsumer<LandingPageBloc, LandingPageInitial>(
@@ -104,11 +104,11 @@ class _LandingPageState extends State<LandingPage> {
                     child: Icon(Icons.calendar_month),
                     label: 'Đặt lịch',
                   ),
-                  CurvedNavigationBarItem(
-                    // child: Icon(Icons.newspaper),
-                    child: Icon(CommunityMaterialIcons.ticket_percent_outline),
-                    label: 'Ưu đãi',
-                  ),
+                  // CurvedNavigationBarItem(
+                  //   // child: Icon(Icons.newspaper),
+                  //   child: Icon(CommunityMaterialIcons.ticket_percent_outline),
+                  //   label: 'Ưu đãi',
+                  // ),
                   CurvedNavigationBarItem(
                     child: Icon(Icons.perm_identity),
                     label: 'Tài khoản',
