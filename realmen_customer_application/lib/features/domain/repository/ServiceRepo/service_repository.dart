@@ -15,7 +15,7 @@ class ServiceRepository extends ApiEndpoints implements IServiceRepository {
     try {
       final String jwtToken = AuthPref.getToken().toString();
       Uri uri = Uri.parse(
-          "$ServiceUrl?search&branchId=${branchId ?? ''}&shopCategoryId&shopServicePriceRange&current&pageSize");
+          "$ServiceUrl?search&branchId=${branchId ?? ''}&shopCategoryId&shopServicePriceRange&assignmentTypeCode&current&pageSize");
       final client = http.Client();
       final response = await client.get(
         uri,

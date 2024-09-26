@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:realmen_customer_application/features/presentation/home/bloc/home_page_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/list_branch/list_branches.dart';
 
 import 'package:sizer/sizer.dart';
 
@@ -191,15 +192,13 @@ class _BranchesOverviewScreenState extends State<BranchesOverviewScreen> {
                                                   ),
                                                   child: TextButton(
                                                     onPressed: () {
-                                                      // Get.toNamed(
-                                                      //     ListBranchesScreen
-                                                      //         .ListBranchesScreenRoute,
-                                                      //     arguments: utf8.decode(
-                                                      //         branchesByCityModel!
-                                                      //             .values![index].city!
-                                                      //             .toString()
-                                                      //             .runes
-                                                      //             .toList()));
+                                                      Get.toNamed(
+                                                          ListBranchesScreen
+                                                              .ListBranchesScreenRoute,
+                                                          arguments: successState!
+                                                              .branchProvinceList[
+                                                                  index]
+                                                              .province);
                                                     },
                                                     child: Row(
                                                       crossAxisAlignment:
