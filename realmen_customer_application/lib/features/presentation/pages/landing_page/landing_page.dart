@@ -11,7 +11,7 @@ import 'package:realmen_customer_application/features/presentation/home/ui/home_
 import 'package:realmen_customer_application/features/presentation/pages/landing_page/bloc/landing_page_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/pages/profile_page.dart';
 import 'package:realmen_customer_application/features/presentation/pages/promotion_page.dart';
-import 'package:realmen_customer_application/features/presentation/pages/service_price_list.dart';
+import 'package:realmen_customer_application/features/presentation/list_service/service_price_list.dart';
 
 class LandingPage extends StatefulWidget {
   final int? index;
@@ -74,7 +74,7 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     List<Widget> pages = [
       HomePage(setPage),
-      const ServicePricePage(),
+      ServicePricePage(setPage),
       BookingPage(setPage),
       // const PromotionPage(),
       ProfilePage(setPage),

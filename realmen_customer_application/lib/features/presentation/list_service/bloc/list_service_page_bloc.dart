@@ -1,5 +1,3 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'dart:async';
 import 'dart:math';
 
@@ -11,26 +9,23 @@ import 'package:realmen_customer_application/core/utils/utf8_encoding.dart';
 import 'package:realmen_customer_application/features/data/models/service_model.dart';
 import 'package:realmen_customer_application/features/domain/repository/ServiceRepo/service_repository.dart';
 
-part 'choose_service_page_event.dart';
-part 'choose_service_page_state.dart';
+part 'list_service_page_event.dart';
+part 'list_service_page_state.dart';
 
-class ChooseServicePageBloc
-    extends Bloc<ChooseServicePageEvent, ChooseServicePageState> {
+class ListServicePageBloc
+    extends Bloc<ListServicePageEvent, ListServicePageState> {
   List<ServiceDataModel> _servicesList = [];
   final List<ServiceCategoryModel> _serviceCatagoryList = [];
-  List<ServiceDataModel> _selectedServices = [];
 
-  ChooseServicePageBloc() : super(ChooseServicePageInitial()) {
-    on<ChooseServicePageInitialEvent>(_chooseServicePageInitialEvent);
-    on<ChooseServicePageLoadedSuccessEvent>(
+  ListServicePageBloc() : super(ListServicePageInitial()) {
+    on<SPLChooseServicePageInitialEvent>(_chooseServicePageInitialEvent);
+    on<SPLChooseServicePageLoadedSuccessEvent>(
         _chooseServicePageLoadedSuccessEvent);
-    on<ChooseServiceSelectedEvent>(_chooseServiceSelectedEvent);
   }
-
   FutureOr<void> _chooseServicePageInitialEvent(
-      ChooseServicePageInitialEvent event,
-      Emitter<ChooseServicePageState> emit) async {
-    emit(ChooseServicePageLoadingPageState());
+      SPLChooseServicePageInitialEvent event,
+      Emitter<ListServicePageState> emit) async {
+    emit(SPLChooseServicePageLoadingPageState());
     final IServiceRepository serviceRepository = ServiceRepository();
     final storage = FirebaseStorage.instance;
     NumberFormat numberFormat = NumberFormat('#,##0');
@@ -42,7 +37,7 @@ class ChooseServicePageBloc
       "massage.jpg",
     ];
     try {
-      var services = await serviceRepository.getAllServices(event.branchId);
+      var services = await serviceRepository.getAllServices(1);
       var servicesStatus = services["status"];
       var servicesBody = services["body"];
       List<ServiceDataModel> servicesList = [];
@@ -94,55 +89,30 @@ class ChooseServicePageBloc
 
           _servicesList = servicesList;
           _serviceCatagoryList.addAll(serviceCatagoryList);
-          _selectedServices = event.selectedServices;
-          emit(ChooseServicePageLoadedSuccessState(
-              serviceCatagoryList: serviceCatagoryList,
-              selectedServices: _selectedServices));
+
+          emit(SPLChooseServicePageLoadedSuccessState(
+            serviceCatagoryList: serviceCatagoryList,
+          ));
         } else {
-          emit(ChooseServicePageNoDataState());
+          emit(SPLChooseServicePageNoDataState());
         }
       } else {
-        emit(ChooseServicePageNoDataState());
+        emit(SPLChooseServicePageNoDataState());
       }
     } catch (e) {
-      emit(ChooseServicePageNoDataState());
+      emit(SPLChooseServicePageNoDataState());
     }
   }
 
-  FutureOr<void> _chooseServiceSelectedEvent(ChooseServiceSelectedEvent event,
-      Emitter<ChooseServicePageState> emit) async {
-    try {
-      emit(LoadingState());
-
-      if (_selectedServices.isEmpty) {
-        try {
-          _selectedServices = [];
-          _selectedServices.add(event.selectedService as ServiceDataModel);
-        } catch (e) {
-          // TODO
-        }
-      } else {
-        if (_selectedServices.any((service) =>
-            service.branchServiceId == event.selectedService.branchServiceId)) {
-          _selectedServices.removeWhere((service) =>
-              service.branchServiceId == event.selectedService.branchServiceId);
-        } else {
-          _selectedServices.add(event.selectedService);
-        }
-      }
-      emit(ChooseServiceSelectedState());
-    } catch (e) {}
-  }
-
   FutureOr<void> _chooseServicePageLoadedSuccessEvent(
-      ChooseServicePageLoadedSuccessEvent event,
-      Emitter<ChooseServicePageState> emit) async {
+      SPLChooseServicePageLoadedSuccessEvent event,
+      Emitter<ListServicePageState> emit) async {
     try {
-      emit(LoadingState());
+      emit(SPLLoadingState());
 
-      emit(ChooseServicePageLoadedSuccessState(
-          serviceCatagoryList: _serviceCatagoryList,
-          selectedServices: _selectedServices));
+      emit(SPLChooseServicePageLoadedSuccessState(
+        serviceCatagoryList: _serviceCatagoryList,
+      ));
     } catch (e) {}
   }
 }
