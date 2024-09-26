@@ -50,7 +50,7 @@ class ListBranchPageBloc
         }
       }
       _cities = cities;
-
+      _cityController = event.province.toString();
       add(const LBChooseBranchLoadedBranchListEvent());
     } catch (e) {}
   }
@@ -64,14 +64,21 @@ class ListBranchPageBloc
     final IBranchRepository branchRepository = BranchRepository();
     final storage = FirebaseStorage.instance;
     // cities option
-    String cityController = event.cityController ?? "TP/Tỉnh";
+    String cityController;
+    if (event.cityController != null) {
+      cityController = event.cityController.toString();
+    } else if (_cityController != null) {
+      cityController = _cityController.toString();
+    } else {
+      cityController = "TP/Tỉnh";
+    }
     // branch  data
     Map<String, dynamic> branchs;
     var branchsStatus;
     var branchsBody;
     List<BranchDataModel> branchsList = [];
     try {
-      if (event.cityController == null || event.cityController == "TP/Tỉnh") {
+      if (event.cityController == "TP/Tỉnh") {
         branchs = await branchRepository.getBranch(event.search, null);
         branchsStatus = branchs["status"];
         branchsBody = branchs["body"];
@@ -80,7 +87,8 @@ class ListBranchPageBloc
               .map((e) => BranchDataModel.fromJson(e as Map<String, dynamic>))
               .toList();
         }
-      } else if (event.cityController != "TP/Tỉnh") {
+      }
+      if (cityController != "TP/Tỉnh") {
         var branchProvinces = await branchRepository.getBranchByProvince();
         var branchProvinceStatus = branchProvinces["status"];
         var branchProvinceBody = branchProvinces["body"];
@@ -94,7 +102,7 @@ class ListBranchPageBloc
                     (branchProvince) =>
                         Utf8Encoding()
                             .decode(branchProvince.province.toString()) ==
-                        event.cityController,
+                        cityController,
                   )
                   .toList() ??
               [];

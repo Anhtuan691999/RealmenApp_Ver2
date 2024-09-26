@@ -6,6 +6,7 @@ import 'package:realmen_customer_application/features/presentation/booking/ui/bo
 import 'package:realmen_customer_application/features/presentation/booking/pages/choose_branch_page/bloc/choose_branch_page_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/booking/pages/choose_branch_page/choose_branch_page.dart';
 import 'package:realmen_customer_application/features/presentation/home/bloc/home_page_bloc.dart';
+import 'package:realmen_customer_application/features/presentation/list_branch/list_branches.dart';
 import 'package:realmen_customer_application/features/presentation/pages/landing_page/bloc/landing_page_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/pages/landing_page/landing_page.dart';
 import 'package:realmen_customer_application/features/presentation/pages/splash_page.dart';
@@ -56,6 +57,13 @@ class RouteGenerator {
         page: () {
           final bookingBloc = BlocProvider.of<BookingBloc>(Get.context!);
           return ChooseBranchesPage(bookingBloc: bookingBloc);
+        },
+      ),
+      GetPage(
+        name: ListBranchesScreen.ListBranchesScreenRoute,
+        page: () {
+          final homePageBloc = BlocProvider.of<HomePageBloc>(Get.context!);
+          return ListBranchesScreen(bloc: homePageBloc);
         },
       ),
     ];
