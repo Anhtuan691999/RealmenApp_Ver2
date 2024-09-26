@@ -379,12 +379,13 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
+    name = AuthPref.getNameCus();
+    phone = AuthPref.getPhone();
   }
 
   String? name;
   String? phone;
   String? avatarUrl;
 
-  String avatarDefault =
-      "https://cdn.vectorstock.com/i/preview-1x/62/38/avatar-13-vector-42526238.jpg";
+  String avatarDefault = "assets/images/default.png";
 }

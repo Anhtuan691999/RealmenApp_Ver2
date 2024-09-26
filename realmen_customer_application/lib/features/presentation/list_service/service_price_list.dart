@@ -95,336 +95,358 @@ class _ServicePricePageState extends State<ServicePricePage> {
                               ),
                             )),
                         BlocBuilder<ListServicePageBloc, ListServicePageState>(
+                            bloc: listServicePageBloc,
                             builder: (context, state) {
-                          NumberFormat formatter = NumberFormat("#,##0");
+                              NumberFormat formatter = NumberFormat("#,##0");
 
-                          switch (state.runtimeType) {
-                            case SPLChooseServicePageNoDataState:
-                              return Center(
-                                child: Container(
-                                  child: Column(
-                                    children: [
-                                      TextButton(
-                                        onPressed: () => listServicePageBloc.add(
-                                            SPLChooseServicePageInitialEvent()),
-                                        child: const Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "Không tìm thấy Dịch vụ.",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 17,
-                                                color: Colors.black,
-                                              ),
+                              switch (state.runtimeType) {
+                                case SPLChooseServicePageNoDataState:
+                                  return Center(
+                                    child: Container(
+                                      child: Column(
+                                        children: [
+                                          TextButton(
+                                            onPressed: () =>
+                                                listServicePageBloc.add(
+                                                    SPLChooseServicePageInitialEvent()),
+                                            child: const Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  "Không tìm thấy Dịch vụ.",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 17,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "Vui lòng thử lại.",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 17,
+                                                    color: Colors.black,
+                                                    decoration: TextDecoration
+                                                        .underline,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            Text(
-                                              "Vui lòng thử lại.",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 17,
-                                                color: Colors.black,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            case SPLChooseServicePageLoadingPageState:
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 30),
-                                    height: 50,
-                                    width: 50,
-                                    child: const CircularProgressIndicator(),
-                                  )
-                                ],
-                              );
-                            case SPLChooseServicePageLoadedSuccessState:
-                              SPLChooseServicePageLoadedSuccessState
-                                  currentState = state
-                                      as SPLChooseServicePageLoadedSuccessState;
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: state.serviceCatagoryList.length,
-                                itemBuilder: (context, index) {
+                                    ),
+                                  );
+                                case SPLChooseServicePageLoadingPageState:
                                   return Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 15,
-                                            vertical: 4,
+                                      Container(
+                                        margin: const EdgeInsets.only(top: 30),
+                                        height: 50,
+                                        width: 50,
+                                        child:
+                                            const CircularProgressIndicator(),
+                                      )
+                                    ],
+                                  );
+                                case SPLChooseServicePageLoadedSuccessState:
+                                  SPLChooseServicePageLoadedSuccessState
+                                      currentState = state
+                                          as SPLChooseServicePageLoadedSuccessState;
+                                  return ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: state.serviceCatagoryList.length,
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const SizedBox(
+                                            height: 20,
                                           ),
-                                          decoration: const BoxDecoration(
-                                            border: Border(
-                                              left: BorderSide(
-                                                color: Colors.black,
-                                                width: 8,
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8),
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 15,
+                                                vertical: 4,
                                               ),
-                                            ),
-                                          ),
-                                          child: Text(
-                                            currentState
-                                                    .serviceCatagoryList[index]
-                                                    .title ??
-                                                "",
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-
-                                      // nôi dung card
-                                      currentState.serviceCatagoryList[index]
-                                              .services!.isNotEmpty
-                                          ? GridView.builder(
-                                              itemCount: currentState
-                                                  .serviceCatagoryList[index]
-                                                  .services!
-                                                  .length,
-                                              scrollDirection: Axis.vertical,
-                                              padding: const EdgeInsets.all(5),
-                                              shrinkWrap: true,
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              gridDelegate:
-                                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount:
-                                                    2, // Thay đổi giá trị này nếu cần
-                                                crossAxisSpacing: 8.0,
-                                                mainAxisSpacing: 8.0,
-                                                childAspectRatio:
-                                                    2 / 4.2, // width : height
+                                              decoration: const BoxDecoration(
+                                                border: Border(
+                                                  left: BorderSide(
+                                                    color: Colors.black,
+                                                    width: 8,
+                                                  ),
+                                                ),
                                               ),
-                                              itemBuilder: (context, i) {
-                                                ServiceDataModel services =
-                                                    currentState
+                                              child: Text(
+                                                currentState
                                                         .serviceCatagoryList[
                                                             index]
-                                                        .services![i];
+                                                        .title ??
+                                                    "",
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
 
-                                                return Container(
-                                                  margin:
-                                                      const EdgeInsets.all(8),
+                                          // nôi dung card
+                                          currentState
+                                                  .serviceCatagoryList[index]
+                                                  .services!
+                                                  .isNotEmpty
+                                              ? GridView.builder(
+                                                  itemCount: currentState
+                                                      .serviceCatagoryList[
+                                                          index]
+                                                      .services!
+                                                      .length,
+                                                  scrollDirection:
+                                                      Axis.vertical,
                                                   padding:
-                                                      const EdgeInsets.all(2.0),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.black,
-                                                    border: Border.all(
-                                                        color: Colors.grey),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
+                                                      const EdgeInsets.all(5),
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  gridDelegate:
+                                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount:
+                                                        2, // Thay đổi giá trị này nếu cần
+                                                    crossAxisSpacing: 8.0,
+                                                    mainAxisSpacing: 8.0,
+                                                    childAspectRatio:
+                                                        2 / 4, // width : height
                                                   ),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      ClipRRect(
+                                                  itemBuilder: (context, i) {
+                                                    ServiceDataModel services =
+                                                        currentState
+                                                            .serviceCatagoryList[
+                                                                index]
+                                                            .services![i];
+
+                                                    return Container(
+                                                      margin:
+                                                          const EdgeInsets.all(
+                                                              8),
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              2.0),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.black,
+                                                        border: Border.all(
+                                                            color: Colors.grey),
                                                         borderRadius:
-                                                            const BorderRadius
-                                                                .only(
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  8),
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  8),
-                                                        ),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          imageUrl: services
-                                                              .shopServiceThumbnail!,
-                                                          height: 140,
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              1.4,
-                                                          fit: BoxFit.cover,
-                                                          progressIndicatorBuilder:
-                                                              (context, url,
-                                                                      progress) =>
-                                                                  Center(
-                                                            child:
-                                                                CircularProgressIndicator(
-                                                              value: progress
-                                                                  .progress,
-                                                            ),
-                                                          ),
-                                                          errorWidget: (context,
-                                                                  url, error) =>
-                                                              Image.asset(
-                                                            "assets/images/massage.jpg",
-                                                            height: 140,
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                1.4,
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        ),
+                                                            BorderRadius
+                                                                .circular(10.0),
                                                       ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                vertical: 8.0),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Container(
-                                                              height: 60,
-                                                              child: Text(
-                                                                services.shopServiceName ??
-                                                                    "",
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .start,
-                                                                maxLines:
-                                                                    2, // Số dòng tối đa
-                                                                softWrap:
-                                                                    true, // Cho phép tự động xuống dòng
-                                                                style:
-                                                                    const TextStyle(
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  fontSize: 17,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                      .white,
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          ClipRRect(
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .only(
+                                                              topRight: Radius
+                                                                  .circular(8),
+                                                              topLeft: Radius
+                                                                  .circular(8),
+                                                            ),
+                                                            child:
+                                                                CachedNetworkImage(
+                                                              imageUrl: services
+                                                                  .shopServiceThumbnail!,
+                                                              height: 200,
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  1.4,
+                                                              fit: BoxFit.cover,
+                                                              progressIndicatorBuilder:
+                                                                  (context, url,
+                                                                          progress) =>
+                                                                      Center(
+                                                                child:
+                                                                    CircularProgressIndicator(
+                                                                  value: progress
+                                                                      .progress,
                                                                 ),
                                                               ),
+                                                              errorWidget: (context,
+                                                                      url,
+                                                                      error) =>
+                                                                  Image.asset(
+                                                                "assets/images/massage.jpg",
+                                                                height: 200,
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    1.4,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
                                                             ),
-                                                            // const SizedBox(
-                                                            //   height: 9,
-                                                            // ),
-                                                            // SizedBox(
-                                                            //   height: 60,
-                                                            //   child: Text(
-                                                            //     service.description ==
-                                                            //             null
-                                                            //         ? ''
-                                                            //         : utf8.decode(service
-                                                            //             .description!
-                                                            //             .toString()
-                                                            //             .runes
-                                                            //             .toList()),
-                                                            //     textAlign:
-                                                            //         TextAlign
-                                                            //             .start,
-                                                            //     maxLines: 3,
-                                                            //     style: const TextStyle(
-                                                            //         color: Colors
-                                                            //             .white,
-                                                            //         fontSize:
-                                                            //             15,
-                                                            //         overflow:
-                                                            //             TextOverflow
-                                                            //                 .ellipsis),
-                                                            //   ),
-                                                            // ),
-                                                            const SizedBox(
-                                                                height: 19),
-                                                            Container(
-                                                              padding:
-                                                                  const EdgeInsets
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    vertical:
+                                                                        6.0,
+                                                                    horizontal:
+                                                                        10),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Container(
+                                                                  height: 60,
+                                                                  child: Text(
+                                                                    services.shopServiceName ??
+                                                                        "",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    maxLines:
+                                                                        2, // Số dòng tối đa
+                                                                    softWrap:
+                                                                        true, // Cho phép tự động xuống dòng
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      fontSize:
+                                                                          17,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                // const SizedBox(
+                                                                //   height: 9,
+                                                                // ),
+                                                                // SizedBox(
+                                                                //   height: 60,
+                                                                //   child: Text(
+                                                                //     service.description ==
+                                                                //             null
+                                                                //         ? ''
+                                                                //         : utf8.decode(service
+                                                                //             .description!
+                                                                //             .toString()
+                                                                //             .runes
+                                                                //             .toList()),
+                                                                //     textAlign:
+                                                                //         TextAlign
+                                                                //             .start,
+                                                                //     maxLines: 3,
+                                                                //     style: const TextStyle(
+                                                                //         color: Colors
+                                                                //             .white,
+                                                                //         fontSize:
+                                                                //             15,
+                                                                //         overflow:
+                                                                //             TextOverflow
+                                                                //                 .ellipsis),
+                                                                //   ),
+                                                                // ),
+                                                                // const SizedBox(
+                                                                //     height: 19),
+                                                                Container(
+                                                                  padding: const EdgeInsets
                                                                       .symmetric(
                                                                       horizontal:
                                                                           10),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                border:
-                                                                    Border.all(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  style:
-                                                                      BorderStyle
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    border:
+                                                                        Border
+                                                                            .all(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      style: BorderStyle
                                                                           .solid,
-                                                                  width: 2,
-                                                                ),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
+                                                                      width: 2,
+                                                                    ),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
                                                                             20),
-                                                                color: Colors
-                                                                    .grey
-                                                                    .shade300,
-                                                              ),
-                                                              child: Text(
-                                                                // "${services.durationValue.toString()} ${utf8.decode(services.durationText.toString().runes.toList())}",
-                                                                "30 phút",
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style:
-                                                                    const TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize: 17,
+                                                                    color: Colors
+                                                                        .grey
+                                                                        .shade300,
+                                                                  ),
+                                                                  child: Text(
+                                                                    // "${services.durationValue.toString()} ${utf8.decode(services.durationText.toString().runes.toList())}",
+                                                                    "30 phút",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          17,
+                                                                    ),
+                                                                  ),
                                                                 ),
-                                                              ),
+                                                                const SizedBox(
+                                                                    height: 7),
+                                                                Text(
+                                                                  services
+                                                                      .shopServicePriceS!,
+                                                                  style: const TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          18,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
+                                                              ],
                                                             ),
-                                                            const SizedBox(
-                                                                height: 7),
-                                                            Text(
-                                                              services
-                                                                  .shopServicePriceS!,
-                                                              style: const TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 18,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            ),
-                                                          ],
-                                                        ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ],
-                                                  ),
-                                                );
-                                              },
-                                            )
-                                          : Container(),
-                                    ],
+                                                    );
+                                                  },
+                                                )
+                                              : Container(),
+                                        ],
+                                      );
+                                    },
                                   );
-                                },
-                              );
-                          }
-                          return const SizedBox();
-                        })
+                              }
+                              return const SizedBox();
+                            })
                       ],
                     ),
                   ),
