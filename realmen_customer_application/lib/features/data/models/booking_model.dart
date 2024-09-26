@@ -43,7 +43,7 @@ class BookingServiceModel extends Equatable {
 class BookingModel extends Equatable {
   final int branchId;
   final List<BookingServiceModel> bookingServices;
-  BookingModel({
+  const BookingModel({
     required this.branchId,
     required this.bookingServices,
   });

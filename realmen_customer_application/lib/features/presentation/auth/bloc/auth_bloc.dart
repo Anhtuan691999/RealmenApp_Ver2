@@ -125,7 +125,7 @@ class AuthenticationBloc
         emit(ShowSnackBarActionState(
             message: responseMessage, status: responseStatus));
       }
-    } on Exception catch (e) {
+    } on Exception {
       // TODO
     }
   }

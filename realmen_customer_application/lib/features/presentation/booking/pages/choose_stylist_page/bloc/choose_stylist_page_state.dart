@@ -14,7 +14,7 @@ class CSPLoadingState extends ChooseStylistPageState {}
 
 class CSPLoadedState extends ChooseStylistPageState {
   final List<AccountModel> stylistList;
-  CSPLoadedState({
+  const CSPLoadedState({
     required this.stylistList,
   });
 }

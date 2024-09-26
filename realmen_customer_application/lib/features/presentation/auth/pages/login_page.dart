@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
           } else if (state is ShowLoginPageState) {
             widget.bloc.add(AuthenticationStartCountdownEvent());
           } else if (state is CountdownInProgressState) {
-            countdown = (state as CountdownInProgressState).countdown!.toInt();
+            countdown = (state).countdown!.toInt();
             buttonEnabled = false;
           } else if (state is CountdownFinishedState) {
             buttonEnabled = true;

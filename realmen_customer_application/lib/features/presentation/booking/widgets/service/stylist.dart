@@ -70,7 +70,7 @@ class _StylistOptionBookingState extends State<StylistOptionBooking>
           // choose date
           case CSBLoadDateState:
             selectedDate = (state as CSBLoadDateState).dateSeleted;
-            selectedStaff = (state as CSBLoadDateState).selectedStaff;
+            selectedStaff = (state).selectedStaff;
             break;
 
           case CSBSelectDateState:
@@ -120,7 +120,7 @@ class _StylistOptionBookingState extends State<StylistOptionBooking>
       },
       builder: (context, state) {
         return SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               children: [
                 // 1 chon stylist

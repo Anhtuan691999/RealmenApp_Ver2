@@ -15,7 +15,7 @@ class BookingRepository extends ApiEndpoints implements IBookingRepository {
     try {
       final String jwtToken = AuthPref.getToken().toString();
 
-      Uri uri = Uri.parse("$BookingUrl");
+      Uri uri = Uri.parse(BookingUrl);
       final client = http.Client();
       final response = await client
           .post(uri,

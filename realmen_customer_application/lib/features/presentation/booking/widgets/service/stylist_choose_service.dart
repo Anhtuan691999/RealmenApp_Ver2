@@ -10,9 +10,9 @@ class CSChooseServiceBooking extends StatefulWidget {
   final ChooseStylistBookingBloc bloc;
 
   const CSChooseServiceBooking({
-    Key? key,
+    super.key,
     required this.bloc,
-  }) : super(key: key);
+  });
 
   @override
   State<CSChooseServiceBooking> createState() => _CSChooseServiceBookingState();

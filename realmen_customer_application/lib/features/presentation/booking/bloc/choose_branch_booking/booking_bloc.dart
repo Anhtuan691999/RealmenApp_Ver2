@@ -225,8 +225,8 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           if (dailyPlanList[i].dailyPlanStatusCode == "PROCESSING") {
             _dailyPlan.add(dailyPlanList[i]);
             DateTime date = DateTime.parse(dailyPlanList[i].date!);
-            bool check = _listDate.any((_date) =>
-                _date['chosenDate'] == formatDate(date)['chosenDate']);
+            bool check = _listDate.any((date) =>
+                date['chosenDate'] == formatDate(date)['chosenDate']);
             if (_listDate.isEmpty || !check) {
               _listDate.add({
                 'id': i.toString(),
@@ -369,7 +369,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     _selectedStaff = DailyPlanAccountModel();
     _isDefaultSelected = true;
     _dateController = event.value as String?;
-    _selectedDate = _listDate!
+    _selectedDate = _listDate
         .where((date) => date['id'] == event.value.toString())
         .toList()
         .first;
@@ -471,7 +471,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
                 return true;
               }
               return false;
-            } on Exception catch (e) {
+            } on Exception {
               return false;
             }
           }));
@@ -592,42 +592,39 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       List<BookingServiceModel> bookingServices = [];
       if (_selectedDate == null) {
         emit(ShowSnackBarActionState(message: "Xin chọn ngày", status: false));
-      } else if (_selectedTimeSlot == null) {
-        emit(ShowSnackBarActionState(message: "Xin chọn giờ", status: false));
-      } else {
-        String beginAt = "${_selectedDate!['chosenDate']}T${_selectedTimeSlot}";
-        if (_selectedDailyPlanServicesStylist.isNotEmpty) {
-          int staffId =
-              _selectedStaff.accountId == null ? 0 : _selectedStaff.accountId!;
-          for (DailyPlanServiceModel selectedServiceStylist
-              in _selectedDailyPlanServicesStylist) {
-            BookingServiceModel bookingServiceModel = BookingServiceModel(
-                serviceId: selectedServiceStylist.dailyPlanServiceId!,
-                staffId: staffId,
-                beginAtReq: beginAt);
-            bookingServices.add(bookingServiceModel);
-          }
-        }
-        if (_selectedServicesMassur.isNotEmpty) {
-          for (DailyPlanServiceModel selectedServiceMassur
-              in _selectedDailyPlanServicesMassur) {
-            BookingServiceModel bookingServiceModel = BookingServiceModel(
-                serviceId: selectedServiceMassur.dailyPlanServiceId!,
-                staffId: 0,
-                beginAtReq: beginAt);
-            bookingServices.add(bookingServiceModel);
-          }
-        }
-        BookingModel bookingSubmit = BookingModel(
-            branchId: _selectedBranch!.branchId!,
-            bookingServices: bookingServices);
-        var bookings = await bookingRepository.submitBooking(bookingSubmit);
-        var bookingsStatus = bookings["status"];
-        var bookingsBody = bookings["body"];
-        if (bookingsStatus) {
-          emit(ShowBookingTemporaryState());
+      } else      String beginAt = "${_selectedDate!['chosenDate']}T${_selectedTimeSlot}";
+      if (_selectedDailyPlanServicesStylist.isNotEmpty) {
+        int staffId =
+            _selectedStaff.accountId == null ? 0 : _selectedStaff.accountId!;
+        for (DailyPlanServiceModel selectedServiceStylist
+            in _selectedDailyPlanServicesStylist) {
+          BookingServiceModel bookingServiceModel = BookingServiceModel(
+              serviceId: selectedServiceStylist.dailyPlanServiceId!,
+              staffId: staffId,
+              beginAtReq: beginAt);
+          bookingServices.add(bookingServiceModel);
         }
       }
+      if (_selectedServicesMassur.isNotEmpty) {
+        for (DailyPlanServiceModel selectedServiceMassur
+            in _selectedDailyPlanServicesMassur) {
+          BookingServiceModel bookingServiceModel = BookingServiceModel(
+              serviceId: selectedServiceMassur.dailyPlanServiceId!,
+              staffId: 0,
+              beginAtReq: beginAt);
+          bookingServices.add(bookingServiceModel);
+        }
+      }
+      BookingModel bookingSubmit = BookingModel(
+          branchId: _selectedBranch!.branchId!,
+          bookingServices: bookingServices);
+      var bookings = await bookingRepository.submitBooking(bookingSubmit);
+      var bookingsStatus = bookings["status"];
+      var bookingsBody = bookings["body"];
+      if (bookingsStatus) {
+        emit(ShowBookingTemporaryState());
+      }
+    
       emit(ShowBookingTemporaryState());
     } catch (e) {}
   }

@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:community_material_icon/community_material_icon.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +9,6 @@ import 'package:realmen_customer_application/features/presentation/home/ui/home_
 
 import 'package:realmen_customer_application/features/presentation/pages/landing_page/bloc/landing_page_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/pages/profile_page.dart';
-import 'package:realmen_customer_application/features/presentation/pages/promotion_page.dart';
 import 'package:realmen_customer_application/features/presentation/list_service/service_price_list.dart';
 
 class LandingPage extends StatefulWidget {

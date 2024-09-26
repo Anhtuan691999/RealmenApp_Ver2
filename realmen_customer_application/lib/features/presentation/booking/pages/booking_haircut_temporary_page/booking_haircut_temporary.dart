@@ -24,14 +24,14 @@ class BookingHaircutTemporary extends StatefulWidget {
   DailyPlanAccountModel selectedStaff;
   String selectedTimeSlot;
   BookingHaircutTemporary({
-    Key? key,
+    super.key,
     this.callback,
     required this.selectedServices,
     required this.selectedBranch,
     required this.selectedDate,
     required this.selectedStaff,
     required this.selectedTimeSlot,
-  }) : super(key: key);
+  });
 
   @override
   State<BookingHaircutTemporary> createState() =>
@@ -219,7 +219,7 @@ class _BookingHaircutTemporaryState extends State<BookingHaircutTemporary> {
                 ),
               ),
               Text(
-                time != null ? "$time" : "",
+                time != null ? time : "",
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   color: Colors.black,
@@ -250,7 +250,7 @@ class _BookingHaircutTemporaryState extends State<BookingHaircutTemporary> {
               SizedBox(
                 width: 220,
                 child: Text(
-                  stylist != null && stylist.accountId != null
+                  stylist.accountId != null
                       ? "${stylist.fullName}"
                       : "REALMEN sẽ chọn giúp anh",
                   textAlign: TextAlign.left,
@@ -509,7 +509,7 @@ class _BookingHaircutTemporaryState extends State<BookingHaircutTemporary> {
 
   int total = 0;
   getTotal() {
-    for (var element in widget.selectedServices!) {
+    for (var element in widget.selectedServices) {
       if (element.branchServicePrice != null) {
         total += element.branchServicePrice!;
       } else if (element.branchServicePrice != null) {

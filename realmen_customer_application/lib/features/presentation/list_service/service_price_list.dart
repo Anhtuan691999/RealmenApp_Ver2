@@ -322,7 +322,7 @@ class _ServicePricePageState extends State<ServicePricePage> {
                                                                   CrossAxisAlignment
                                                                       .start,
                                                               children: [
-                                                                Container(
+                                                                SizedBox(
                                                                   height: 60,
                                                                   child: Text(
                                                                     services.shopServiceName ??
@@ -402,14 +402,14 @@ class _ServicePricePageState extends State<ServicePricePage> {
                                                                         .grey
                                                                         .shade300,
                                                                   ),
-                                                                  child: Text(
+                                                                  child: const Text(
                                                                     // "${services.durationValue.toString()} ${utf8.decode(services.durationText.toString().runes.toList())}",
                                                                     "30 phút",
                                                                     textAlign:
                                                                         TextAlign
                                                                             .center,
                                                                     style:
-                                                                        const TextStyle(
+                                                                        TextStyle(
                                                                       color: Colors
                                                                           .black,
                                                                       fontSize:

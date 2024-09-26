@@ -148,7 +148,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
         if (stylist.professionalTypeCode == "STYLIST") {
           stylist.firstName = Utf8Encoding().decode(stylist.firstName!);
           stylist.lastName = Utf8Encoding().decode(stylist.lastName!);
-          String fullName = stylist.firstName! + " " + stylist.lastName!;
+          String fullName = "${stylist.firstName!} ${stylist.lastName!}";
           List<String> nameParts = fullName.split(' ');
           if (nameParts.length >= 2) {
             stylist.nickName =

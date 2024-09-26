@@ -35,7 +35,7 @@ class _BCSChooseStaffState extends State<BCSChooseStaff> {
           isDefaultSelected = state.isDefaultSelected;
         } else if (state is BranchChooseStaffLoadedState) {
           BranchChooseStaffLoadedState currentState =
-              state as BranchChooseStaffLoadedState;
+              state;
           isDefaultSelected = true;
           selectedStaff = DailyPlanAccountModel();
         }
@@ -139,7 +139,7 @@ class _BCSChooseStaffState extends State<BCSChooseStaff> {
                                       ? Positioned(
                                           bottom: 1,
                                           right: 4,
-                                          child: Container(
+                                          child: SizedBox(
                                             height: 22,
                                             width: 22,
                                             // color: Colors.white,
@@ -280,7 +280,7 @@ class _BCSChooseStaffState extends State<BCSChooseStaff> {
                                                     ? Positioned(
                                                         bottom: 1,
                                                         right: 4,
-                                                        child: Container(
+                                                        child: SizedBox(
                                                           height: 22,
                                                           width: 22,
                                                           // color: Colors.white,

@@ -32,7 +32,7 @@ class ChooseStylistBookingBloc
   AccountModel _selectedStylist = AccountModel();
 
   Map<String, dynamic>? _selectedDate;
-  bool _isDefaultSelected = true;
+  final bool _isDefaultSelected = true;
   dynamic _selectedTime;
   String? _dateController;
 
@@ -113,7 +113,7 @@ class ChooseStylistBookingBloc
       CSBChooseSelectDateEvent event, Emitter<ChooseStylistBookingState> emit) {
     emit(CSBLoadingState());
     _dateController = event.value as String?;
-    _selectedDate = _listDate!
+    _selectedDate = _listDate
         .where((date) => date['id'] == event.value.toString())
         .toList()
         .first;
@@ -187,8 +187,8 @@ class ChooseStylistBookingBloc
           if (dailyPlanList[i].dailyPlanStatusCode == "PROCESSING") {
             _dailyPlan.add(dailyPlanList[i]);
             DateTime date = DateTime.parse(dailyPlanList[i].date!);
-            bool check = _listDate.any((_date) =>
-                _date['chosenDate'] == formatDate(date)['chosenDate']);
+            bool check = _listDate.any((date) =>
+                date['chosenDate'] == formatDate(date)['chosenDate']);
             if (_listDate.isEmpty || !check) {
               _listDate.add({
                 'id': i.toString(),
@@ -341,7 +341,7 @@ class ChooseStylistBookingBloc
                 return true;
               }
               return false;
-            } on Exception catch (e) {
+            } on Exception {
               return false;
             }
           }));
@@ -446,44 +446,40 @@ class ChooseStylistBookingBloc
       if (_selectedDate == null) {
         emit(CSBShowSnackBarActionState(
             message: "Xin chọn ngày", status: false));
-      } else if (_selectedTimeSlot == null) {
-        emit(
-            CSBShowSnackBarActionState(message: "Xin chọn giờ", status: false));
-      } else {
-        String beginAt = "${_selectedDate!['chosenDate']}T${_selectedTimeSlot}";
-        if (_selectedServicesStylist.isNotEmpty) {
-          int staffId =
-              _selectedStaff.accountId == null ? 0 : _selectedStaff.accountId!;
-          for (ServiceDataModel selectedServiceStylist
-              in _selectedServicesStylist) {
-            BookingServiceModel bookingServiceModel = BookingServiceModel(
-                serviceId: selectedServiceStylist.shopServiceId!,
-                staffId: staffId,
-                beginAtReq: beginAt);
-            bookingServices.add(bookingServiceModel);
-          }
-        }
-        if (_selectedServicesMassur.isNotEmpty) {
-          for (ServiceDataModel selectedServicesMassur
-              in _selectedServicesMassur) {
-            BookingServiceModel bookingServiceModel = BookingServiceModel(
-                serviceId: selectedServicesMassur.shopServiceId!,
-                staffId: 0,
-                beginAtReq: beginAt);
-            bookingServices.add(bookingServiceModel);
-          }
-        }
-        BookingModel bookingSubmit = BookingModel(
-            branchId: 1,
-            // branchId: _selectedBranch!.branchId!,
-            bookingServices: bookingServices);
-        var bookings = await bookingRepository.submitBooking(bookingSubmit);
-        var bookingsStatus = bookings["status"];
-        var bookingsBody = bookings["body"];
-        if (bookingsStatus) {
-          emit(CSBShowBookingTemporaryState());
+      } else      String beginAt = "${_selectedDate!['chosenDate']}T${_selectedTimeSlot}";
+      if (_selectedServicesStylist.isNotEmpty) {
+        int staffId =
+            _selectedStaff.accountId == null ? 0 : _selectedStaff.accountId!;
+        for (ServiceDataModel selectedServiceStylist
+            in _selectedServicesStylist) {
+          BookingServiceModel bookingServiceModel = BookingServiceModel(
+              serviceId: selectedServiceStylist.shopServiceId!,
+              staffId: staffId,
+              beginAtReq: beginAt);
+          bookingServices.add(bookingServiceModel);
         }
       }
+      if (_selectedServicesMassur.isNotEmpty) {
+        for (ServiceDataModel selectedServicesMassur
+            in _selectedServicesMassur) {
+          BookingServiceModel bookingServiceModel = BookingServiceModel(
+              serviceId: selectedServicesMassur.shopServiceId!,
+              staffId: 0,
+              beginAtReq: beginAt);
+          bookingServices.add(bookingServiceModel);
+        }
+      }
+      BookingModel bookingSubmit = BookingModel(
+          branchId: 1,
+          // branchId: _selectedBranch!.branchId!,
+          bookingServices: bookingServices);
+      var bookings = await bookingRepository.submitBooking(bookingSubmit);
+      var bookingsStatus = bookings["status"];
+      var bookingsBody = bookings["body"];
+      if (bookingsStatus) {
+        emit(CSBShowBookingTemporaryState());
+      }
+    
       emit(CSBShowBookingTemporaryState());
     } catch (e) {}
   }

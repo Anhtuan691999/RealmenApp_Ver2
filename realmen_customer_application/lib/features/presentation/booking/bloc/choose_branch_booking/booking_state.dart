@@ -140,5 +140,5 @@ class ShowSnackBarActionState extends BookingState {
   final String message;
   final bool status;
 
-  ShowSnackBarActionState({required this.status, required this.message});
+  const ShowSnackBarActionState({required this.status, required this.message});
 }

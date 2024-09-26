@@ -7,7 +7,9 @@ import 'package:realmen_customer_application/features/presentation/booking/pages
 import 'package:realmen_customer_application/features/presentation/booking/pages/choose_branch_page/choose_branch_page.dart';
 import 'package:realmen_customer_application/features/presentation/home/bloc/home_page_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/list_branch/list_branches.dart';
+
 import 'package:realmen_customer_application/features/presentation/list_service/service_price_list.dart';
+
 import 'package:realmen_customer_application/features/presentation/pages/landing_page/bloc/landing_page_bloc.dart';
 import 'package:realmen_customer_application/features/presentation/pages/landing_page/landing_page.dart';
 import 'package:realmen_customer_application/features/presentation/pages/splash_page.dart';

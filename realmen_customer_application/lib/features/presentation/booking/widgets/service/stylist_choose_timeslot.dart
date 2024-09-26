@@ -77,16 +77,16 @@ class _CSChooseTimeSlotBookingState extends State<CSChooseTimeSlotBooking> {
         } else if (state is CSBChooseTimeSlotLoadedState) {
           timeSlotCards = [];
           for (TimeSlotCardModel timeSlot
-              in (state as CSBChooseTimeSlotLoadedState).timeSlotCards) {
+              in (state).timeSlotCards) {
             timeSlotCards.add(TimeSlotCard(timeSlot));
             _selectedTimeSlot = '';
           }
         } else if (state is CSBChooseSelectedTimeSlotState) {
           timeSlotCards = [];
           _selectedTimeSlot =
-              (state as CSBChooseSelectedTimeSlotState).selectedTimeSlot;
+              (state).selectedTimeSlot;
           for (TimeSlotCardModel timeSlot
-              in (state as CSBChooseSelectedTimeSlotState).timeSlotCards) {
+              in (state).timeSlotCards) {
             timeSlotCards.add(TimeSlotCard(timeSlot));
           }
         }

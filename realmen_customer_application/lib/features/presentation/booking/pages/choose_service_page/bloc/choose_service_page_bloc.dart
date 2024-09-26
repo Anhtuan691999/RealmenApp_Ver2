@@ -117,7 +117,7 @@ class ChooseServicePageBloc
       if (_selectedServices.isEmpty) {
         try {
           _selectedServices = [];
-          _selectedServices.add(event.selectedService as ServiceDataModel);
+          _selectedServices.add(event.selectedService);
         } catch (e) {
           // TODO
         }

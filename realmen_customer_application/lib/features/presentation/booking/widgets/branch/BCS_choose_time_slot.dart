@@ -15,7 +15,7 @@ import 'package:realmen_customer_application/features/presentation/booking/bloc/
 class BCSChooseTimeSlot extends StatefulWidget {
   final BookingBloc bloc;
   final DailyPlanAccountModel selectedStaff;
-  BCSChooseTimeSlot({
+  const BCSChooseTimeSlot({
     super.key,
     required this.bloc,
     required this.selectedStaff,
@@ -81,16 +81,16 @@ class _BCSChooseTimeSlotState extends State<BCSChooseTimeSlot> {
         } else if (state is BranchChooseTimeSlotLoadedState) {
           timeSlotCards = [];
           for (TimeSlotCardModel timeSlot
-              in (state as BranchChooseTimeSlotLoadedState).timeSlotCards) {
+              in (state).timeSlotCards) {
             timeSlotCards.add(TimeSlotCard(timeSlot));
             _selectedTimeSlot = '';
           }
         } else if (state is BranchChooseSelectedTimeSlotState) {
           timeSlotCards = [];
           _selectedTimeSlot =
-              (state as BranchChooseSelectedTimeSlotState).selectedTimeSlot;
+              (state).selectedTimeSlot;
           for (TimeSlotCardModel timeSlot
-              in (state as BranchChooseSelectedTimeSlotState).timeSlotCards) {
+              in (state).timeSlotCards) {
             timeSlotCards.add(TimeSlotCard(timeSlot));
           }
         } else if (state is BranchChooseSelectedStaffState) {

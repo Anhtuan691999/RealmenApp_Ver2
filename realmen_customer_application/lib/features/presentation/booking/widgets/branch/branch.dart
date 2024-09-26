@@ -57,7 +57,7 @@ class _BranchOptionBookingState extends State<BranchOptionBooking>
           case ChooseBranchBookingSelectedBranchState:
             selectedBranch = (state as ChooseBranchBookingSelectedBranchState)
                 .selectedBranch;
-            selectedServices = (state as ChooseBranchBookingSelectedBranchState)
+            selectedServices = (state)
                     .selectedServices ??
                 [];
             Get.back();

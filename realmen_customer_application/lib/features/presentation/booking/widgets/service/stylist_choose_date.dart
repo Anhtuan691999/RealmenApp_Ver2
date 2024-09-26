@@ -269,7 +269,7 @@ class _CSChooseDateBookingState extends State<CSChooseDateBooking> {
                                       ),
                                     ),
                                   )
-                                : Column(
+                                : const Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -278,7 +278,7 @@ class _CSChooseDateBookingState extends State<CSChooseDateBooking> {
                                         height: 50,
                                         width: 50,
                                         child:
-                                            const CircularProgressIndicator(),
+                                            CircularProgressIndicator(),
                                       )
                                     ],
                                   ),

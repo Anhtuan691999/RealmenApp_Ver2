@@ -272,7 +272,7 @@ class _ChooseDateBookingState extends State<ChooseDateBooking> {
                                       ),
                                     ),
                                   )
-                                : Column(
+                                : const Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -281,7 +281,7 @@ class _ChooseDateBookingState extends State<ChooseDateBooking> {
                                         height: 50,
                                         width: 50,
                                         child:
-                                            const CircularProgressIndicator(),
+                                            CircularProgressIndicator(),
                                       )
                                     ],
                                   ),

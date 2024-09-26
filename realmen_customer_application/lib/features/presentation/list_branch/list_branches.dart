@@ -58,7 +58,7 @@ class _ListBranchesScreenState extends State<ListBranchesScreen> {
             const Iterable.empty();
 
         if (state is LBLoadedBookingBranchListState) {
-          currentState = state as LBLoadedBookingBranchListState;
+          currentState = state;
           branchsList = currentState.branchList ?? [];
           branchListForAutocomplete =
               currentState.branchListForAutocomplete ?? [];
@@ -514,13 +514,12 @@ class _ListBranchesScreenState extends State<ListBranchesScreen> {
 
                                         // nội dung branch
 
-                                        branchsList != null &&
-                                                branchsList!.isNotEmpty
+                                        branchsList.isNotEmpty
                                             ? ListView.builder(
                                                 shrinkWrap: true,
                                                 physics:
                                                     const NeverScrollableScrollPhysics(),
-                                                itemCount: branchsList!.length,
+                                                itemCount: branchsList.length,
                                                 itemBuilder: (context, index) {
                                                   return Column(
                                                     children: [
@@ -566,11 +565,11 @@ class _ListBranchesScreenState extends State<ListBranchesScreen> {
                                                           runSpacing:
                                                               4.0, // Khoảng cách giữa các dòng theo chiều dọc
                                                           children: [
-                                                            Text(branchsList![
+                                                            Text(branchsList[
                                                                     index]
                                                                 .branchName
                                                                 .toString()),
-                                                            branchsList![index]
+                                                            branchsList[index]
                                                                         .distanceKm !=
                                                                     null
                                                                 ? Text.rich(
@@ -598,7 +597,7 @@ class _ListBranchesScreenState extends State<ListBranchesScreen> {
                                                                         ),
                                                                         TextSpan(
                                                                             text:
-                                                                                branchsList![index].distanceKm,
+                                                                                branchsList[index].distanceKm,
                                                                             style: TextStyle(
                                                                               overflow: TextOverflow.ellipsis,
                                                                               color: Colors.black.withOpacity(0.8),
@@ -614,7 +613,7 @@ class _ListBranchesScreenState extends State<ListBranchesScreen> {
                                                               const EdgeInsets
                                                                   .only(top: 4),
                                                           child: Text(
-                                                              branchsList![
+                                                              branchsList[
                                                                       index]
                                                                   .branchAddress
                                                                   .toString()),
@@ -650,7 +649,7 @@ class _ListBranchesScreenState extends State<ListBranchesScreen> {
                                                           child: ElevatedButton(
                                                             onPressed: () {
                                                               Get.to(() =>
-                                                                  LandingPage(
+                                                                  const LandingPage(
                                                                       index:
                                                                           2));
                                                             },
@@ -688,7 +687,7 @@ class _ListBranchesScreenState extends State<ListBranchesScreen> {
                                                         height: 10,
                                                       ),
                                                       (index !=
-                                                              branchsList!
+                                                              branchsList
                                                                       .length -
                                                                   1)
                                                           ? const Divider(

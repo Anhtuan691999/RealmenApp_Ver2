@@ -89,5 +89,5 @@ class CSBShowSnackBarActionState extends ChooseStylistBookingState {
   final String message;
   final bool status;
 
-  CSBShowSnackBarActionState({required this.status, required this.message});
+  const CSBShowSnackBarActionState({required this.status, required this.message});
 }

@@ -52,14 +52,14 @@ class _ChooseStaffBookingState extends State<ChooseStaffBooking> {
           widget.bloc.add(BranchChooseStaffLoadedEvent());
         } else if (state is BranchChooseStaffLoadedState) {
           BranchChooseStaffLoadedState currentState =
-              state as BranchChooseStaffLoadedState;
+              state;
           _accountStylistList = currentState.accountStylistList!;
           _accountMassurList = currentState.accountMassurList!;
           selectedServicesStylist = currentState.selectedServicesStylist;
           selectedServicesMassur = currentState.selectedServicesMassur;
         } else if (state is BranchChooseSelectedStaffState) {
           BranchChooseSelectedStaffState currentState =
-              state as BranchChooseSelectedStaffState;
+              state;
           selectedStaff = currentState.selectedStaff;
         }
         print("selectedServicesStylist  ${selectedServicesStylist.length}");
@@ -176,7 +176,7 @@ class _ChooseStaffBookingState extends State<ChooseStaffBooking> {
             //   ],
             // ),
             staffOtpController == 'Chọn stylist cho Mỗi dịch vụ'
-                ? Column(
+                ? const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -255,7 +255,7 @@ class _ChooseStaffBookingState extends State<ChooseStaffBooking> {
                       //   //close branch
                       //   closeBranch: widget.closeBranch,
                       // ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20),
                     ],
                   )
                 : // giữ nguyên cái cũ 1 - N
