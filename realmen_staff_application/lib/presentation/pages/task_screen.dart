@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class TaskScreen extends StatefulWidget {
-  const TaskScreen({super.key});
+  Function callback;
+
+  TaskScreen(this.callback, {super.key});
 
   @override
   State<TaskScreen> createState() => _TaskScreenState();

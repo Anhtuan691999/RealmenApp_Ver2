@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 
-import 'package:realmen_staff_application/presentation/work_schedule/ui/work_schedule.dart';
+import 'package:realmen_staff_application/presentation/pages/work_schedule.dart';
 
 import '../../pages/profile_screen.dart';
 import '../../pages/task_screen.dart';
@@ -31,6 +31,10 @@ class _LandingPageState extends State<LandingPage> {
   int bottomIndex = 0;
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
+  late final TaskScreen taskScreen;
+  late final WorkScheduleScreen workScheduleScreen;
+  late final ProfileScreen profileScreen;
+
   void setPage(index) {
     final CurvedNavigationBarState? navBarState =
         _bottomNavigationKey.currentState;
@@ -53,11 +57,22 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.index != null) {
+        bottomIndex = widget.index!;
+        setPage(bottomIndex);
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<Widget> pages = [
-      const TaskScreen(),
-      const WorkScheduleScreen(),
-      const ProfileScreen(),
+      TaskScreen(setPage),
+      WorkScheduleScreen(setPage),
+      ProfileScreen(setPage)
     ];
     return BlocConsumer<LandingPageBloc, LandingPageInitial>(
         bloc: landingPageBloc,

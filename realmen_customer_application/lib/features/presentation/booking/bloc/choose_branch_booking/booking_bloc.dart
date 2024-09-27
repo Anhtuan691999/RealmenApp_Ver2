@@ -11,6 +11,7 @@ import 'package:realmen_customer_application/features/data/models/booking_model.
 import 'package:realmen_customer_application/features/data/models/branch_model.dart';
 import 'package:realmen_customer_application/features/data/models/daily_plan_account_model.dart';
 import 'package:realmen_customer_application/features/data/models/daily_plan_model.dart';
+import 'package:realmen_customer_application/features/data/models/daily_plan_service_model.dart';
 import 'package:realmen_customer_application/features/data/models/service_model.dart';
 import 'package:realmen_customer_application/features/data/models/working_slot_model.dart';
 import 'package:realmen_customer_application/features/domain/repository/BookingRepo/booking_repository.dart';
@@ -24,6 +25,9 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   List<ServiceDataModel> _selectedServices = [];
   List<ServiceDataModel> _selectedServicesStylist = [];
   List<ServiceDataModel> _selectedServicesMassur = [];
+  List<DailyPlanServiceModel> _selectedDailyPlanServicesStylist = [];
+  List<DailyPlanServiceModel> _selectedDailyPlanServicesMassur = [];
+
   List<Map<String, dynamic>> _listDate = [];
   List<DailyPlanModel> _dailyPlan = [];
   DailyPlanModel _selectedDailyPlan = DailyPlanModel();
@@ -132,6 +136,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     try {
       _selectedServicesStylist = [];
       _selectedServicesMassur = [];
+
       _selectedServices = event.selectedServices;
       for (ServiceDataModel element in event.selectedServices) {
         if (element.shopCategoryCode == "HAIRCUT") {
@@ -334,6 +339,22 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           break;
         }
       }
+      _selectedDailyPlanServicesStylist = [];
+      _selectedDailyPlanServicesMassur = [];
+      for (ServiceDataModel element in _selectedServices) {
+        if (element.shopCategoryCode == "HAIRCUT") {
+          _selectedDailyPlanServicesStylist.addAll(_selectedDailyPlan
+              .dailyPlanServices!
+              .where((e) => e.shopServiceId == element.shopServiceId)
+              .toList());
+        } else {
+          _selectedDailyPlanServicesMassur.addAll(_selectedDailyPlan
+              .dailyPlanServices!
+              .where((e) => e.shopServiceId == element.shopServiceId)
+              .toList());
+        }
+      }
+
       emit(BranchChooseDateLoadDateState(
           dateController: _dateController,
           dateSeleted: _selectedDate,
@@ -575,23 +596,23 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         emit(ShowSnackBarActionState(message: "Xin chọn giờ", status: false));
       } else {
         String beginAt = "${_selectedDate!['chosenDate']}T${_selectedTimeSlot}";
-        if (_selectedServicesStylist.isNotEmpty) {
+        if (_selectedDailyPlanServicesStylist.isNotEmpty) {
           int staffId =
               _selectedStaff.accountId == null ? 0 : _selectedStaff.accountId!;
-          for (ServiceDataModel selectedServiceStylist
-              in _selectedServicesStylist) {
+          for (DailyPlanServiceModel selectedServiceStylist
+              in _selectedDailyPlanServicesStylist) {
             BookingServiceModel bookingServiceModel = BookingServiceModel(
-                serviceId: selectedServiceStylist.shopServiceId!,
+                serviceId: selectedServiceStylist.dailyPlanServiceId!,
                 staffId: staffId,
                 beginAtReq: beginAt);
             bookingServices.add(bookingServiceModel);
           }
         }
         if (_selectedServicesMassur.isNotEmpty) {
-          for (ServiceDataModel selectedServicesMassur
-              in _selectedServicesMassur) {
+          for (DailyPlanServiceModel selectedServiceMassur
+              in _selectedDailyPlanServicesMassur) {
             BookingServiceModel bookingServiceModel = BookingServiceModel(
-                serviceId: selectedServicesMassur.shopServiceId!,
+                serviceId: selectedServiceMassur.dailyPlanServiceId!,
                 staffId: 0,
                 beginAtReq: beginAt);
             bookingServices.add(bookingServiceModel);
