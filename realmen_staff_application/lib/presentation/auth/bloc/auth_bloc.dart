@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:realmen_staff_application/data/shared_preferences/auth_pref.dart';
+import 'package:realmen_staff_application/utils/utf8_encoding.dart';
 
 import '../../../repository/AuthRepo/auth_repository.dart';
 
@@ -50,10 +51,14 @@ class AuthenticationBloc
       emit(AuthenticationLoadingState(isLoading: false));
       rawToken = responseBody['value']['accessToken'];
       String role = responseBody['value']['accessToken'];
-
+      String accountId = responseBody['value']['accountId'].toString();
+      var name = responseBody['value']['lastName'];
+      name = Utf8Encoding().decode(name);
       // save info acc
       AuthPref.setToken(rawToken);
       AuthPref.setRole(role);
+      AuthPref.setAccountId(accountId);
+      AuthPref.setName(name);
 
       emit(ShowSnackBarActionState(
           message: "Đăng nhập thành công", status: responseStatus));

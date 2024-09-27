@@ -8,4 +8,7 @@ class ApiEndpoints {
 
   //$ Account API $//
   final String appAccountControllerUrl = "$domainUrl/mobile/accounts";
+
+  //$ Daily Plan API $//
+  final String DailyPlanUrl = "$domainUrl/mobile/daily-plan";
 }
